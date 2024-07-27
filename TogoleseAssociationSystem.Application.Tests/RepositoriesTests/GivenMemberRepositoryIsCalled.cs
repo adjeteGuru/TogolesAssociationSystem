@@ -64,14 +64,7 @@ namespace TogoleseAssociationSystem.Application.Tests.RepositoriesTests
 
         [Fact]
         public async Task GetMembersAsync_WhenIsInvokedWithNoFilter_ThenTheExpectedCountIsReturned()
-        {
-            //var members = new List<Member>
-            //{
-            //    new Member { Id = 1,FirstName ="test", LastName ="test", DateOfBirth = DateTime.Today, IsActive=true, IsChair=false},
-            //     new Member { Id = 2,FirstName ="test", LastName ="test", DateOfBirth = DateTime.Today, IsActive=true, IsChair=false},
-            //      new Member { Id = 3,FirstName ="test", LastName ="test", DateOfBirth = DateTime.Today, IsActive=true, IsChair=true},
-            //};
-
+        {        
             var result = await systemUnderTest.GetMembersAsync(null);
             result.Should().NotBeNull();
             result.Should().HaveCount(3);
@@ -83,6 +76,29 @@ namespace TogoleseAssociationSystem.Application.Tests.RepositoriesTests
             var result = await systemUnderTest.GetMembersAsync(null);
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(members);
+        }
+
+        [Fact]
+        public async Task GetMembersAsync_WhenIsInvokedWithFilterSupplied_ThenTheExpectedResultIsReturned()
+        {
+            var expectedResult = new Member
+            {
+                Id = 1,
+                FirstName = "John",
+                LastName = "Doe",
+                DateOfBirth = new DateTime(2000, 01, 31),
+                IsActive = true,
+                IsChair = false,
+                MembershipDate = DateTime.Today,
+                PhotoUrl = null
+            };
+            var searchMembers = new List<Member>
+            {
+                expectedResult
+            };
+            
+            var result = await systemUnderTest.GetMembersAsync("Doe");           
+            result.Should().BeEquivalentTo(searchMembers);
         }
     }
 }

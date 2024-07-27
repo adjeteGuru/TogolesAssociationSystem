@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TogoleseAssociationSystem.Domain.DTOs;
+﻿using TogoleseAssociationSystem.Domain.DTOs;
 using TogoleseAssociationSystem.Domain.Models;
 
 namespace TogoleseAssociationSystem.Application.Repositories
@@ -76,9 +71,10 @@ namespace TogoleseAssociationSystem.Application.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Member>> GetMembersAsync(string? filter)
+        public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
         {
-            return members.ToList();
+            var filteredMembers = members.Where(member => member.LastName.ToLower().Contains(filter.ToLower())).ToList();
+            return filteredMembers;
         }
 
         public bool SaveChanges()
