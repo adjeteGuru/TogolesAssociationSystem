@@ -5,8 +5,8 @@ namespace TogoleseAssociationSystem.Application.Repositories
 {
     public class MemberRepository : IMemberRepository
     {
-        private static readonly List<Member> members = new List<Member>()
-            {
+        private static readonly List<Member> MemberList = new List<Member>()
+        {
                 new Member
                 {
                     Id = 1,
@@ -40,7 +40,7 @@ namespace TogoleseAssociationSystem.Application.Repositories
                     MembershipDate = DateTime.Today,
                     PhotoUrl = null
                 }
-            };
+        };    
 
         public Task<MembershipContribution> AddContributionAsync(MembershipContributionToAdd contributionToAdd)
         {
@@ -49,9 +49,7 @@ namespace TogoleseAssociationSystem.Application.Repositories
 
         public async Task<Member> GetMemberByIdAsync(int id)
         {
-            var member = members.FirstOrDefault(m => m.Id == id);
-
-            return member == null ? throw new Exception($"member with id:{id} is not found!") : member;
+            return MemberList.FirstOrDefault(m => m.Id == id);
         }
 
         public Task<Member> GetMemberByNameAsync(string name)
@@ -71,18 +69,17 @@ namespace TogoleseAssociationSystem.Application.Repositories
 
         public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
         {
-
             if (filter != null)
             {
                 var filteredMembers = new List<Member>();
-                filteredMembers = members
+                filteredMembers = MemberList
                 .Where(member => member.LastName.ToLower()
                 .Contains(filter.ToLower())).ToList();
 
-                return filteredMembers.Count > 0 ? filteredMembers : throw new Exception("There is no match members found in the db!");
+                return filteredMembers;
             }
 
-            return members.ToList();
+            return MemberList.ToList();
         }
 
         public bool SaveChanges()
