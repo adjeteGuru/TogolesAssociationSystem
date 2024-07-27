@@ -10,11 +10,24 @@ namespace TogoleseAssociationSystem.Application.Tests.RepositoriesTests
 {
     public class GivenMemberRepositoryIsCalled
     {
+        private Member expectedResult;
         private List<Member> members;
         private MemberRepository systemUnderTest;
 
         public GivenMemberRepositoryIsCalled()
         {
+            expectedResult = new Member
+            {
+                Id = 1,
+                FirstName = "John",
+                LastName = "Doe",
+                DateOfBirth = new DateTime(2000, 01, 31),
+                IsActive = true,
+                IsChair = false,
+                MembershipDate = DateTime.Today,
+                PhotoUrl = null
+            };
+
             members = new List<Member>
             {
                 new Member
@@ -54,10 +67,10 @@ namespace TogoleseAssociationSystem.Application.Tests.RepositoriesTests
 
             systemUnderTest = new MemberRepository();
         }
-
+         
         [Fact]
         public async Task GetMembersAsync_WhenIsInvoked_ThenNoExceptionIsThrown()
-        {
+        {         
             Func<Task> func = async () => await systemUnderTest.GetMembersAsync(null);
             await func.Should().NotThrowAsync();
         }
@@ -72,7 +85,7 @@ namespace TogoleseAssociationSystem.Application.Tests.RepositoriesTests
 
         [Fact]
         public async Task GetMembersAsync_WhenIsInvokedWithNoFilter_ThenTheExpectedResultIsReturned()
-        {
+        {           
             var result = await systemUnderTest.GetMembersAsync(null);
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(members);
@@ -80,25 +93,49 @@ namespace TogoleseAssociationSystem.Application.Tests.RepositoriesTests
 
         [Fact]
         public async Task GetMembersAsync_WhenIsInvokedWithFilterSupplied_ThenTheExpectedResultIsReturned()
-        {
-            var expectedResult = new Member
-            {
-                Id = 1,
-                FirstName = "John",
-                LastName = "Doe",
-                DateOfBirth = new DateTime(2000, 01, 31),
-                IsActive = true,
-                IsChair = false,
-                MembershipDate = DateTime.Today,
-                PhotoUrl = null
-            };
+        {           
             var searchMembers = new List<Member>
             {
                 expectedResult
             };
-            
+
             var result = await systemUnderTest.GetMembersAsync("Doe");           
             result.Should().BeEquivalentTo(searchMembers);
+        }
+
+        [Fact]
+        public async Task GetMembersAsync_WhenIsInvokedWithFilterSuppliedAndTheListIsEmpty_ThenTheExpectedErrorIsReturned()
+        {
+            var searchMembers = new List<Member>(); 
+            var exception = new Exception("There is no match members found in the db!");
+
+            Func<Task> func = async () => await systemUnderTest.GetMembersAsync("wrongName");
+            await func.Should().ThrowAsync<Exception>(exception.Message);
+        }
+       
+        [Fact]
+        public async Task GetMemberByIdAsync_WhenIsInvoked_ThenNoExceptionIsThrown()
+        {
+            Func<Task> func = async () => await systemUnderTest.GetMemberByIdAsync(1);
+            await func.Should().NotThrowAsync();
+        }
+
+        [Fact]
+        public async Task GetMemberByIdAsync_WhenIsInvokedWithAValidId_ThenTheExpectedResultIsReturned()
+        {
+            var result = await systemUnderTest.GetMemberByIdAsync(1);
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public async Task GetMemberByIdAsync_WhenIsInvokedWithAnInvalidId_ThenTheExpectedErrorIsReturned()
+        {
+            var id = 100;
+            var exception = new Exception($"member with id:{id} is not found!");           
+            
+            Func<Task> func = async () => await systemUnderTest.GetMemberByIdAsync(id);
+            await func.Should().ThrowAsync<Exception>(exception.Message);            
         }
     }
 }
