@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TogoleseAssociationSystem.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TogoleseAssociationSystem.Application", "TogoleseAssociationSystem.Application\TogoleseAssociationSystem.Application.csproj", "{46E3D242-B48D-4591-9E2F-8EEB25929E60}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TogoleseAssociationSystem.Application.Tests", "TogoleseAssociationSystem.Application.Tests\TogoleseAssociationSystem.Application.Tests.csproj", "{ECA47D69-3E92-4C51-9F5E-EA2E47615E7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{46E3D242-B48D-4591-9E2F-8EEB25929E60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46E3D242-B48D-4591-9E2F-8EEB25929E60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46E3D242-B48D-4591-9E2F-8EEB25929E60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECA47D69-3E92-4C51-9F5E-EA2E47615E7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECA47D69-3E92-4C51-9F5E-EA2E47615E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECA47D69-3E92-4C51-9F5E-EA2E47615E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECA47D69-3E92-4C51-9F5E-EA2E47615E7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
