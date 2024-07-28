@@ -8,23 +8,28 @@ namespace TogoleseAssociationSystem.APP.Pages
     {
         [Inject]
         public IMemberService MemberService { get; set; }
-
-        public IEnumerable<MemberRead> Members;
-
-        [Parameter]
+       
+        public List<MemberRead> Members { get; set; }
+       
         public string ErrorMessage { get; set; }
 
         protected override async Task OnInitializedAsync()
-        {
-           Members = new List<MemberRead>();
+        {          
             try
             {
-                Members = await MemberService.GetMembersAsync(null);
+                Members = new List<MemberRead>();
+                var members = await MemberService.GetMembersAsync(null);
+                Members.AddRange(members); 
             }
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
             }
+        }
+
+        protected void NavigateToCreate()
+        {
+
         }
     }
 }
