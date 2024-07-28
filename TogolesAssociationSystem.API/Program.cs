@@ -30,10 +30,10 @@ if (app.Environment.IsDevelopment())
 }
 
 //here is the url that's been granted access by the CORS policy (use web url address allowed )
-//app.UseCors(policy => policy.WithOrigins("https://localhost:44387", "https://localhost:7266", "https://shopping-web.azurewebsites.net")
-//.AllowAnyMethod()
-//.WithHeaders(HeaderNames.ContentType)
-//.AllowCredentials());
+app.UseCors(policy => policy.WithOrigins("https://localhost:7031")
+.AllowAnyMethod()
+.WithHeaders(HeaderNames.ContentType)
+.AllowCredentials());
 
 app.UseHttpsRedirection();
 
