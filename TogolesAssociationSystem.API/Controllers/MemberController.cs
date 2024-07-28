@@ -1,5 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TogoleseAssociationSystem.Application.Services;
+using TogoleseAssociationSystem.Domain.DTOs;
 
 namespace TogolesAssociationSystem.API.Controllers
 {
@@ -9,10 +11,12 @@ namespace TogolesAssociationSystem.API.Controllers
     public class MemberController : ControllerBase
     {
         private readonly IMemberService memberService;
+        private readonly IMapper mapper;
 
-        public MemberController(IMemberService memberService)
+        public MemberController(IMemberService memberService, IMapper mapper)
         {
             this.memberService = memberService ?? throw new ArgumentNullException(nameof(memberService));
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -26,8 +30,9 @@ namespace TogolesAssociationSystem.API.Controllers
                 {
                     return NotFound();
                 }
+                var membersToRead = mapper.Map<List<MemberRead>>(members);
 
-                return Ok(members);
+                return Ok(membersToRead);
             }
             catch (Exception ex)
             {
@@ -46,8 +51,9 @@ namespace TogolesAssociationSystem.API.Controllers
                 {
                     return NotFound();
                 }
+                var memberToRead = mapper.Map<MemberRead>(member);
 
-                return Ok(member);
+                return Ok(memberToRead);
             }
             catch (Exception ex)
             {
