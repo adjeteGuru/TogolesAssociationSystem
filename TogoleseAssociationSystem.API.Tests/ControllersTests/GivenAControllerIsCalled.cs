@@ -156,5 +156,53 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
             var expectedResult = result as NotFoundResult;
             expectedResult!.StatusCode.Should().Be(404);
         }
+        
+        [Fact]
+        public async Task GetMemberByIdAsync_WhenInvokesWithId_ThenNoExceptionIsThrown()
+        {
+            Func<Task> func = async () => await systemUnderTest.GetMemberByIdAsync(1);
+            await func.Should().NotThrowAsync();
+        }
+        
+        [Fact]
+        public async Task GetMemberByIdAsync_WhenInvokesWithId_ThenTheExpectedResultTypeIsReturned()
+        {
+            mockMemberService.Setup(m => m.GetMemberByIdAsync(It.IsAny<int>())).ReturnsAsync(expectedResult);
+            var result = await systemUnderTest.GetMemberByIdAsync(1);
+            result.Should().BeOfType<OkObjectResult>();
+        }
+
+        [Fact]
+        public async Task GetMemberByIdAsync_WhenInvokesWithAValidId_ThenTheExpectedResultIsReturned()
+        {
+            mockMemberService.Setup(m => m.GetMemberByIdAsync(It.IsAny<int>())).ReturnsAsync(expectedResult);
+            var result = (await systemUnderTest.GetMemberByIdAsync(1)) as ObjectResult;
+            
+            result!.Value.Should().BeEquivalentTo(expectedResult);
+        }
+
+        [Fact]
+        public async Task GetMemberByIdAsync_WhenInvokesAndSomethingWrongOccured_ThenTheExpectedErrorIsReturned()
+        {
+            var exception = new Exception("Something wrong happenend, please try later!");
+            mockMemberService.Setup(m => m.GetMemberByIdAsync(It.IsAny<int>())).ThrowsAsync(exception);
+
+            var result = await systemUnderTest.GetMemberByIdAsync(1);
+
+            var expectedResult = result as ObjectResult;
+            expectedResult!.StatusCode.Should().Be(500, exception.Message);
+        }
+
+        [Fact]
+        public async Task GetMemberByIdAsync_WhenInvokesAndTheListIsEmpty_ThenTheExpectedErrorIsReturned()
+        {
+            mockMemberService.Setup(m => m.GetMemberByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync((Member)null);
+
+            var result = await systemUnderTest.GetMemberByIdAsync(1);
+
+            var expectedResult = result as NotFoundResult;
+            expectedResult!.StatusCode.Should().Be(404);
+        }
     }
 }

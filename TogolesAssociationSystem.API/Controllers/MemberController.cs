@@ -21,13 +21,33 @@ namespace TogolesAssociationSystem.API.Controllers
             try
             {
                 var members = await memberService.GetMembersAsync(filter);
-                
+
                 if (!members.Any())
                 {
                     return NotFound();
                 }
 
                 return Ok(members);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetMemberByIdAsync(int id)
+        {
+            try
+            {
+                var member = await memberService.GetMemberByIdAsync(id);
+
+                if (member == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(member);
             }
             catch (Exception ex)
             {
