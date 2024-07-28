@@ -194,7 +194,7 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
         }
 
         [Fact]
-        public async Task GetMemberByIdAsync_WhenInvokesAndTheListIsEmpty_ThenTheExpectedErrorIsReturned()
+        public async Task GetMemberByIdAsync_WhenInvokesAndNullIsReturned_ThenTheExpectedErrorIsReturned()
         {
             mockMemberService.Setup(m => m.GetMemberByIdAsync(It.IsAny<int>()))
                 .ReturnsAsync((Member)null);
