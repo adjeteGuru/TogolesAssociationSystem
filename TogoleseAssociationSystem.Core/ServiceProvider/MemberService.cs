@@ -20,6 +20,10 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                 {
                     var stringContent = await httpResponse.Content.ReadAsStringAsync();
                     var memberRead = JsonConvert.DeserializeObject<MemberRead>(stringContent);
+                    if (memberRead == null)
+                    {
+                        throw new Exception("Not found!");
+                    }
                     return memberRead;
                 }
             }
@@ -45,6 +49,10 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                 {
                     var stringContent = await httpResponse.Content.ReadAsStringAsync();
                     var membersRead = JsonConvert.DeserializeObject<IEnumerable<MemberRead>>(stringContent);
+                    if (membersRead == null)
+                    {
+                        throw new Exception("Not found!");
+                    }
                     return membersRead;
                 }
             }
