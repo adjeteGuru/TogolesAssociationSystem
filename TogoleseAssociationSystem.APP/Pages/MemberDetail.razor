@@ -1,0 +1,64 @@
+﻿@page "/memberdetail/{id:int}"
+@inherits MemberDetailComponent
+
+<EditForm EditContext="EditContext">
+ <div class="form-group">
+          <label for="FirstName">FirstName</label>
+          <InputText id="FirstName"
+                     class="form-control"
+                     @bind-Value="Member.FirstName"/>
+      </div>
+      <div class="form-group">
+          <label for="LastName">LastName</label>
+          <InputText id="LastName"
+                     class="form-control"
+                     @bind-Value="Member.LastName" />
+      </div>          
+
+      <div>
+          <label for="IsActive">IsActive</label>               
+          <InputCheckbox id="IsActive"
+                     class="form-control"
+                     @bind-Value="Member.IsActive" />
+      </div>
+       <div >
+          <label for="Telephone">IsChair</label>
+          <InputCheckbox id="Telephone"
+                     class="form-control"
+                     @bind-Value="Member.IsChair" />
+      </div>   
+       <div class="form-group">
+          <label for="DateOfBirth">Date Of Birth</label>
+          <InputDate id="DateOfBirth"
+                     class="form-control"
+                     @bind-Value="Member.DateOfBirth" />
+      </div> 
+       <div class="form-group">
+          <label for="MembershipDate">Date joined</label>
+          <InputDate id="MembershipDate"
+                     class="form-control"
+                     @bind-Value="Member.MembershipDate" />
+      </div> 
+      <div class="form-group">
+          <label for="PhotoUrl">PhotoUrl</label>
+          <InputText id="PhotoUrl"
+                     class="form-control"
+                     @bind-Value="Member.PhotoUrl" />
+      </div>  
+       <br/>
+       <div class="btn-group" role="group">
+           <button id="member-update"
+                   class="btn btn-outline-primary"
+                   @onclick="@(()=>{})"
+                   title="Update member">
+               Update
+           </button>
+           &nbsp;
+           <button id="member-delete"
+                   class="btn btn-outline-danger"
+                   @onclick="@(()=>{})"
+                   title="Cancel member">
+               Cancel
+           </button>
+       </div>
+</EditForm>

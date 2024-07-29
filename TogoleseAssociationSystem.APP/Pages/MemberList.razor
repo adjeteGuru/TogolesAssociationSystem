@@ -1,0 +1,36 @@
+﻿@page "/memberlist"
+@inherits MemberListComponent
+
+<div class="my-3 d-flex flex-wrap justify-content-between">
+    <h3>Members</h3>
+    <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Create Member</button>
+</div>
+
+@if (Members == null && ErrorMessage == null)
+{
+    <div class="empty-state">
+        <span class="empty-state-title">Loading, please wait...</span>
+    </div>
+}
+else if (ErrorMessage != null)
+{
+    <h3 class="text-danger">@ErrorMessage</h3>
+}
+else
+{
+   @if (Members.Count > 0)
+   {
+       @foreach (var member in Members)
+       {
+           <div class="list-group">
+               <a href="@($"/memberdetail/{member.Id}")" class="list-group-item list-group-item-action">
+                   <MembreItem Member="@member"/>
+               </a>
+           </div>
+       }
+   }
+   else
+   {
+        <span> There is no member on the list to display!</span>
+   }
+}

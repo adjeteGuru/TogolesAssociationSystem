@@ -1,3 +1,6 @@
+using AutoMapper;
+using Microsoft.Net.Http.Headers;
+using TogoleseAssociationSystem.Application.AutoMapper;
 using TogoleseAssociationSystem.Application.Repositories;
 using TogoleseAssociationSystem.Application.Services;
 
@@ -11,7 +14,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
-
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new Profiles());
+});
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,6 +28,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//here is the url that's been granted access by the CORS policy (use web url address allowed )
+app.UseCors(policy => policy.WithOrigins("https://localhost:7031")
+.AllowAnyMethod()
+.WithHeaders(HeaderNames.ContentType)
+.AllowCredentials());
 
 app.UseHttpsRedirection();
 
