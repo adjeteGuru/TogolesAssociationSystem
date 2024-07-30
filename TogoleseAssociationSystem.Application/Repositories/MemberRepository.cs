@@ -10,6 +10,7 @@ namespace TogoleseAssociationSystem.Application.Repositories
                 new Member
                 {
                     Id = 1,
+                    Title ="Mr",
                     FirstName ="John",
                     LastName ="Doe",
                     DateOfBirth = new DateTime(2000,01,31),
@@ -21,6 +22,7 @@ namespace TogoleseAssociationSystem.Application.Repositories
                 new Member
                 {
                     Id = 2,
+                    Title ="Miss",
                     FirstName ="Brenda",
                     LastName ="Love",
                     DateOfBirth = new DateTime(1980,11,20),
@@ -32,8 +34,45 @@ namespace TogoleseAssociationSystem.Application.Repositories
                 new Member
                 {
                     Id = 3,
+                     Title ="Mr",
                     FirstName ="Smith",
                     LastName ="Joe",
+                    DateOfBirth = new DateTime(1970,07,30),
+                    IsActive=true,
+                    IsChair = false,
+                    MembershipDate = DateTime.Today,
+                    PhotoUrl = null
+                },
+                 new Member
+                {
+                    Id = 4,
+                    Title ="Mrs",
+                    FirstName ="Jenny",
+                    LastName ="Ralph",
+                    DateOfBirth = new DateTime(2000,01,31),
+                    IsActive=true,
+                    IsChair = false,
+                    MembershipDate = DateTime.Today,
+                    PhotoUrl = null
+                },
+                new Member
+                {
+                    Id = 5,
+                    Title ="Mr",
+                    FirstName ="Brandy",
+                    LastName ="Love",
+                    DateOfBirth = new DateTime(1980,11,20),
+                    IsActive=true,
+                    IsChair = true,
+                    MembershipDate = DateTime.Today,
+                    PhotoUrl = null
+                },
+                new Member
+                {
+                    Id = 6,
+                    Title ="Miss",
+                    FirstName ="Jacky",
+                    LastName ="Jone",
                     DateOfBirth = new DateTime(1970,07,30),
                     IsActive=true,
                     IsChair = false,

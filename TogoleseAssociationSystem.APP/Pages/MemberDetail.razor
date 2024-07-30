@@ -2,7 +2,9 @@
 @inherits MemberDetailComponent
 
 <EditForm EditContext="EditContext">
- <div class="form-group">
+    <fieldset>
+        <div class="mx-3">
+            <div class="form-group">
           <label for="FirstName">FirstName</label>
           <InputText id="FirstName"
                      class="form-control"
@@ -13,38 +15,47 @@
           <InputText id="LastName"
                      class="form-control"
                      @bind-Value="Member.LastName" />
-      </div>          
-
-      <div>
-          <label for="IsActive">IsActive</label>               
-          <InputCheckbox id="IsActive"
-                     class="form-control"
-                     @bind-Value="Member.IsActive" />
-      </div>
-       <div >
-          <label for="Telephone">IsChair</label>
-          <InputCheckbox id="Telephone"
-                     class="form-control"
-                     @bind-Value="Member.IsChair" />
-      </div>   
+      </div>        
        <div class="form-group">
           <label for="DateOfBirth">Date Of Birth</label>
+          <br/>
           <InputDate id="DateOfBirth"
-                     class="form-control"
+                     class="form-control-lg"
                      @bind-Value="Member.DateOfBirth" />
       </div> 
        <div class="form-group">
           <label for="MembershipDate">Date joined</label>
+          <br/>
           <InputDate id="MembershipDate"
-                     class="form-control"
+                     class="form-control-lg"
                      @bind-Value="Member.MembershipDate" />
-      </div> 
-      <div class="form-group">
-          <label for="PhotoUrl">PhotoUrl</label>
-          <InputText id="PhotoUrl"
-                     class="form-control"
-                     @bind-Value="Member.PhotoUrl" />
-      </div>  
+      </div>      
+      <div>
+          <label for="IsActive">Is active member?</label>               
+          <InputCheckbox id="IsActive"
+                     class="form-check-input"
+                     @bind-Value="Member.IsActive" />
+      </div>       
+       <div >
+          <label for="Telephone">Is president?</label>
+          <InputCheckbox id="Telephone"
+                     class="form-check-input"
+                     @bind-Value="Member.IsChair" />
+      </div>     
+       <div class="form-group">
+          <label for="PhotoUrl">Photo</label> 
+          <br/>
+           <div class="modal-dialog-centered">
+                               @if(Member.Title == "Mr")
+                               {
+                                    <img src="http://findicons.com/files/icons/1688/web_blog/48/user_male_white_red_brown.png" alt="male">     
+                               }
+                               else if(Member.Title == "Miss" || Member.Title == "Mrs")
+                               {
+                                    <img src="http://findicons.com/files/icons/1688/web_blog/48/user_female_white_pink_black.png" alt="female">     
+                               }
+                           </div>          
+      </div>
        <br/>
        <div class="btn-group" role="group">
            <button id="member-update"
@@ -60,5 +71,8 @@
                    title="Cancel member">
                Cancel
            </button>
-       </div>
+       </div>      
+        </div>
+     
+       </fieldset>
 </EditForm>

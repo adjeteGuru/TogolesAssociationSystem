@@ -20,14 +20,56 @@ else
 {
    @if (Members.Count > 0)
    {
-       @foreach (var member in Members)
-       {
-           <div class="list-group">
-               <a href="@($"/memberdetail/{member.Id}")" class="list-group-item list-group-item-action">
-                   <MembreItem Member="@member"/>
-               </a>
-           </div>
-       }
+       <div>
+           <table class="table table-hover bordered-rows">
+           <thead>
+               <tr>
+                   <th>Title</th>
+                   <th>FirsName</th>
+                   <th>LastName</th>
+                   <th>Date of birth</th>
+                   <th>Date joinded</th>
+                   <th>Is active member?</th>
+                   <th>Is president?</th>
+                   <th>Photo</th>
+               </tr>
+           </thead>
+           <tbody>
+               @foreach (var member in Members)
+               {
+                   <tr>
+                        <td>@member.Title</td>
+                       <td>
+                            <a @onclick="()=> NavigateToDetails(member.Id)" class="list-group-item list-group-item-action">@member.FirstName</a>
+                       </td>                      
+                       <td>@member.LastName</td>
+                       <td>@member.DateOfBirth</td>
+                       <td>@member.MembershipDate</td>
+                       <td>@member.IsActive</td>
+                       <td>@member.IsChair</td>
+                       <td>
+                           <div class="modal-dialog-centered">
+                               @if(member.Title == "Mr")
+                               {
+                                    <img src="http://findicons.com/files/icons/1688/web_blog/48/user_male_white_red_brown.png" alt="male">     
+                               }
+                               else if(member.Title == "Miss" || member.Title == "Mrs")
+                               {
+                                    <img src="http://findicons.com/files/icons/1688/web_blog/48/user_female_white_pink_black.png" alt="female">     
+                               }
+                           </div> 
+                       </td>
+                      
+                       @* <td>
+                            <a href="@($"/memberdetail/{member.Id}")" class="list-group-item list-group-item-action">
+                           <MembreItem Member="@member"/>
+                            </a>
+                        </td>*@                      
+                   </tr>                  
+               }
+           </tbody>
+       </table>
+       </div>
    }
    else
    {

@@ -8,10 +8,13 @@ namespace TogoleseAssociationSystem.APP.Pages
     {
         [Inject]
         public IMemberService MemberService { get; set; }
+
+        [Inject]
+        public NavigationManager Navigation { get; set; }
+
+        protected List<MemberRead>? Members;
        
-        public List<MemberRead> Members { get; set; }
-       
-        public string ErrorMessage { get; set; }
+        public string? ErrorMessage { get; set; }
 
         protected override async Task OnInitializedAsync()
         {          
@@ -26,10 +29,18 @@ namespace TogoleseAssociationSystem.APP.Pages
                 ErrorMessage = ex.Message;
             }
         }
-
+        protected void NavigateToDetails(int id)
+        {
+            Navigation.NavigateTo($"/memberdetail/{id}");
+        }
         protected void NavigateToCreate()
         {
 
+        }
+
+        public void FormatDate(DateTime dateTime)
+        {
+            dateTime.ToUniversalTime();
         }
     }
 }
