@@ -10,6 +10,8 @@ namespace TogoleseAssociationSystem.Application.AutoMapper
         {
             CreateMap<Member, MemberRead>();
             CreateMap<MemberRead, Member>();
+            CreateMap<MembershipContribution, MembershipContributionRead>();
+            CreateMap<MembershipContributionRead, MembershipContribution>();
         }
     }
 }

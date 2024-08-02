@@ -24,8 +24,8 @@ namespace TogolesAssociationSystem.API.Controllers
         {
             try
             {
-                var members = await memberService.GetMembersAsync(filter);
-
+                var members = (await memberService.GetMembersAsync(filter)).ToList();
+                
                 if (!members.Any())
                 {
                     return NotFound();

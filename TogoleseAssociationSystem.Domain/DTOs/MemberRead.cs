@@ -11,5 +11,7 @@
         public bool IsChair { get; set; } = false;
         public string? PhotoUrl { get; set; } = "https://via.placeholder.com/300x300";
         public DateTime? MembershipDate { get; set; }
+        //public string? LastName { get; set; }
+        //public ICollection<MembershipContributionRead>? Memberships { get; set; }
     }
 }

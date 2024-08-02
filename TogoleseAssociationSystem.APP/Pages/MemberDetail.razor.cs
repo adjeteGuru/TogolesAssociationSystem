@@ -32,11 +32,7 @@ namespace TogoleseAssociationSystem.APP.Pages
             {
                 ErrorMessage = e.Message;
             }
-        }  
+        } 
         
-        public void FormatDate(DateTime dateTime)
-        {
-            dateTime.ToUniversalTime();
-        }
     }
 }

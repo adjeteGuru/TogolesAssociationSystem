@@ -46,15 +46,38 @@
           <label for="PhotoUrl">Photo</label> 
           <br/>
            <div class="modal-dialog-centered">
-                               @if(Member.Title == "Mr")
-                               {
-                                    <img src="http://findicons.com/files/icons/1688/web_blog/48/user_male_white_red_brown.png" alt="male">     
-                               }
-                               else if(Member.Title == "Miss" || Member.Title == "Mrs")
-                               {
-                                    <img src="http://findicons.com/files/icons/1688/web_blog/48/user_female_white_pink_black.png" alt="female">     
-                               }
-                           </div>          
+                @if(Member.Title == "Mr")
+                {
+                     <img src="http://findicons.com/files/icons/1688/web_blog/48/user_male_white_red_brown.png" alt="male">     
+                }
+                else if(Member.Title == "Miss" || Member.Title == "Mrs")
+                {
+                     <img src="http://findicons.com/files/icons/1688/web_blog/48/user_female_white_pink_black.png" alt="female">     
+                }
+            </div> 
+            <div>
+                <table class="table">
+           <thead>
+               <tr>
+                   <th>ContributionName</th>
+                   <th>Amount</th>
+                   <th>Date of contribution</th>
+                   <th>Is annual contribution?</th>                  
+               </tr>
+           </thead>
+           <tbody>
+               @foreach (var contribution in Member.Memberships)
+               {
+                   <tr>
+                        <td>@contribution.ContributionName</td>                                             
+                       <td>@contribution.Amount</td>
+                       <td>@contribution.DateOfContribution</td>
+                       <td>@contribution.IsAnnualContribution</td>  
+                   </tr>                  
+               }
+           </tbody>
+       </table>
+            </div>
       </div>
        <br/>
        <div class="btn-group" role="group">
