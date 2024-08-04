@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TogoleseAssociationSystem.Domain.DTOs;
+﻿using TogoleseAssociationSystem.Domain.DTOs;
 using TogoleseAssociationSystem.Domain.Models;
 
 namespace TogoleseAssociationSystem.Application.Extensions

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using TogoleseAssociationSystem.Core.DTOs;
+using TogoleseAssociationSystem.Core.Models;
 using TogoleseAssociationSystem.Core.ServiceProvider;
 
 namespace TogoleseAssociationSystem.APP.Pages
@@ -12,7 +13,7 @@ namespace TogoleseAssociationSystem.APP.Pages
         [Inject]
         public NavigationManager Navigation { get; set; }
 
-        protected List<MemberRead>? Members;
+        protected List<Member>? Members;
        
         public string? ErrorMessage { get; set; }
 
@@ -20,7 +21,7 @@ namespace TogoleseAssociationSystem.APP.Pages
         {          
             try
             {
-                Members = new List<MemberRead>();
+                Members = new List<Member>();
                 var members = await MemberService.GetMembersAsync(null);
                 Members.AddRange(members); 
             }

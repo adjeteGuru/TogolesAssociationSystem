@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TogoleseAssociationSystem.API.Extensions;
 using TogoleseAssociationSystem.Application.Services;
 using TogoleseAssociationSystem.Domain.DTOs;
 
@@ -21,18 +22,42 @@ namespace TogolesAssociationSystem.API.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAllMembersAsync(string? filter = null)
-        {
+        {            
             try
             {
-                var members = (await memberService.GetMembersAsync(filter)).ToList();
-                
+                var contributions = await memberService.GetContributionsAsync();
+                var members = await memberService.GetMembersAsync(filter);
+
+                //var memberContributionsDto = members.ConvertToDto(contributions);
+                //var membersDto = members.ConvertToDto().ToList();
+
+                //membersDto.ForEach(member => member.Memberships.AddRange(memberContributionsDto));
+                //foreach (var memberDto in membersDto)
+                //{
+                //    var foo = memberDto.Memberships.ToList();
+                //    //var data = memberContributionsDto
+                //    //    .Where(x => x.MemberId.Equals(item.Id));
+                //    var contributionReads = memberDto.Memberships.Select(c => new MembershipContributionRead
+                //    {
+                //        Id = c.Id,
+                //        ContributionName = c.ContributionName,
+                //        Amount = c.Amount,
+                //        DateOfContribution = c.DateOfContribution,
+                //        IsAnnualContribution = c.IsAnnualContribution,
+                //        MemberId = memberDto.Id,
+                //        MemberName = c.MemberName
+                //    });              
+                    
+                //}
+
+               // var data = mapper.Map<MemberRead>(members);
+
                 if (!members.Any())
                 {
                     return NotFound();
-                }
-                var membersToRead = mapper.Map<List<MemberRead>>(members);
+                }              
 
-                return Ok(membersToRead);
+                return Ok(members);
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using TogoleseAssociationSystem.Core.DTOs;
+using TogoleseAssociationSystem.Core.Models;
 using TogoleseAssociationSystem.Core.ServiceProvider;
 
 namespace TogoleseAssociationSystem.APP.Pages
@@ -13,7 +14,7 @@ namespace TogoleseAssociationSystem.APP.Pages
         [Parameter]
         public int Id { get; set; }
 
-        public MemberRead Member { get; set; }
+        public Member Member { get; set; }
 
         public string? ErrorMessage { get; set; }
 
@@ -21,7 +22,7 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            Member = new MemberRead();
+            Member = new Member();
             EditContext = new EditContext(Member);
 
             try

@@ -1,49 +1,56 @@
 ﻿@page "/memberdetail/{id:int}"
 @inherits MemberDetailComponent
 
-<EditForm EditContext="EditContext">
-    <fieldset>
-        <div class="mx-3">
-            <div class="form-group">
-          <label for="FirstName">FirstName</label>
+ <h3>@Member.FirstName @Member.LastName details</h3>
+<hr />
+ <form>
+<EditForm EditContext="EditContext">   
+        <div class="form-group">
+          <label for="Title" class="col-sm-2 col-form-label col-form-label-lg">Title</label>
+          <InputText id="Title"
+                     class="form-control form-control-lg"
+                     @bind-Value="Member.Title"/>
+        </div>
+       <div class="form-group">
+          <label for="FirstName" class="col-sm-2 col-form-label col-form-label-lg">FirstName</label>
           <InputText id="FirstName"
-                     class="form-control"
+                     class="form-control form-control-lg"
                      @bind-Value="Member.FirstName"/>
       </div>
       <div class="form-group">
-          <label for="LastName">LastName</label>
+          <label for="LastName" class="col-sm-2 col-form-label col-form-label-lg">LastName</label>
           <InputText id="LastName"
-                     class="form-control"
+                     class="form-control form-control-lg"
                      @bind-Value="Member.LastName" />
       </div>        
        <div class="form-group">
-          <label for="DateOfBirth">Date Of Birth</label>
+          <label for="DateOfBirth" class="col-sm-2 col-form-label col-form-label-lg">Date Of Birth</label>
           <br/>
           <InputDate id="DateOfBirth"
                      class="form-control-lg"
                      @bind-Value="Member.DateOfBirth" />
       </div> 
        <div class="form-group">
-          <label for="MembershipDate">Date joined</label>
+          <label for="MembershipDate" class="col-sm-2 col-form-label col-form-label-lg">Date joined</label>
           <br/>
           <InputDate id="MembershipDate"
                      class="form-control-lg"
                      @bind-Value="Member.MembershipDate" />
       </div>      
-      <div>
-          <label for="IsActive">Is active member?</label>               
+      <div class="form-check">
+          <label for="IsActive" class="col-sm-2 form-check-label">Is active member?</label>               
           <InputCheckbox id="IsActive"
                      class="form-check-input"
                      @bind-Value="Member.IsActive" />
       </div>       
-       <div >
-          <label for="Telephone">Is president?</label>
-          <InputCheckbox id="Telephone"
+       <div class="form-check">
+          <label for="IsChair" class="col-sm-2 form-check-label">Is president?</label>
+          <InputCheckbox id="IsChair"
                      class="form-check-input"
                      @bind-Value="Member.IsChair" />
       </div>     
        <div class="form-group">
-          <label for="PhotoUrl">Photo</label> 
+          <label for="PhotoUrl" class="col-sm-2 col-form-label col-form-label-lg">Photo</label> 
           <br/>
            <div class="modal-dialog-centered">
                 @if(Member.Title == "Mr")
@@ -54,30 +61,34 @@
                 {
                      <img src="http://findicons.com/files/icons/1688/web_blog/48/user_female_white_pink_black.png" alt="female">     
                 }
-            </div> 
-            <div>
-                <table class="table">
-           <thead>
-               <tr>
-                   <th>ContributionName</th>
-                   <th>Amount</th>
-                   <th>Date of contribution</th>
-                   <th>Is annual contribution?</th>                  
-               </tr>
-           </thead>
-           <tbody>
-               @foreach (var contribution in Member.Memberships)
-               {
+            </div>             
+            <input type="file" class="form-control-file"> 
+       <div>
+           <hr />          
+            <h3>@Member.FirstName inventory</h3>
+            <br />
+           <table class="table">
+               <thead>
                    <tr>
-                        <td>@contribution.ContributionName</td>                                             
-                       <td>@contribution.Amount</td>
-                       <td>@contribution.DateOfContribution</td>
-                       <td>@contribution.IsAnnualContribution</td>  
-                   </tr>                  
-               }
-           </tbody>
-       </table>
-            </div>
+                       <th>Contribution Name</th>
+                       <th>Amount</th>
+                       <th>Date of contribution</th>
+                       <th>Is annual contribution?</th>                  
+                   </tr>
+               </thead>
+               <tbody>
+                   @foreach (var contribution in Member.Memberships)
+                   {
+                       <tr>
+                           <td>@contribution.ContributionName</td>                                             
+                           <td>@contribution.Amount</td>
+                           <td>@contribution.DateOfContribution</td>
+                           <td>@contribution.IsAnnualContribution</td>  
+                       </tr>                        
+                   }
+               </tbody>
+           </table>           
+       </div>
       </div>
        <br/>
        <div class="btn-group" role="group">
@@ -95,7 +106,8 @@
                Cancel
            </button>
        </div>      
-        </div>
+   @*     </div>*@
      
-       </fieldset>
+      
 </EditForm>
+ </form>

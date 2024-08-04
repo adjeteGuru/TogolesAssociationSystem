@@ -17,6 +17,11 @@ namespace TogoleseAssociationSystem.Application.Services
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()
+        {
+            return await memberRepository.GetContributionsAsync();
+        }
+
         public async Task<Member> GetMemberByIdAsync(int id)
         {
             var member = await memberRepository.GetMemberByIdAsync(id);

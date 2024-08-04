@@ -8,6 +8,6 @@
         public DateTime? DateOfContribution { get; set; }
         public bool? IsAnnualContribution { get; set; }
         public int MemberId { get; set; }
-        public Member? Member { get; set; }
+        //public Member? Member { get; set; }
     }
 }
