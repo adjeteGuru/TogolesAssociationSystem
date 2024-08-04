@@ -1,7 +1,7 @@
 ﻿@page "/memberdetail/{id:int}"
 @inherits MemberDetailComponent
 
- <h3>@Member.FirstName @Member.LastName details</h3>
+ <h3>@Member.FirstName @Member.LastName's current year membership contribution is: @TotalCurrentYearAmount</h3>
 <hr />
  <form>
 <EditForm EditContext="EditContext">   
@@ -65,11 +65,11 @@
             <input type="file" class="form-control-file"> 
        <div>
            <hr />          
-            <h3>@Member.FirstName inventory</h3>
+            <h3>@Member.FirstName's total amount contributed is: <span class="table-danger">@TotalCount</span></h3>
             <br />
-           <table class="table">
-               <thead>
-                   <tr>
+           <table class="table table-bordered table-hover">
+               <thead class="thead-light">
+                   <tr class="table-info">
                        <th>Contribution Name</th>
                        <th>Amount</th>
                        <th>Date of contribution</th>
@@ -88,7 +88,7 @@
                    }
                </tbody>
            </table>           
-       </div>
+       </div>       
       </div>
        <br/>
        <div class="btn-group" role="group">
@@ -101,13 +101,11 @@
            &nbsp;
            <button id="member-delete"
                    class="btn btn-outline-danger"
-                   @onclick="@(()=>{})"
+                   @onclick="@NavigateToHome"
                    title="Cancel member">
                Cancel
            </button>
-       </div>      
-   @*     </div>*@
-     
-      
+       </div>   
+
 </EditForm>
  </form>
