@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using TogoleseAssociationSystem.Core.DTOs;
+using TogoleseAssociationSystem.Core.Models;
 using TogoleseAssociationSystem.Core.ServiceProvider;
 
 namespace TogoleseAssociationSystem.APP.Pages
@@ -8,16 +9,19 @@ namespace TogoleseAssociationSystem.APP.Pages
     {
         [Inject]
         public IMemberService MemberService { get; set; }
+
+        [Inject]
+        public NavigationManager Navigation { get; set; }
+
+        protected List<Member>? Members;
        
-        public List<MemberRead> Members { get; set; }
-       
-        public string ErrorMessage { get; set; }
+        public string? ErrorMessage { get; set; }
 
         protected override async Task OnInitializedAsync()
         {          
             try
             {
-                Members = new List<MemberRead>();
+                Members = new List<Member>();
                 var members = await MemberService.GetMembersAsync(null);
                 Members.AddRange(members); 
             }
@@ -26,10 +30,18 @@ namespace TogoleseAssociationSystem.APP.Pages
                 ErrorMessage = ex.Message;
             }
         }
-
+        protected void NavigateToDetails(int id)
+        {
+            Navigation.NavigateTo($"/memberdetail/{id}");
+        }
         protected void NavigateToCreate()
         {
+            Navigation.NavigateTo("/membercreate/edit");
+        }
 
+        public void FormatDate(DateTime dateTime)
+        {
+            dateTime.ToUniversalTime();
         }
     }
 }

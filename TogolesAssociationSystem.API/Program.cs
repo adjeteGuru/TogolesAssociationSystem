@@ -1,6 +1,8 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using TogoleseAssociationSystem.Application.AutoMapper;
+using TogoleseAssociationSystem.Application.Database;
 using TogoleseAssociationSystem.Application.Repositories;
 using TogoleseAssociationSystem.Application.Services;
 
@@ -14,6 +16,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json")
+    .Build();
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnectionString"));
+});
+
 var mapperConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new Profiles());
@@ -40,5 +52,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+DbInitializer.EnsureSeedData(app);
 
 app.Run();

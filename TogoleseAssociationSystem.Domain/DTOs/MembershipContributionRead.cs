@@ -1,6 +1,6 @@
-﻿namespace TogoleseAssociationSystem.Core.Models
+﻿namespace TogoleseAssociationSystem.Domain.DTOs
 {
-    public class MembershipContribution
+    public class MembershipContributionRead
     {
         public int Id { get; set; }
         public string? ContributionName { get; set; }
@@ -8,6 +8,6 @@
         public DateTime? DateOfContribution { get; set; }
         public bool? IsAnnualContribution { get; set; }
         public int MemberId { get; set; }
-        //public Member? Member { get; set; }
+        public string? MemberName { get; set; }       
     }
 }

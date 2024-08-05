@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using TogoleseAssociationSystem.Core.DTOs;
+using TogoleseAssociationSystem.Core.Models;
 
 namespace TogoleseAssociationSystem.Core.ServiceProvider
 {
@@ -11,7 +12,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
         {
             this.httpClient = httpClient;
         }
-        public async Task<MemberRead> GetMemberByIdAsync(int id)
+        public async Task<Member> GetMemberByIdAsync(int id)
         {
             var httpResponse = await httpClient.GetAsync($"{RequestUri}/{id}");
             try
@@ -19,7 +20,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                 if (httpResponse.IsSuccessStatusCode)
                 {
                     var stringContent = await httpResponse.Content.ReadAsStringAsync();
-                    var memberRead = JsonConvert.DeserializeObject<MemberRead>(stringContent);
+                    var memberRead = JsonConvert.DeserializeObject<Member>(stringContent);
                     if (memberRead == null)
                     {
                         throw new Exception("Not found!");
@@ -35,12 +36,12 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             return null;
         }
 
-        public async Task<MemberRead> GetMemberByNameAsync(string name)
+        public async Task<Member> GetMemberByNameAsync(string name)
         {            
-            return default(MemberRead);
+            return default(Member);
         }
 
-        public async Task<IEnumerable<MemberRead>> GetMembersAsync(string? filter = null)
+        public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
         {
             var httpResponse = await httpClient.GetAsync($"{RequestUri}");
             try
@@ -48,7 +49,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                 if (httpResponse.IsSuccessStatusCode)
                 {
                     var stringContent = await httpResponse.Content.ReadAsStringAsync();
-                    var membersRead = JsonConvert.DeserializeObject<IEnumerable<MemberRead>>(stringContent);
+                    var membersRead = JsonConvert.DeserializeObject<IEnumerable<Member>>(stringContent);
                     if (membersRead == null)
                     {
                         throw new Exception("Not found!");

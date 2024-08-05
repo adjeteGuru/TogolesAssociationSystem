@@ -1,55 +1,33 @@
-﻿using TogoleseAssociationSystem.Domain.DTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using TogoleseAssociationSystem.Application.Database;
+using TogoleseAssociationSystem.Domain.DTOs;
 using TogoleseAssociationSystem.Domain.Models;
 
 namespace TogoleseAssociationSystem.Application.Repositories
 {
     public class MemberRepository : IMemberRepository
     {
-        private static readonly List<Member> MemberList = new List<Member>()
-        {
-                new Member
-                {
-                    Id = 1,
-                    FirstName ="John",
-                    LastName ="Doe",
-                    DateOfBirth = new DateTime(2000,01,31),
-                    IsActive=true,
-                    IsChair = false,
-                    MembershipDate = DateTime.Today,
-                    PhotoUrl = null
-                },
-                new Member
-                {
-                    Id = 2,
-                    FirstName ="Brenda",
-                    LastName ="Love",
-                    DateOfBirth = new DateTime(1980,11,20),
-                    IsActive=true,
-                    IsChair = true,
-                    MembershipDate = DateTime.Today,
-                    PhotoUrl = null
-                },
-                new Member
-                {
-                    Id = 3,
-                    FirstName ="Smith",
-                    LastName ="Joe",
-                    DateOfBirth = new DateTime(1970,07,30),
-                    IsActive=true,
-                    IsChair = false,
-                    MembershipDate = DateTime.Today,
-                    PhotoUrl = null
-                }
-        };    
+        private readonly AppDbContext dbContext;
 
+        public MemberRepository(AppDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+       
         public Task<MembershipContribution> AddContributionAsync(MembershipContributionToAdd contributionToAdd)
         {
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()
+        {
+            return await dbContext.MembershipContributions.ToListAsync();
+        }
+
         public async Task<Member> GetMemberByIdAsync(int id)
         {
-            return MemberList.FirstOrDefault(m => m.Id == id);
+            var member = await dbContext.Members.Include(x => x.Memberships).FirstOrDefaultAsync(x =>x.Id.Equals(id));           
+            return member;
         }
 
         public Task<Member> GetMemberByNameAsync(string name)
@@ -71,15 +49,24 @@ namespace TogoleseAssociationSystem.Application.Repositories
         {
             if (filter != null)
             {
-                var filteredMembers = new List<Member>();
-                filteredMembers = MemberList
+                var filteredMembers = await dbContext.Members
                 .Where(member => member.LastName.ToLower()
-                .Contains(filter.ToLower())).ToList();
+                .Contains(filter.ToLower())).ToListAsync();
 
                 return filteredMembers;
             }
-
-            return MemberList.ToList();
+            return await dbContext.Members.ToListAsync();
+            //return await dbContext.Members.Select(x => new Member
+            //{
+            //    LastName = x.LastName,
+            //    FirstName= x.FirstName,
+            //    IsChair = x.IsChair,
+            //    MembershipDate=x.MembershipDate,
+            //    DateOfBirth=x.DateOfBirth,
+            //    PhotoUrl=x.PhotoUrl,
+            //    Id=x.Id,
+            //    Title=x.Title
+            //}).ToListAsync();
         }
 
         public bool SaveChanges()
