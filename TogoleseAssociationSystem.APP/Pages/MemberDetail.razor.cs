@@ -67,5 +67,10 @@ namespace TogoleseAssociationSystem.APP.Pages
         {
             Navigation.NavigateTo("/memberlist");
         }
+
+        protected void NavigateToCreate()
+        {
+            Navigation.NavigateTo("/membercreate/edit");
+        }
     }
 }

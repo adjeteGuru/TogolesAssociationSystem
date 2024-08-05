@@ -36,7 +36,7 @@ namespace TogoleseAssociationSystem.APP.Pages
         }
         protected void NavigateToCreate()
         {
-
+            Navigation.NavigateTo("/membercreate/edit");
         }
 
         public void FormatDate(DateTime dateTime)
