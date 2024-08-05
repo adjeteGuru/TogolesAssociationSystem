@@ -19,6 +19,12 @@ namespace TogoleseAssociationSystem.Application.Repositories
             throw new NotImplementedException();
         }
 
+        public void CreateMember(Member member)
+        {
+            dbContext.Members.Add(member);
+            SaveChanges();
+        }
+
         public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()
         {
             return await dbContext.MembershipContributions.ToListAsync();
@@ -71,7 +77,7 @@ namespace TogoleseAssociationSystem.Application.Repositories
 
         public bool SaveChanges()
         {
-            throw new NotImplementedException();
+            return dbContext.SaveChanges() >= 0;
         }
     }
 }

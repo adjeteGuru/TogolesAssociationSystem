@@ -1,8 +1,10 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TogoleseAssociationSystem.API.Extensions;
+using TogoleseAssociationSystem.Application.AutoMapper;
 using TogoleseAssociationSystem.Application.Services;
 using TogoleseAssociationSystem.Domain.DTOs;
+using TogoleseAssociationSystem.Domain.Models;
 
 namespace TogolesAssociationSystem.API.Controllers
 {
@@ -76,9 +78,28 @@ namespace TogolesAssociationSystem.API.Controllers
                 {
                     return NotFound();
                 }
-                var memberToRead = mapper.Map<MemberRead>(member);
+                //var member = mapper.Map<Member>(member);
 
-                return Ok(memberToRead);
+                return Ok(member);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        // POST api/Customer
+        [HttpPost]
+        public async Task<IActionResult> CreateNewMemberAsync([FromBody] MemberToAdd memberToAdd)
+        {
+            try
+            {
+                var maper = MapperSettings.GetMapperConfiguration().CreateMapper();
+                var member = maper.Map<Member>(memberToAdd);         
+              
+                memberService.CreateMember(member);
+
+                return CreatedAtAction(nameof(GetMemberByIdAsync), new { id = member.Id }, member);
             }
             catch (Exception ex)
             {

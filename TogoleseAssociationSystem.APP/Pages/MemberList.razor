@@ -13,6 +13,10 @@
         <span class="empty-state-title">Loading, please wait...</span>
     </div>
 }
+else if (ErrorMessage != null && ErrorMessage == "Failed to fetch")
+{
+    <span class="empty-state-title">Loading, please wait while the api load...</span>
+}
 else if (ErrorMessage != null)
 {
     <h3 class="text-danger">@ErrorMessage</h3>

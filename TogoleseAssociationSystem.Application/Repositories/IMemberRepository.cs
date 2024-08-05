@@ -13,5 +13,6 @@ namespace TogoleseAssociationSystem.Application.Repositories
         Task<IEnumerable<MembershipContribution>> GetMemberContributionsByIdAsync(int memberId);
         bool SaveChanges();
         Task<IEnumerable<MembershipContribution>> GetContributionsAsync();
+        void CreateMember(Member member);
     }
 }

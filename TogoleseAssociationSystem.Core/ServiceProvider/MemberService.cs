@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Net.Http.Json;
 using TogoleseAssociationSystem.Core.DTOs;
 using TogoleseAssociationSystem.Core.Models;
 
@@ -60,6 +61,33 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             catch (Exception)
             {
                 throw;
+            }
+
+            return null;
+        }
+
+        public async Task<Member> CreateMemberAsync(MemberToAdd memberToAdd)
+        {
+            var response = await httpClient.PostAsJsonAsync($"{RequestUri}", memberToAdd);
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var stringContent = await response.Content.ReadAsStringAsync();
+
+                    var member = JsonConvert.DeserializeObject<Member>(stringContent);
+
+                    if (member == null)
+                    {
+                        throw new Exception("Not found!");
+                    }
+                  
+                    return member;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
 
             return null;

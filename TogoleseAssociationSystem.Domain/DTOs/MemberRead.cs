@@ -15,7 +15,12 @@
         public bool IsChair { get; set; } = false;
         public string? PhotoUrl { get; set; } = "https://via.placeholder.com/300x300";
         public DateTime? MembershipDate { get; set; }      
-        public List<MembershipContributionRead>? Memberships { get; set; } = new List<MembershipContributionRead>();
-        public List<HasRoleRead>? HasRoles { get; set; } = new List<HasRoleRead>();
+        public List<MembershipContributionRead>? Memberships { get; set; }
+        public List<HasRoleRead>? HasRoles { get; set; }
+        public MemberRead()
+        {
+            Memberships = new List<MembershipContributionRead>();
+            HasRoles = new List<HasRoleRead>();
+        }
     }
 }

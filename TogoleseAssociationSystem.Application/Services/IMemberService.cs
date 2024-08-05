@@ -12,6 +12,7 @@ namespace TogoleseAssociationSystem.Application.Services
         Task<IEnumerable<HasRole>> GetMemberRolesByIdAsync(int memberId);
         Task<IEnumerable<MembershipContribution>> GetMemberContributionsByIdAsync(int memberId);
         Task<IEnumerable<MembershipContribution>> GetContributionsAsync();
+        void CreateMember(Member member);
         bool SaveChanges();
     }
 }
