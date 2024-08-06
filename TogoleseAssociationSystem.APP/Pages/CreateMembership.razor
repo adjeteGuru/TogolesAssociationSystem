@@ -1,0 +1,69 @@
+﻿@page "/membershipcreate/{id:int}"
+@page "/membershipcreate/edit"
+@inherits CreateMembershipComponent
+
+<h3>Create Membership</h3>
+<hr />
+<form>
+ <EditForm EditContext="EditContext">
+  <div class="mb-4 row">
+    <div class="form-group col-md-4">
+      <label for="inputCity"><b>Contribution purpose</b></label>
+      <InputText id="Title"
+                     class="form-control form-control-lg"
+                     @bind-Value="Contribution.ContributionName"/>
+    </div>    
+    <div class="form-group col-md-2">
+      <label for="inputZip"><b>Amount contributed</b></label>
+      <InputNumber id="Amount"
+                     class="form-control form-control-lg"
+                     @bind-Value="Contribution.Amount"/>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="inputCity"><b>Member Firstname</b></label>
+      <InputText id="Title"
+                     class="form-control form-control-lg"
+                     @bind-Value="Contribution.MemberFirstName"/>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="inputCity"><b>Member Lastname</b></label>
+      <InputText id="Title"
+                     class="form-control form-control-lg"
+                     @bind-Value="Contribution.MemberLastName"/>
+    </div>
+  </div>
+   <div class="mb-3 row"> 
+    <div class="form-check col-md-4">
+      <InputCheckbox id="IsAnnualContribution"
+                     class="form-check-input"
+                     @bind-Value="Contribution.IsAnnualContribution" />
+      <label class="form-check-label" for="IsAnnualContribution">
+        <b>Is this annual contribution?</b>
+      </label>
+    </div>
+     <div class="form-group col-md-4">
+          <label for="inputCity"><b>Date of Contribution</b></label>
+          <InputDate id="DateOfBirth"
+                         class="form-control-lg"
+                         @bind-Value="Contribution.DateOfContribution" />
+     </div> 
+  </div>
+  <br />
+      <div class="btn-group" role="group">
+           <button id="member-update"
+                   class="btn btn-outline-primary"
+                   @onclick="Submit"
+                   title="Save member">
+               Submit
+           </button>
+           &nbsp;
+           <button id="member-delete"
+                   class="btn btn-outline-danger"
+                   @onclick="@NavigateToHome"
+                   title="Cancel member">
+               Cancel
+           </button>
+       </div> 
+ </EditForm>
+ </form>
+

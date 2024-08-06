@@ -1,5 +1,4 @@
 ﻿using TogoleseAssociationSystem.Application.Repositories;
-using TogoleseAssociationSystem.Domain.DTOs;
 using TogoleseAssociationSystem.Domain.Models;
 
 namespace TogoleseAssociationSystem.Application.Services
@@ -12,14 +11,15 @@ namespace TogoleseAssociationSystem.Application.Services
         {
             this.memberRepository = memberRepository;
         }
-        public Task<MembershipContribution> AddContributionAsync(MembershipContributionToAdd contributionToAdd)
-        {
-            throw new NotImplementedException();
-        }
 
         public void CreateMember(Member member)
         {
             memberRepository.CreateMember(member);
+        }
+
+        public void CreateMembership(MembershipContribution membership)
+        {
+            memberRepository.CreateMembership(membership);
         }
 
         public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()
@@ -38,9 +38,19 @@ namespace TogoleseAssociationSystem.Application.Services
             return member;
         }
 
-        public Task<Member> GetMemberByNameAsync(string name)
+        //public Task<Member> GetMemberByNameAsync(string name)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public async Task<Member> RetrieveMember(string firsname, string lastname)
         {
-            throw new NotImplementedException();
+            var member = await memberRepository.RetrieveMember(firsname, lastname);
+            if (member == null)
+            {
+                throw new Exception($"member with id:{member.FirstName} is not found!");
+            }
+            return member;
         }
 
         public Task<IEnumerable<MembershipContribution>> GetMemberContributionsByIdAsync(int memberId)
@@ -65,7 +75,17 @@ namespace TogoleseAssociationSystem.Application.Services
             throw new Exception("There is no match members found in the db!");
         }
 
+        public async Task<MembershipContribution> GetMembershipByIdAsync(int id)
+        {
+           return await memberRepository.GetMembershipByIdAsync(id);
+        }
+
         public bool SaveChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateMember(Member member)
         {
             throw new NotImplementedException();
         }

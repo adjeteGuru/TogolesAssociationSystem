@@ -21,5 +21,17 @@ namespace TogoleseAssociationSystem.Application.Extensions
                         PhotoUrl = member.PhotoUrl,
                     }).ToList();
         }
+
+        public static MembershipContribution ConverToDto(this MembershipContribution membership, MembershipContributionToAdd membershipToAdd)
+        {
+            return new MembershipContribution
+                    {                       
+                        ContributionName = membershipToAdd.ContributionName,
+                        Amount = membershipToAdd.Amount,
+                        DateOfContribution = membershipToAdd.DateOfContribution,
+                        IsAnnualContribution = membershipToAdd.IsAnnualContribution,
+                        MemberId = membershipToAdd.MemberId                        
+                    };
+        }
     }
 }

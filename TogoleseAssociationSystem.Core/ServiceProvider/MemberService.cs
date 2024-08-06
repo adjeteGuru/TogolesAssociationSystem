@@ -9,6 +9,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
     {
         private readonly HttpClient httpClient;
         private static string RequestUri = "api/member";
+        private static string MembershipUri = "api/membership";
         public MemberService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
@@ -83,6 +84,33 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                     }
                   
                     return member;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return null;
+        }
+
+        public async Task<MembershipContribution> CreateMembershipAsync(MembershipContributionToAdd contributionToAdd)
+        {
+            var response = await httpClient.PostAsJsonAsync($"{MembershipUri}", contributionToAdd);
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var stringContent = await response.Content.ReadAsStringAsync();
+
+                    var membership = JsonConvert.DeserializeObject<MembershipContribution>(stringContent);
+
+                    if (membership == null)
+                    {
+                        throw new Exception("Not found!");
+                    }
+
+                    return membership;
                 }
             }
             catch (Exception e)
