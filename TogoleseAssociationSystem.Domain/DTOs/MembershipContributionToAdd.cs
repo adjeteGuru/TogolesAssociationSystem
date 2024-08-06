@@ -1,6 +1,4 @@
-﻿using TogoleseAssociationSystem.Domain.Models;
-
-namespace TogoleseAssociationSystem.Domain.DTOs
+﻿namespace TogoleseAssociationSystem.Domain.DTOs
 {
     public class MembershipContributionToAdd
     {
@@ -9,6 +7,7 @@ namespace TogoleseAssociationSystem.Domain.DTOs
         public DateTime? DateOfContribution { get; set; }
         public bool? IsAnnualContribution { get; set; }
         public int MemberId { get; set; }
-        public Member? Member { get; set; }
+        public string? MemberFirstName { get; set; }
+        public string? MemberLastName { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace TogoleseAssociationSystem.Core.DTOs
+﻿using TogoleseAssociationSystem.Core.Models;
+
+namespace TogoleseAssociationSystem.Core.DTOs
 {
     public class MemberToAdd
     {
@@ -14,5 +16,12 @@
         public bool IsChair { get; set; } = false;
         public string? PhotoUrl { get; set; } = "https://via.placeholder.com/300x300";
         public DateTime? MembershipDate { get; set; }
+        public List<MembershipContribution>? Memberships { get; set; }
+        public List<HasRole>? HasRoles { get; set; }
+        public MemberToAdd()
+        {         
+            Memberships = new List<MembershipContribution>();
+            HasRoles = new List<HasRole>();
+        }
     }
 }

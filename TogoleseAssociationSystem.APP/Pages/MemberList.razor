@@ -6,12 +6,17 @@
     <h3>Members</h3>
     <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Create Member</button>
 </div>
+<hr />
 
 @if (Members == null && ErrorMessage == null)
 {
     <div class="empty-state">
         <span class="empty-state-title">Loading, please wait...</span>
     </div>
+}
+else if (ErrorMessage != null && ErrorMessage == "Failed to fetch")
+{
+    <span class="empty-state-title">Loading, please wait while the api load...</span>
 }
 else if (ErrorMessage != null)
 {

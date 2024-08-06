@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Net.Http.Json;
 using TogoleseAssociationSystem.Core.DTOs;
 using TogoleseAssociationSystem.Core.Models;
 
@@ -8,6 +9,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
     {
         private readonly HttpClient httpClient;
         private static string RequestUri = "api/member";
+        private static string MembershipUri = "api/membership";
         public MemberService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
@@ -60,6 +62,60 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             catch (Exception)
             {
                 throw;
+            }
+
+            return null;
+        }
+
+        public async Task<Member> CreateMemberAsync(MemberToAdd memberToAdd)
+        {
+            var response = await httpClient.PostAsJsonAsync($"{RequestUri}", memberToAdd);
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var stringContent = await response.Content.ReadAsStringAsync();
+
+                    var member = JsonConvert.DeserializeObject<Member>(stringContent);
+
+                    if (member == null)
+                    {
+                        throw new Exception("Not found!");
+                    }
+                  
+                    return member;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return null;
+        }
+
+        public async Task<MembershipContribution> CreateMembershipAsync(MembershipContributionToAdd contributionToAdd)
+        {
+            var response = await httpClient.PostAsJsonAsync($"{MembershipUri}", contributionToAdd);
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var stringContent = await response.Content.ReadAsStringAsync();
+
+                    var membership = JsonConvert.DeserializeObject<MembershipContribution>(stringContent);
+
+                    if (membership == null)
+                    {
+                        throw new Exception("Not found!");
+                    }
+
+                    return membership;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
 
             return null;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TogoleseAssociationSystem.Core.DTOs;
+﻿using TogoleseAssociationSystem.Core.DTOs;
 using TogoleseAssociationSystem.Core.Models;
 
 namespace TogoleseAssociationSystem.Core.ServiceProvider
@@ -16,5 +11,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
         Task<IEnumerable<Member>> GetMembersAsync(string? filter);
         Task<Member> GetMemberByIdAsync(int id);
         Task<Member> GetMemberByNameAsync(string name);
+        Task<Member> CreateMemberAsync(MemberToAdd memberToAdd);
+        Task<MembershipContribution> CreateMembershipAsync(MembershipContributionToAdd contributionToAdd);
     }
 }

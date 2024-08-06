@@ -89,11 +89,11 @@
        <div class="form-group col-md-4">
            <label for="PhotoUrl" class="form-control-lg"><b>Photo ID</b></label>        
            <div class="modal-dialog-centered">
-                @if(Member.Title == "Mr")
+                @if(Member.Title == "Mr" || Member.Title == "mr" || Member.Title == "dr" || Member.Title == "Dr")
                 {
                      <img src="http://findicons.com/files/icons/1688/web_blog/48/user_male_white_red_brown.png" alt="male">     
                 }
-                else if(Member.Title == "Miss" || Member.Title == "Mrs")
+                else if(Member.Title == "Miss" || Member.Title == "Mrs" || Member.Title == "mrs" || Member.Title == "miss")
                 {
                      <img src="http://findicons.com/files/icons/1688/web_blog/48/user_female_white_pink_black.png" alt="female">     
                 }
@@ -104,7 +104,7 @@
  <div class="btn-group" role="group">
            <button id="member-update"
                    class="btn btn-outline-primary"
-                   @onclick="@(()=>{})"
+                   @onclick="@(()=> NavigateToAddContribution(Member.Id))"
                    title="Update member">
                Update
            </button>
@@ -119,9 +119,12 @@
  </EditForm>
  </form>
  <div>
-      <hr />          
-       <h3 class="blueTextOverride">@Member.FirstName's total contribution since becoming active member is: <span class="priceTextOverride"><b>£@TotalCount</b></span></h3>
-       <br />
+      <hr />  
+      <div class="my-3 d-flex flex-wrap justify-content-between">
+      <h3 class="blueTextOverride">@Member.FirstName's total contribution since becoming active member is: <span class="priceTextOverride"><b>£@TotalCount</b></span></h3>
+    <button id="Membership-create" class="btn btn-primary" @onclick="@(()=>NavigateToAddContribution(Member.Id))">Add Membership</button>
+</div>
+
       <table class="table table-bordered table-hover">
           <thead class="thead-light">
               <tr class="table-info">

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using TogoleseAssociationSystem.Core.DTOs;
 using TogoleseAssociationSystem.Core.Models;
 
 namespace TogoleseAssociationSystem.APP.Pages

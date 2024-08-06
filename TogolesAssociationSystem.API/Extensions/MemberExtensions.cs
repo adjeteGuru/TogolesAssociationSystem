@@ -24,6 +24,28 @@ namespace TogoleseAssociationSystem.API.Extensions
             }).ToList();           
         }
 
+        public static Member ConvertToDto(this MembershipContributionToAdd membership)
+        {
+            return new Member
+            {                        
+                FirstName = membership.MemberFirstName,
+                LastName = membership.MemberLastName
+            };
+        }
+
+        public static MembershipContribution ConvertToDto(this MembershipContributionToAdd membership, Member member)
+        {
+            //convert to return mbship where memberId = member
+            return new MembershipContribution
+            {
+                ContributionName = membership.ContributionName,
+                Amount = membership.Amount,
+                DateOfContribution = membership.DateOfContribution,
+                IsAnnualContribution = membership.IsAnnualContribution,
+                MemberId = member.Id
+            };
+        }
+
         //public static IEnumerable<MembershipContributionRead> ConvertToDto(this IEnumerable<Member> members, IEnumerable<MembershipContribution> memberships)
         //{
         //    return (from contribution in memberships
