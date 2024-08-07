@@ -87,7 +87,7 @@ namespace TogoleseAssociationSystem.Application.Services
 
         public void UpdateMember(Member member)
         {
-            throw new NotImplementedException();
+            memberRepository.UpdateMember(member);
         }
     }
 }

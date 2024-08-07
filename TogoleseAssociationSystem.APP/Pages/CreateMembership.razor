@@ -1,8 +1,8 @@
-﻿@page "/membershipcreate/{id:int}"
-@page "/membershipcreate/edit"
+﻿@page "/membershipcreate/{id:int}/edit"
+@page "/membershipcreate"
 @inherits CreateMembershipComponent
 
-<h3>Create Membership</h3>
+<h3>Add Member's contribution</h3>
 <hr />
 <form>
  <EditForm EditContext="EditContext">
@@ -23,13 +23,15 @@
       <label for="inputCity"><b>Member Firstname</b></label>
       <InputText id="Title"
                      class="form-control form-control-lg"
-                     @bind-Value="Contribution.MemberFirstName"/>
+                     @bind-Value="Contribution.MemberFirstName" 
+                     disabled="@Edit" />
     </div>
     <div class="form-group col-md-3">
       <label for="inputCity"><b>Member Lastname</b></label>
       <InputText id="Title"
                      class="form-control form-control-lg"
-                     @bind-Value="Contribution.MemberLastName"/>
+                     @bind-Value="Contribution.MemberLastName"
+                     disabled="@Edit" />
     </div>
   </div>
    <div class="mb-3 row"> 

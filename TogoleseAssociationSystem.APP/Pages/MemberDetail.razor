@@ -114,12 +114,18 @@
       </div>
       </div> 
  <div class="btn-group" role="group">
-           <button id="member-update"
+      <button id="member-update"
+                   class="btn btn-outline-primary"
+                   @onclick="@(()=> UpdateMemberDetails(Member))"
+                   title="Update member">
+               Update
+           </button>
+          @* <button id="member-update"
                    class="btn btn-outline-primary"
                    @onclick="@(()=> NavigateToAddContribution(Member.Id))"
                    title="Update member">
                Update
-           </button>
+           </button>*@
            &nbsp;
            <button id="member-delete"
                    class="btn btn-outline-danger"
@@ -134,7 +140,7 @@
       <hr />  
       <div class="my-3 d-flex flex-wrap justify-content-between">
       <h3 class="blueTextOverride">@Member.FirstName's total contribution since becoming active member is: <span class="priceTextOverride"><b>£@TotalCount</b></span></h3>
-    <button id="Membership-create" class="btn btn-primary" @onclick="@(()=>NavigateToAddContribution(Member.Id))">Add Contribution</button>
+    <button id="Membership-create" class="btn btn-primary" @onclick="@(()=>NavigateToAddContribution(Member.Id))">Add Member's contribution</button>
 </div>
 
       <table class="table table-bordered table-hover">

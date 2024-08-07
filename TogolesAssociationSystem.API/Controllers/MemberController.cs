@@ -81,5 +81,25 @@ namespace TogolesAssociationSystem.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMemberAsync(int id, Member memberUpdate)
+        {
+            try
+            {
+                if (id != memberUpdate.Id)
+                {
+                    BadRequest();
+                }               
+
+                memberService.UpdateMember(memberUpdate);
+
+                return Ok(memberUpdate);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }

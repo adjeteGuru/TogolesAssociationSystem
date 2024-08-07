@@ -100,8 +100,21 @@ namespace TogoleseAssociationSystem.Application.Repositories
         }
 
         public void UpdateMember(Member member)
+        {            
+            if (IsValid(member))
+            {
+                dbContext.Members.Update(member);
+                SaveChanges();
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private bool IsValid(Member member)
         {
-            throw new NotImplementedException();
+            return dbContext.Members.Any(x => x.Id == member.Id);
         }
     }
 }

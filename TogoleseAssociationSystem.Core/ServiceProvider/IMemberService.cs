@@ -12,6 +12,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
         Task<Member> GetMemberByIdAsync(int id);
         Task<Member> GetMemberByNameAsync(string name);
         Task<Member> CreateMemberAsync(MemberToAdd memberToAdd);
+        Task<Member> UpdateMemberDetails(Member member);
         Task<MembershipContribution> CreateMembershipAsync(MembershipContributionToAdd contributionToAdd);
     }
 }
