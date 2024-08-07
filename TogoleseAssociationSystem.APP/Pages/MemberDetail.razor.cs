@@ -70,7 +70,7 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         protected void NavigateToCreate()
         {
-            Navigation.NavigateTo("/membercreate/edit");
+            Navigation.NavigateTo("/membercreate");
         }
 
         protected void NavigateToAddContribution(int selectedMemberId)

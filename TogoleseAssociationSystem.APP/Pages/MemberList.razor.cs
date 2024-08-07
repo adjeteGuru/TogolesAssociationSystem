@@ -31,11 +31,11 @@ namespace TogoleseAssociationSystem.APP.Pages
         }
         protected void NavigateToDetails(int id)
         {
-            Navigation.NavigateTo($"/memberdetail/{id}");
+            Navigation.NavigateTo($"/memberdetail/{id}/edit");
         }
         protected void NavigateToCreate()
         {
-            Navigation.NavigateTo("/membercreate/edit");
+            Navigation.NavigateTo("/membercreate");
         }
     }
 }

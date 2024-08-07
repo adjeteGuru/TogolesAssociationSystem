@@ -3,8 +3,8 @@
 @inherits MemberListComponent
 
 <div class="my-3 d-flex flex-wrap justify-content-between">
-    <h3>Members</h3>
-    <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Create Member</button>
+    <h3>List of members</h3>
+    <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
 </div>
 <hr />
 
@@ -55,11 +55,11 @@ else
                        <td>@member.IsChair</td>
                        <td>
                            <div class="modal-dialog-centered">
-                               @if(member.Title == "Mr")
+                               @if(member.Title == "Mr" || member.Title =="mr" || member.Title == "dr" || member.Title == "Dr")
                                {
                                     <img src="http://findicons.com/files/icons/1688/web_blog/48/user_male_white_red_brown.png" alt="male">     
                                }
-                               else if(member.Title == "Miss" || member.Title == "Mrs")
+                               else if(member.Title == "Miss" || member.Title == "miss" || member.Title == "Mrs" || member.Title == "mrs")
                                {
                                     <img src="http://findicons.com/files/icons/1688/web_blog/48/user_female_white_pink_black.png" alt="female">     
                                }

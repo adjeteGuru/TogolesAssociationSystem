@@ -1,33 +1,45 @@
-﻿@page "/membercreate/edit"
+﻿@page "/membercreate"
 @inherits CreateMemberComponent
 
-<h3>Create Member</h3>
+<h3>Add new Member</h3>
 <hr />
 <form>
  <EditForm EditContext="EditContext">
-  <div class="mb-3 row">
+<div class="mb-5 row">
     <div class="form-group col-md-1">
       <label for="inputCity"><b>Title</b></label>
       <InputText id="Title"
                      class="form-control form-control-lg"
                      @bind-Value="Member.Title"/>
     </div>
-    <div class="form-group col-md-5">
+    <div class="form-group col-md-3">
       <label for="inputState"><b>Firstname</b></label>
       <InputText id="FirstName"
                      class="form-control form-control-lg"
                      @bind-Value="Member.FirstName" />
     </div>
-    <div class="form-group col-md-5">
+    <div class="form-group col-md-3">
       <label for="inputZip"><b>Lastname</b></label>
       <InputText id="LastName"
                      class="form-control form-control-lg"
                      @bind-Value="Member.LastName"/>
     </div>
+    <div class="form-group col-md-2">
+      <label for="inputState"><b>Next of kin</b></label>
+      <InputText id="FirstName"
+                     class="form-control form-control-lg"
+                     @bind-Value="Member.NextOfKin" />
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputState"><b>Relationship to you</b></label>
+      <InputText id="FirstName"
+                     class="form-control form-control-lg"
+                     @bind-Value="Member.Relationship" />
+    </div>
   </div>
    <div class="mb-4 row">
     <div class="form-group col-md-4">
-      <label for="inputCity"><b>First line of address</b></label>
+      <label for="inputCity"><b>1st line of address</b></label>
       <InputText id="Address"
                      class="form-control form-control-lg"
                      @bind-Value="Member.Address"/>
