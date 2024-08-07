@@ -15,7 +15,7 @@ namespace TogoleseAssociationSystem.Core.DTOs
         public DateTime? DateOfBirth { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsChair { get; set; } = false;
-        public string? PhotoUrl { get; set; } = "https://via.placeholder.com/300x300";
+        public byte[] PhotoUrl { get; set; }
         public DateTime? MembershipDate { get; set; }
         public string? NextOfKin { get; set; }
         public string? Relationship { get; set; }

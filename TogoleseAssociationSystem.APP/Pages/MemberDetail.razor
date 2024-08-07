@@ -110,7 +110,13 @@
                      <img src="http://findicons.com/files/icons/1688/web_blog/48/user_female_white_pink_black.png" alt="female">     
                 }
             </div>             
-            <input type="file" class="form-control-file">        
+           <div class="form-group col-md-4">
+          <label for="inputState"><b>Photo ID</b></label>
+          <InputFile 
+          type="file" 
+          class="form-control-file"
+          OnChange="OnInputFileChanged"/>          
+      </div>        
       </div>
       </div> 
  <div class="btn-group" role="group">
@@ -119,13 +125,7 @@
                    @onclick="@(()=> UpdateMemberDetails(Member))"
                    title="Update member">
                Update
-           </button>
-          @* <button id="member-update"
-                   class="btn btn-outline-primary"
-                   @onclick="@(()=> NavigateToAddContribution(Member.Id))"
-                   title="Update member">
-               Update
-           </button>*@
+           </button>         
            &nbsp;
            <button id="member-delete"
                    class="btn btn-outline-danger"

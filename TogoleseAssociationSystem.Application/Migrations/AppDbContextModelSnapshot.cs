@@ -84,8 +84,9 @@ namespace TogoleseAssociationSystem.Application.Migrations
                     b.Property<string>("NextOfKin")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhotoUrl")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PhotoUrl")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Postcode")
                         .HasColumnType("nvarchar(max)");

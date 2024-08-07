@@ -87,20 +87,20 @@
           <label for="inputCity"><b>Date of birth</b></label>
           <InputDate id="DateOfBirth"
                          class="form-control-lg"
-                         @bind-Value="Member.DateOfBirth" />
-        </div>
+                         @bind-Value="Member.DateOfBirth" />          
+        </div> 
         <div class="form-group col-md-4">
           <label for="inputState"><b>Date joined</b></label>
           <InputDate id="MembershipDate"
                          class="form-control-lg"
-                         @bind-Value="Member.MembershipDate" />    
-      </div>
+                         @bind-Value="Member.MembershipDate" />         
+      </div>      
        <div class="form-group col-md-4">
           <label for="inputState"><b>Photo ID</b></label>
           <InputFile 
           type="file" 
           class="form-control-file"
-          @bind-Value="Member.PhotoUrl"/>            
+          OnChange="OnInputFileChanged"/>          
       </div>
       </div> 
       <div class="btn-group" role="group">

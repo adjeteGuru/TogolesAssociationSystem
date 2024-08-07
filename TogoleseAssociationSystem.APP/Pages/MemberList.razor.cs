@@ -26,6 +26,10 @@ namespace TogoleseAssociationSystem.APP.Pages
             }
             catch (Exception ex)
             {
+                if (ex.Message == "Failed to fetch" || ex.InnerException.Message == "TypeError: Failed to fetch")
+                {
+                    ErrorMessage = "Loading, please wait while the api load...";
+                }
                 ErrorMessage = ex.Message;
             }
         }

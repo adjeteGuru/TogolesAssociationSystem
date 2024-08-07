@@ -35,7 +35,6 @@ namespace TogoleseAssociationSystem.API.Extensions
 
         public static MembershipContribution ConvertToDto(this MembershipContributionToAdd membership, Member member)
         {
-            //convert to return mbship where memberId = member
             return new MembershipContribution
             {
                 ContributionName = membership.ContributionName,
@@ -44,23 +43,6 @@ namespace TogoleseAssociationSystem.API.Extensions
                 IsAnnualContribution = membership.IsAnnualContribution,
                 MemberId = member.Id
             };
-        }
-
-        //public static IEnumerable<MembershipContributionRead> ConvertToDto(this IEnumerable<Member> members, IEnumerable<MembershipContribution> memberships)
-        //{
-        //    return (from contribution in memberships
-        //            join member in members
-        //            on contribution.MemberId equals member.Id
-        //            select new MembershipContributionRead
-        //            {
-        //                Id = contribution.Id, 
-        //                ContributionName = contribution.ContributionName,
-        //                Amount = contribution.Amount,
-        //                IsAnnualContribution = contribution.IsAnnualContribution,
-        //                DateOfContribution = contribution.DateOfContribution,
-        //                MemberId = member.Id,
-        //                MemberName = member.FirstName + " " + member.LastName
-        //            }).ToList();           
-        //}
+        }       
     }
 }

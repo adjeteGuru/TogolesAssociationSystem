@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Text;
 using TogoleseAssociationSystem.Core.Models;
 using TogoleseAssociationSystem.Core.ServiceProvider;
 
@@ -83,6 +84,26 @@ namespace TogoleseAssociationSystem.APP.Pages
             await MemberService.UpdateMemberDetails(member);
             StateHasChanged();
             Navigation.NavigateTo("/memberlist");
+        }
+               
+        protected async Task OnInputFileChanged(InputFileChangeEventArgs args)
+        {
+            var memoryStream = new MemoryStream();
+            await args.File.OpenReadStream().CopyToAsync(memoryStream);
+            var bytes = memoryStream.ToArray();           
+            //var imageFile = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+            Member.PhotoUrl = bytes;
+
+
+            //InputFileMessage = args.File.Name;
+            //await OnFileChanged.InvokeAsync(args);
+            //if (File.ContentType == "image/png")
+            //{
+            //    File = await File.RequestImageFileAsync("image/png", 400, 400);
+            //}
+
+            //ErrorMessage = "Please choose the right format.";
+            //string imageData = @"data:image / jpeg; base64," + Convert.ToBase64String(File.ReadAllBytes(imgPath));
         }
     }
 }

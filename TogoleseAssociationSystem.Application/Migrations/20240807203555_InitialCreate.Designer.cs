@@ -12,8 +12,8 @@ using TogoleseAssociationSystem.Application.Database;
 namespace TogoleseAssociationSystem.Application.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240805084935_AddMemberDetails")]
-    partial class AddMemberDetails
+    [Migration("20240807203555_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -83,10 +83,13 @@ namespace TogoleseAssociationSystem.Application.Migrations
                     b.Property<DateTime?>("MembershipDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PhotoUrl")
+                    b.Property<string>("NextOfKin")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Postcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Relationship")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telephone")

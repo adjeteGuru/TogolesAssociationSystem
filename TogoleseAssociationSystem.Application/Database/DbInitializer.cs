@@ -13,7 +13,7 @@ namespace TogoleseAssociationSystem.Application.Database
             var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
             context.Database.EnsureCreated();
 
-            if (context.Members != null && context.Members.Any())
+            if (context.Members != null && context.Members.Any() /*&& context.MembershipContributions != null && context.MembershipContributions.Any()*/)
                 return;
 
             var members = GetMembers().ToArray();
@@ -30,7 +30,7 @@ namespace TogoleseAssociationSystem.Application.Database
             {
                 new MembershipContribution
                 {
-                    Id = 1,
+                    //Id = 1,
                     ContributionName = "Funerals",
                     IsAnnualContribution = false,
                     Amount = 50,
@@ -39,7 +39,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                 new MembershipContribution
                 {
-                    Id = 2,
+                    //Id = 2,
                     ContributionName = "Annuals",
                     IsAnnualContribution = true,
                     Amount = 60,
@@ -48,7 +48,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                  new MembershipContribution
                 {
-                    Id = 3,
+                    //Id = 3,
                     ContributionName = "Funerals",
                     IsAnnualContribution = false,
                     Amount = 50,
@@ -57,7 +57,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                 new MembershipContribution
                 {
-                    Id = 4,
+                    //Id = 4,
                     ContributionName = "Annuals",
                     IsAnnualContribution = true,
                     Amount = 60,
@@ -66,7 +66,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                 new MembershipContribution
                 {
-                    Id = 5,
+                    //Id = 5,
                     ContributionName = "Funerals",
                     IsAnnualContribution = false,
                     Amount = 50,
@@ -75,7 +75,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                 new MembershipContribution
                 {
-                    Id = 6,
+                    //Id = 6,
                     ContributionName = "Annuals",
                     IsAnnualContribution = true,
                     Amount = 60,
@@ -84,7 +84,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                  new MembershipContribution
                  {
-                     Id = 7,
+                     //Id = 7,
                      ContributionName = "Funerals",
                      IsAnnualContribution = false,
                      Amount = 50,
@@ -93,7 +93,7 @@ namespace TogoleseAssociationSystem.Application.Database
                  },
                  new MembershipContribution
                  {
-                     Id = 8,
+                     //Id = 8,
                      ContributionName = "Annuals",
                      IsAnnualContribution = true,
                      Amount = 60,
@@ -102,7 +102,7 @@ namespace TogoleseAssociationSystem.Application.Database
                  },
                 new MembershipContribution
                 {
-                    Id = 9,
+                    //Id = 9,
                     ContributionName = "Funerals",
                     IsAnnualContribution = false,
                     Amount = 50,
@@ -111,7 +111,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                 new MembershipContribution
                 {
-                    Id = 10,
+                    //Id = 10,
                     ContributionName = "Annuals",
                     IsAnnualContribution = true,
                     Amount = 60,
@@ -120,7 +120,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                 new MembershipContribution
                 {
-                    Id = 11,
+                    //Id = 11,
                     ContributionName = "Funerals",
                     IsAnnualContribution = false,
                     Amount = 50,
@@ -129,7 +129,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                 new MembershipContribution
                 {
-                    Id = 12,
+                    //Id = 12,
                     ContributionName = "Annuals",
                     IsAnnualContribution = true,
                     Amount = 60,
@@ -147,7 +147,6 @@ namespace TogoleseAssociationSystem.Application.Database
              {
                   new Member
                 {
-                    //Id = 1,
                     Title ="Mr",
                     FirstName ="John",
                     LastName ="Doe",
@@ -155,11 +154,10 @@ namespace TogoleseAssociationSystem.Application.Database
                     IsActive=true,
                     IsChair = false,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = null
+                    PhotoUrl = Array.Empty<byte>()
                 },
                 new Member
-                {
-                    //Id = 2,
+                {                  
                     Title ="Miss",
                     FirstName ="Brenda",
                     LastName ="Love",
@@ -167,15 +165,10 @@ namespace TogoleseAssociationSystem.Application.Database
                     IsActive=true,
                     IsChair = true,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = null,
-                    //Memberships = new List<MembershipContribution>()
-                    //{
-                        
-                    //}
+                    PhotoUrl = Array.Empty<byte>()
                 },
                 new Member
                 {
-                    //Id = 3,
                      Title ="Mr",
                     FirstName ="Smith",
                     LastName ="Joe",
@@ -183,15 +176,10 @@ namespace TogoleseAssociationSystem.Application.Database
                     IsActive=true,
                     IsChair = false,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = null,
-                    //Memberships = new List<MembershipContribution>()
-                    //{
-                        
-                    //}
+                    PhotoUrl = Array.Empty<byte>()
                 },
                  new Member
                 {
-                    //Id = 4,
                     Title ="Mrs",
                     FirstName ="Jenny",
                     LastName ="Ralph",
@@ -199,15 +187,10 @@ namespace TogoleseAssociationSystem.Application.Database
                     IsActive=true,
                     IsChair = false,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = null,
-                    //Memberships = new List<MembershipContribution>()
-                    //{
-                       
-                    //}
+                    PhotoUrl = Array.Empty<byte>()
                 },
                 new Member
                 {
-                    //Id = 5,
                     Title ="Mr",
                     FirstName ="Brandy",
                     LastName ="Love",
@@ -215,15 +198,10 @@ namespace TogoleseAssociationSystem.Application.Database
                     IsActive=true,
                     IsChair = true,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = null,
-                    //Memberships = new List<MembershipContribution>()
-                    //{
-                        
-                    //}
+                    PhotoUrl = Array.Empty<byte>()
                 },
                 new Member
                 {
-                    //Id = 6,
                     Title ="Miss",
                     FirstName ="Jacky",
                     LastName ="Jone",
@@ -231,11 +209,7 @@ namespace TogoleseAssociationSystem.Application.Database
                     IsActive=true,
                     IsChair = false,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = null,
-                    //Memberships = new List<MembershipContribution>()
-                    //{
-                        
-                    //}
+                    PhotoUrl = Array.Empty<byte>()
                 }
              };
 

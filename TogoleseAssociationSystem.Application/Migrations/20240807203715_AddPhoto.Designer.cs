@@ -12,8 +12,8 @@ using TogoleseAssociationSystem.Application.Database;
 namespace TogoleseAssociationSystem.Application.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240806151200_AddNextOfKin")]
-    partial class AddNextOfKin
+    [Migration("20240807203715_AddPhoto")]
+    partial class AddPhoto
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,8 +86,9 @@ namespace TogoleseAssociationSystem.Application.Migrations
                     b.Property<string>("NextOfKin")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhotoUrl")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PhotoUrl")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Postcode")
                         .HasColumnType("nvarchar(max)");
