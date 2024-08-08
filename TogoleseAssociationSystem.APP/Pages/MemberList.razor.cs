@@ -25,18 +25,16 @@ namespace TogoleseAssociationSystem.APP.Pages
                 Members.AddRange(members);
             }
             catch (Exception ex)
-            {
-                if (ex.Message == "Failed to fetch" || ex.InnerException.Message == "TypeError: Failed to fetch")
-                {
-                    ErrorMessage = "Loading, please wait while the api load...";
-                }
+            {               
                 ErrorMessage = ex.Message;
             }
         }
+
         protected void NavigateToDetails(Guid id)
         {
             Navigation.NavigateTo($"/memberdetail/{id}/edit");
         }
+
         protected void NavigateToCreate()
         {
             Navigation.NavigateTo("/membercreate");

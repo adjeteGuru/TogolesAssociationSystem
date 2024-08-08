@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using System.Text;
 using TogoleseAssociationSystem.Core.Models;
 using TogoleseAssociationSystem.Core.ServiceProvider;
@@ -13,6 +14,9 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         [Inject]
         public NavigationManager Navigation { get; set; }
+
+        [Inject]
+        public IJSRuntime JSRuntime { get; set; }
 
         [Parameter]
         public Guid Id { get; set; }
@@ -40,34 +44,11 @@ namespace TogoleseAssociationSystem.APP.Pages
                 ErrorMessage = e.Message;
             }
         }
-       
-        private void CalculateTotalContributionByMember()
-        {           
-            foreach (var item in Member.Memberships)
-            {
-                TotalCount += item.Amount;
-            };
-        }
-        
-        private void TotalAnnualContribution()
-        {
-            foreach (var membership in Member.Memberships)
-            {
-                var dateFormatted = membership.DateOfContribution.Value.ToString("dd-MMM-yyyy").Split('-');
-           
-                int.TryParse(dateFormatted[2], out int yearContributed);              
-             
-                if (membership.IsAnnualContribution.Equals(true) && yearContributed == DateTime.Today.Year)
-                {
-                    TotalCurrentYearAmount += membership.Amount;
-                }
-            }
-        }
 
-        protected void NavigateToHome()
+        protected async Task GoBack()
         {
-            Navigation.NavigateTo("/memberlist");
-        }
+            await JSRuntime.InvokeVoidAsync("history.back");
+        } 
 
         protected void NavigateToCreate()
         {
@@ -104,6 +85,29 @@ namespace TogoleseAssociationSystem.APP.Pages
 
             //ErrorMessage = "Please choose the right format.";
             //string imageData = @"data:image / jpeg; base64," + Convert.ToBase64String(File.ReadAllBytes(imgPath));
+        }
+
+        private void CalculateTotalContributionByMember()
+        {
+            foreach (var item in Member.Memberships)
+            {
+                TotalCount += item.Amount;
+            };
+        }
+
+        private void TotalAnnualContribution()
+        {
+            foreach (var membership in Member.Memberships)
+            {
+                var dateFormatted = membership.DateOfContribution.Value.ToString("dd-MMM-yyyy").Split('-');
+
+                int.TryParse(dateFormatted[2], out int yearContributed);
+
+                if (membership.IsAnnualContribution.Equals(true) && yearContributed == DateTime.Today.Year)
+                {
+                    TotalCurrentYearAmount += membership.Amount;
+                }
+            }
         }
     }
 }

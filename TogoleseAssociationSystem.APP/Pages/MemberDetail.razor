@@ -121,18 +121,18 @@
       </div> 
  <div class="btn-group" role="group">
       <button id="member-update"
-                   class="btn btn-outline-primary"
+                   class="btn btn-primary"
                    @onclick="@(()=> UpdateMemberDetails(Member))"
                    title="Update member">
                Update
            </button>         
            &nbsp;
            <button id="member-delete"
-                   class="btn btn-outline-danger"
-                   @onclick="@NavigateToHome"
+                   class="btn btn-danger"
+                   @onclick="@GoBack"
                    title="Cancel member">
                Cancel
-           </button>
+           </button>          
        </div> 
  </EditForm>
  </form>
@@ -158,7 +158,7 @@
                   <tr>
                       <td>@contribution.ContributionName</td>                                             
                       <td>@contribution.Amount</td>
-                      <td>@contribution.DateOfContribution</td>
+                      <td>@contribution.DateOfContribution.Value.ToString("dd-MMM-yyyy")</td>
                       <td>@contribution.IsAnnualContribution</td>  
                   </tr>                        
               }

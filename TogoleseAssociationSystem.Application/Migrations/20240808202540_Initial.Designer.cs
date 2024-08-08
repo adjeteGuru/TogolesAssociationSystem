@@ -12,8 +12,8 @@ using TogoleseAssociationSystem.Application.Database;
 namespace TogoleseAssociationSystem.Application.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240808090019_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240808202540_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

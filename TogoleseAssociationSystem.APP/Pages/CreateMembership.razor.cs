@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using TogoleseAssociationSystem.Core.DTOs;
 using TogoleseAssociationSystem.Core.Models;
 using TogoleseAssociationSystem.Core.ServiceProvider;
@@ -13,7 +14,10 @@ namespace TogoleseAssociationSystem.APP.Pages
         public NavigationManager Navigation { get; set; }
 
         [Inject]
-        public IMemberService MemberService { get; set; }    
+        public IMemberService MemberService { get; set; }
+
+        [Inject]
+        public IJSRuntime JSRuntime { get; set; }
 
         [Parameter]
         public Guid Id { get; set; }
@@ -48,13 +52,7 @@ namespace TogoleseAssociationSystem.APP.Pages
             }
 
             await base.OnParametersSetAsync();
-        }
-       
-        private void SetCurrentMemberToContributeDetails()
-        {           
-            Contribution.MemberFirstName = Member.FirstName;
-            Contribution.MemberLastName = Member.LastName;            
-        }
+        } 
 
         protected async Task Submit()
         {
@@ -66,10 +64,10 @@ namespace TogoleseAssociationSystem.APP.Pages
             Navigation.NavigateTo("/memberlist");
         }
 
-        public void NavigateToHome()
+        protected async Task GoBack()
         {
-            Navigation.NavigateTo("/memberlist");
-        }
+            await JSRuntime.InvokeVoidAsync("history.back");
+        }      
 
         private bool SetEditMode()
         {
@@ -79,6 +77,12 @@ namespace TogoleseAssociationSystem.APP.Pages
             }
             Edit = true;
             return Edit;
+        }
+
+        private void SetCurrentMemberToContributeDetails()
+        {
+            Contribution.MemberFirstName = Member.FirstName;
+            Contribution.MemberLastName = Member.LastName;
         }
     }
 }

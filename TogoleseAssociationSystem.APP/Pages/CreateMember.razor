@@ -102,17 +102,18 @@
           class="form-control-file"
           OnChange="OnInputFileChanged"/>          
       </div>
-      </div> 
+      </div>
+      <br />
       <div class="btn-group" role="group">
            <button id="member-update"
-                   class="btn btn-outline-primary"
+                   class="btn btn-primary"
                    @onclick="Submit"
                    title="Save member">
-               Submit
+               Save
            </button>
            &nbsp;
            <button id="member-delete"
-                   class="btn btn-outline-danger"
+                   class="btn btn-danger"
                    @onclick="@NavigateToHome"
                    title="Cancel member">
                Cancel
