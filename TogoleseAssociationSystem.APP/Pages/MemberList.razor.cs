@@ -33,7 +33,7 @@ namespace TogoleseAssociationSystem.APP.Pages
                 ErrorMessage = ex.Message;
             }
         }
-        protected void NavigateToDetails(int id)
+        protected void NavigateToDetails(Guid id)
         {
             Navigation.NavigateTo($"/memberdetail/{id}/edit");
         }

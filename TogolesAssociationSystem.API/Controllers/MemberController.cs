@@ -44,7 +44,7 @@ namespace TogolesAssociationSystem.API.Controllers
         }
 
         [HttpGet("{id}")]       
-        public async Task<IActionResult> GetMemberById(int id)
+        public async Task<IActionResult> GetMemberById(Guid id)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace TogolesAssociationSystem.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMemberAsync(int id, Member memberUpdate)
+        public async Task<IActionResult> UpdateMemberAsync(Guid id, Member memberUpdate)
         {
             try
             {

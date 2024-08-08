@@ -15,7 +15,7 @@ namespace TogoleseAssociationSystem.APP.Pages
         public NavigationManager Navigation { get; set; }
 
         [Parameter]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public Member Member { get; set; }
         public string? ErrorMessage { get; set; }
         public EditContext  EditContext { get; set; }
@@ -74,7 +74,7 @@ namespace TogoleseAssociationSystem.APP.Pages
             Navigation.NavigateTo("/membercreate");
         }
 
-        protected void NavigateToAddContribution(int selectedMemberId)
+        protected void NavigateToAddContribution(Guid selectedMemberId)
         {
             Navigation.NavigateTo($"/membershipcreate/{selectedMemberId}/edit");
         }

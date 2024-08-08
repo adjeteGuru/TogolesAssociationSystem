@@ -16,7 +16,7 @@ namespace TogoleseAssociationSystem.APP.Pages
         public IMemberService MemberService { get; set; }    
 
         [Parameter]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Parameter]
         public MembershipContributionToAdd Contribution { get; set; }
@@ -71,7 +71,7 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         private bool IsEditingMode()
         {
-            return Id > 0 && Member.Id == Id;
+            return Id != null && Member.Id == Id;
         }
     }
 }

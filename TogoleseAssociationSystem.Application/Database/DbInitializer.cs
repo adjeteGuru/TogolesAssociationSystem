@@ -13,8 +13,12 @@ namespace TogoleseAssociationSystem.Application.Database
             var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
             context.Database.EnsureCreated();
 
-            if (context.Members != null && context.Members.Any() /*&& context.MembershipContributions != null && context.MembershipContributions.Any()*/)
+            if (context.Members != null && context.Members.Any() && context.MembershipContributions != null && context.MembershipContributions.Any())
                 return;
+            //if (context.MembershipContributions != null && context.MembershipContributions.Any())
+            //{
+            //    return;
+            //}
 
             var members = GetMembers().ToArray();
             context.Members.AddRange(members);
@@ -27,116 +31,127 @@ namespace TogoleseAssociationSystem.Application.Database
         public static List<MembershipContribution> GetMembershipContributions()
         {
             var contributions = new List<MembershipContribution>
+            { };
+            MembershipContribution membership = new MembershipContribution
             {
-                new MembershipContribution
-                {
-                    //Id = 1,
-                    ContributionName = "Funerals",
-                    IsAnnualContribution = false,
-                    Amount = 50,
-                    DateOfContribution = new DateTime(1, 12, 2023),
-                    MemberId = 1
-                },
-                new MembershipContribution
-                {
-                    //Id = 2,
-                    ContributionName = "Annuals",
-                    IsAnnualContribution = true,
-                    Amount = 60,
-                    DateOfContribution = new DateTime(10, 10, 2023),
-                    MemberId = 1
-                },
-                 new MembershipContribution
-                {
-                    //Id = 3,
-                    ContributionName = "Funerals",
-                    IsAnnualContribution = false,
-                    Amount = 50,
-                    DateOfContribution = new DateTime(12, 02, 2023),
-                    MemberId = 2
-                },
-                new MembershipContribution
-                {
-                    //Id = 4,
-                    ContributionName = "Annuals",
-                    IsAnnualContribution = true,
-                    Amount = 60,
-                    DateOfContribution = new DateTime(01, 01, 2023),
-                    MemberId = 2
-                },
-                new MembershipContribution
-                {
-                    //Id = 5,
-                    ContributionName = "Funerals",
-                    IsAnnualContribution = false,
-                    Amount = 50,
-                    DateOfContribution = new DateTime(12, 02, 2023),
-                    MemberId = 3
-                },
-                new MembershipContribution
-                {
-                    //Id = 6,
-                    ContributionName = "Annuals",
-                    IsAnnualContribution = true,
-                    Amount = 60,
-                    DateOfContribution = new DateTime(10, 11, 2023),
-                    MemberId = 3
-                },
-                 new MembershipContribution
-                 {
-                     //Id = 7,
-                     ContributionName = "Funerals",
-                     IsAnnualContribution = false,
-                     Amount = 50,
-                     DateOfContribution = new DateTime(12, 03, 2023),
-                     MemberId = 4
-                 },
-                 new MembershipContribution
-                 {
-                     //Id = 8,
-                     ContributionName = "Annuals",
-                     IsAnnualContribution = true,
-                     Amount = 60,
-                     DateOfContribution = new DateTime(10, 10, 2023),
-                     MemberId = 4
-                 },
-                new MembershipContribution
-                {
-                    //Id = 9,
-                    ContributionName = "Funerals",
-                    IsAnnualContribution = false,
-                    Amount = 50,
-                    DateOfContribution = new DateTime(02, 02, 2023),
-                    MemberId = 5
-                },
-                new MembershipContribution
-                {
-                    //Id = 10,
-                    ContributionName = "Annuals",
-                    IsAnnualContribution = true,
-                    Amount = 60,
-                    DateOfContribution = new DateTime(10, 10, 2023),
-                    MemberId = 5
-                },
-                new MembershipContribution
-                {
-                    //Id = 11,
-                    ContributionName = "Funerals",
-                    IsAnnualContribution = false,
-                    Amount = 50,
-                    DateOfContribution = new DateTime(12, 12, 2023),
-                    MemberId = 6
-                },
-                new MembershipContribution
-                {
-                    //Id = 12,
-                    ContributionName = "Annuals",
-                    IsAnnualContribution = true,
-                    Amount = 60,
-                    DateOfContribution = new DateTime(05, 09, 2023),
-                    MemberId = 6
-                }
+                //Id = 1,
+                ContributionName = "Funerals",
+                IsAnnualContribution = false,
+                Amount = 50,
+                DateOfContribution = new DateTime(2023, 12, 01),
+                //MemberId = 1
             };
+            contributions.Add(membership);
+            membership = new MembershipContribution
+            {
+                //Id = 2,
+                ContributionName = "Annuals",
+                IsAnnualContribution = true,
+                Amount = 60,
+                DateOfContribution = new DateTime(2023, 10, 10),
+                //MemberId = 1
+            };
+            contributions.Add(membership);
+            membership = new MembershipContribution
+            {
+                //Id = 3,
+                ContributionName = "Funerals",
+                IsAnnualContribution = false,
+                Amount = 50,
+                DateOfContribution = new DateTime(2023, 02, 12),
+                //MemberId = 2
+            };
+            contributions.Add(membership);
+            membership = new MembershipContribution
+            {
+                //Id = 4,
+                ContributionName = "Annuals",
+                IsAnnualContribution = true,
+                Amount = 60,
+                DateOfContribution = new DateTime(2023, 01, 01),
+                //MemberId = 2
+            };
+            contributions.Add(membership);
+            membership = new MembershipContribution
+            {
+                //Id = 5,
+                ContributionName = "Funerals",
+                IsAnnualContribution = false,
+                Amount = 50,
+                DateOfContribution = new DateTime(2023, 12, 02),
+                //MemberId = 3
+            };
+            contributions.Add(membership);
+            membership = new MembershipContribution
+            {
+                //Id = 6,
+                ContributionName = "Annuals",
+                IsAnnualContribution = true,
+                Amount = 60,
+                DateOfContribution = new DateTime(2023, 10, 11),
+                //MemberId = 3
+            };
+            contributions.Add(membership);
+            membership = new MembershipContribution
+            {
+                //Id = 7,
+                ContributionName = "Funerals",
+                IsAnnualContribution = false,
+                Amount = 50,
+                DateOfContribution = new DateTime(2023, 12, 03),
+                //MemberId = 4
+            };
+            contributions.Add(membership);
+            membership = new MembershipContribution
+            {
+                //Id = 8,
+                ContributionName = "Annuals",
+                IsAnnualContribution = true,
+                Amount = 60,
+                DateOfContribution = new DateTime(2023, 10, 10),
+                //MemberId = 4
+            };
+            contributions.Add(membership);
+            membership = new MembershipContribution
+            {
+                //Id = 9,
+                ContributionName = "Funerals",
+                IsAnnualContribution = false,
+                Amount = 50,
+                DateOfContribution = new DateTime(2023, 02, 02),
+                //MemberId = 5
+            };
+            contributions.Add(membership);
+            membership = new MembershipContribution
+            {
+                //Id = 10,
+                ContributionName = "Annuals",
+                IsAnnualContribution = true,
+                Amount = 60,
+                DateOfContribution = new DateTime(2023, 9, 9),
+                //MemberId = 5
+            };
+            contributions.Add(membership);
+            membership = new MembershipContribution
+            {
+                //Id = 11,
+                ContributionName = "Funerals",
+                IsAnnualContribution = false,
+                Amount = 50,
+                DateOfContribution = new DateTime(2023, 4, 4),
+                //MemberId = 6
+            };
+            contributions.Add(membership);
+            membership = new MembershipContribution
+            {
+                //Id = 12,
+                ContributionName = "Annuals",
+                IsAnnualContribution = true,
+                Amount = 60,
+                DateOfContribution = new DateTime(2023, 05, 09),
+                //MemberId = 6
+            };
+            contributions.Add(membership);
 
             return contributions;
         }
@@ -147,6 +162,7 @@ namespace TogoleseAssociationSystem.Application.Database
              {
                   new Member
                 {
+                    Id = Guid.NewGuid(),
                     Title ="Mr",
                     FirstName ="John",
                     LastName ="Doe",
@@ -157,7 +173,8 @@ namespace TogoleseAssociationSystem.Application.Database
                     PhotoUrl = Array.Empty<byte>()
                 },
                 new Member
-                {                  
+                {
+                    Id = Guid.NewGuid(),
                     Title ="Miss",
                     FirstName ="Brenda",
                     LastName ="Love",
@@ -169,6 +186,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                 new Member
                 {
+                    Id = Guid.NewGuid(),
                      Title ="Mr",
                     FirstName ="Smith",
                     LastName ="Joe",
@@ -180,6 +198,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                  new Member
                 {
+                    Id = Guid.NewGuid(),
                     Title ="Mrs",
                     FirstName ="Jenny",
                     LastName ="Ralph",
@@ -191,6 +210,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                 new Member
                 {
+                    Id = Guid.NewGuid(),
                     Title ="Mr",
                     FirstName ="Brandy",
                     LastName ="Love",
@@ -202,6 +222,7 @@ namespace TogoleseAssociationSystem.Application.Database
                 },
                 new Member
                 {
+                    Id = Guid.NewGuid(),
                     Title ="Miss",
                     FirstName ="Jacky",
                     LastName ="Jone",

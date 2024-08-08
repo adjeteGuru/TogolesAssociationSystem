@@ -13,8 +13,7 @@ namespace TogoleseAssociationSystem.Application.Migrations
                 name: "Members",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -25,6 +24,7 @@ namespace TogoleseAssociationSystem.Application.Migrations
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsChair = table.Column<bool>(type: "bit", nullable: false),
+                    PhotoUrl = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     NextOfKin = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Relationship = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MembershipDate = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -38,9 +38,8 @@ namespace TogoleseAssociationSystem.Application.Migrations
                 name: "Roles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,10 +50,9 @@ namespace TogoleseAssociationSystem.Application.Migrations
                 name: "HasRoles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<int>(type: "int", nullable: false),
-                    MemberId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -73,13 +71,12 @@ namespace TogoleseAssociationSystem.Application.Migrations
                 name: "MembershipContributions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ContributionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DateOfContribution = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsAnnualContribution = table.Column<bool>(type: "bit", nullable: true),
-                    MemberId = table.Column<int>(type: "int", nullable: false)
+                    MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -13,11 +13,6 @@ namespace TogoleseAssociationSystem.Application.Repositories
             this.dbContext = dbContext;
         }
 
-        //public Task<MembershipContribution> AddContributionAsync(MembershipContributionToAdd contributionToAdd)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public void CreateMember(Member member)
         {
             dbContext.Members.Add(member);
@@ -35,7 +30,7 @@ namespace TogoleseAssociationSystem.Application.Repositories
             return await dbContext.MembershipContributions.ToListAsync();
         }
 
-        public async Task<Member> GetMemberByIdAsync(int id)
+        public async Task<Member> GetMemberByIdAsync(Guid id)
         {
             var member = await dbContext.Members.Include(x => x.Memberships).FirstOrDefaultAsync(x => x.Id.Equals(id));
             return member;
@@ -46,12 +41,12 @@ namespace TogoleseAssociationSystem.Application.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<MembershipContribution>> GetMemberContributionsByIdAsync(int memberId)
+        public Task<IEnumerable<MembershipContribution>> GetMemberContributionsByIdAsync(Guid memberId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<HasRole>> GetMemberRolesByIdAsync(int memberId)
+        public Task<IEnumerable<HasRole>> GetMemberRolesByIdAsync(Guid memberId)
         {
             throw new NotImplementedException();
         }
@@ -66,21 +61,10 @@ namespace TogoleseAssociationSystem.Application.Repositories
 
                 return filteredMembers;
             }
-            return await dbContext.Members.ToListAsync();
-            //return await dbContext.Members.Select(x => new Member
-            //{
-            //    LastName = x.LastName,
-            //    FirstName= x.FirstName,
-            //    IsChair = x.IsChair,
-            //    MembershipDate=x.MembershipDate,
-            //    DateOfBirth=x.DateOfBirth,
-            //    PhotoUrl=x.PhotoUrl,
-            //    Id=x.Id,
-            //    Title=x.Title
-            //}).ToListAsync();
+            return await dbContext.Members.ToListAsync();         
         }
 
-        public async Task<MembershipContribution> GetMembershipByIdAsync(int id)
+        public async Task<MembershipContribution> GetMembershipByIdAsync(Guid id)
         {
             return await dbContext.MembershipContributions.FindAsync(id);
         }

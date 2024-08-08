@@ -15,7 +15,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
         {
             this.httpClient = httpClient;
         }
-        public async Task<Member> GetMemberByIdAsync(int id)
+        public async Task<Member> GetMemberByIdAsync(Guid id)
         {
             var httpResponse = await httpClient.GetAsync($"{RequestUri}/{id}");
             try

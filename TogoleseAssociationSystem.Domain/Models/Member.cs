@@ -1,8 +1,7 @@
 ﻿namespace TogoleseAssociationSystem.Domain.Models
 {
-    public class Member
-    {
-        public int Id { get; set; }
+    public class Member : BaseEntity
+    {       
         public string? Title { get; set; }    
         public string? FirstName { get; set; }
         public string? LastName { get; set; }

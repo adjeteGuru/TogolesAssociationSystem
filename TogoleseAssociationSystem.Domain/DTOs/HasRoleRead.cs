@@ -2,11 +2,11 @@
 {
     public class HasRoleRead
     {
-        public int Id { get; set; }
-        public int RoleId { get; set; }
+        public Guid Id { get; set; }
+        public Guid RoleId { get; set; }
         public string? RoleName { get; set; }
         //public Role? Role { get; set; }
-        public int MemberId { get; set; }
+        public Guid MemberId { get; set; }
         public string? MemberName { get; set; }
         //public Member? Member { get; set; }
         public DateTime? StartDate { get; set; }

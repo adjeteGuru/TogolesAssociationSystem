@@ -27,7 +27,7 @@ namespace TogoleseAssociationSystem.Application.Services
             return await memberRepository.GetContributionsAsync();
         }
 
-        public async Task<Member> GetMemberByIdAsync(int id)
+        public async Task<Member> GetMemberByIdAsync(Guid id)
         {
             var member = await memberRepository.GetMemberByIdAsync(id);
 
@@ -37,11 +37,6 @@ namespace TogoleseAssociationSystem.Application.Services
             }
             return member;
         }
-
-        //public Task<Member> GetMemberByNameAsync(string name)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public async Task<Member> RetrieveMember(string firsname, string lastname)
         {
@@ -53,12 +48,12 @@ namespace TogoleseAssociationSystem.Application.Services
             return member;
         }
 
-        public Task<IEnumerable<MembershipContribution>> GetMemberContributionsByIdAsync(int memberId)
+        public Task<IEnumerable<MembershipContribution>> GetMemberContributionsByIdAsync(Guid memberId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<HasRole>> GetMemberRolesByIdAsync(int memberId)
+        public Task<IEnumerable<HasRole>> GetMemberRolesByIdAsync(Guid memberId)
         {
             throw new NotImplementedException();
         }
@@ -75,7 +70,7 @@ namespace TogoleseAssociationSystem.Application.Services
             throw new Exception("There is no match members found in the db!");
         }
 
-        public async Task<MembershipContribution> GetMembershipByIdAsync(int id)
+        public async Task<MembershipContribution> GetMembershipByIdAsync(Guid id)
         {
            return await memberRepository.GetMembershipByIdAsync(id);
         }

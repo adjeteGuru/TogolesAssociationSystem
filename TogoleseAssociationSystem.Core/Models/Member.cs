@@ -1,8 +1,8 @@
 ﻿namespace TogoleseAssociationSystem.Core.Models
 {
-    public class Member
+    public class Member : BaseEntity
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public string? Title { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
