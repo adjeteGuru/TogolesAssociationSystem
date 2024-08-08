@@ -2,6 +2,6 @@
 {
     public class RoleToAdd
     {
-        public int Name { get; set; }
+        public string Name { get; set; }
     }
 }

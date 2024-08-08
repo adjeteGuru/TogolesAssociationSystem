@@ -6,7 +6,7 @@
         public decimal Amount { get; set; }
         public DateTime? DateOfContribution { get; set; }
         public bool IsAnnualContribution { get; set; }
-        public int MemberId { get; set; }
+        public Guid MemberId { get; set; }
         public string? MemberFirstName { get; set; }
         public string? MemberLastName { get; set; }
     }

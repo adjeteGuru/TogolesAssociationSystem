@@ -14,11 +14,7 @@ namespace TogoleseAssociationSystem.Application.Database
             context.Database.EnsureCreated();
 
             if (context.Members != null && context.Members.Any() && context.MembershipContributions != null && context.MembershipContributions.Any())
-                return;
-            //if (context.MembershipContributions != null && context.MembershipContributions.Any())
-            //{
-            //    return;
-            //}
+                return;          
 
             var members = GetMembers().ToArray();
             context.Members.AddRange(members);
@@ -34,122 +30,122 @@ namespace TogoleseAssociationSystem.Application.Database
             { };
             MembershipContribution membership = new MembershipContribution
             {
-                //Id = 1,
+                Id = Guid.NewGuid(),
                 ContributionName = "Funerals",
                 IsAnnualContribution = false,
                 Amount = 50,
                 DateOfContribution = new DateTime(2023, 12, 01),
-                //MemberId = 1
+                MemberId = Guid.Parse("64c74be2-7f55-421c-9794-094919b07d9c")
             };
             contributions.Add(membership);
             membership = new MembershipContribution
             {
-                //Id = 2,
+                Id = Guid.NewGuid(),
                 ContributionName = "Annuals",
                 IsAnnualContribution = true,
                 Amount = 60,
                 DateOfContribution = new DateTime(2023, 10, 10),
-                //MemberId = 1
+                MemberId = Guid.Parse("64c74be2-7f55-421c-9794-094919b07d9c")
             };
             contributions.Add(membership);
             membership = new MembershipContribution
             {
-                //Id = 3,
+                Id = Guid.NewGuid(),
                 ContributionName = "Funerals",
                 IsAnnualContribution = false,
                 Amount = 50,
                 DateOfContribution = new DateTime(2023, 02, 12),
-                //MemberId = 2
+                MemberId = Guid.Parse("0907dd64-571f-4726-8cd2-0cc5941ac40d")
             };
             contributions.Add(membership);
             membership = new MembershipContribution
             {
-                //Id = 4,
+                Id = Guid.NewGuid(),
                 ContributionName = "Annuals",
                 IsAnnualContribution = true,
                 Amount = 60,
                 DateOfContribution = new DateTime(2023, 01, 01),
-                //MemberId = 2
+                MemberId = Guid.Parse("0907dd64-571f-4726-8cd2-0cc5941ac40d")
             };
             contributions.Add(membership);
             membership = new MembershipContribution
             {
-                //Id = 5,
+                Id = Guid.NewGuid(),
                 ContributionName = "Funerals",
                 IsAnnualContribution = false,
                 Amount = 50,
                 DateOfContribution = new DateTime(2023, 12, 02),
-                //MemberId = 3
+                MemberId = Guid.Parse("d39e3ec4-b7cc-49bb-86f4-5f299be9d4a0")
             };
             contributions.Add(membership);
             membership = new MembershipContribution
             {
-                //Id = 6,
+                Id = Guid.NewGuid(),
                 ContributionName = "Annuals",
                 IsAnnualContribution = true,
                 Amount = 60,
                 DateOfContribution = new DateTime(2023, 10, 11),
-                //MemberId = 3
+                MemberId = Guid.Parse("d39e3ec4-b7cc-49bb-86f4-5f299be9d4a0")
             };
             contributions.Add(membership);
             membership = new MembershipContribution
             {
-                //Id = 7,
+                Id = Guid.NewGuid(),
                 ContributionName = "Funerals",
                 IsAnnualContribution = false,
                 Amount = 50,
                 DateOfContribution = new DateTime(2023, 12, 03),
-                //MemberId = 4
+                MemberId = Guid.Parse("07cf1222-aae6-4c68-8689-68725add708e")
             };
             contributions.Add(membership);
             membership = new MembershipContribution
             {
-                //Id = 8,
+                Id = Guid.NewGuid(),
                 ContributionName = "Annuals",
                 IsAnnualContribution = true,
                 Amount = 60,
                 DateOfContribution = new DateTime(2023, 10, 10),
-                //MemberId = 4
+                MemberId = Guid.Parse("07cf1222-aae6-4c68-8689-68725add708e")
             };
             contributions.Add(membership);
             membership = new MembershipContribution
             {
-                //Id = 9,
+                Id = Guid.NewGuid(),
                 ContributionName = "Funerals",
                 IsAnnualContribution = false,
                 Amount = 50,
                 DateOfContribution = new DateTime(2023, 02, 02),
-                //MemberId = 5
+                MemberId = Guid.Parse("deadc3a9-745e-447f-82c5-6a02a138ce13")
             };
             contributions.Add(membership);
             membership = new MembershipContribution
             {
-                //Id = 10,
+                Id = Guid.NewGuid(),
                 ContributionName = "Annuals",
                 IsAnnualContribution = true,
                 Amount = 60,
                 DateOfContribution = new DateTime(2023, 9, 9),
-                //MemberId = 5
+                MemberId = Guid.Parse("deadc3a9-745e-447f-82c5-6a02a138ce13")
             };
             contributions.Add(membership);
             membership = new MembershipContribution
             {
-                //Id = 11,
+                Id = Guid.NewGuid(),
                 ContributionName = "Funerals",
                 IsAnnualContribution = false,
                 Amount = 50,
                 DateOfContribution = new DateTime(2023, 4, 4),
-                //MemberId = 6
+                MemberId = Guid.Parse("5de18056-565e-4c96-9227-db4386801450")
             };
             contributions.Add(membership);
             membership = new MembershipContribution
             {
-                //Id = 12,
+                Id = Guid.NewGuid(),
                 ContributionName = "Annuals",
                 IsAnnualContribution = true,
                 Amount = 60,
                 DateOfContribution = new DateTime(2023, 05, 09),
-                //MemberId = 6
+                MemberId = Guid.Parse("5de18056-565e-4c96-9227-db4386801450")
             };
             contributions.Add(membership);
 

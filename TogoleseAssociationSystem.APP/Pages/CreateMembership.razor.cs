@@ -26,29 +26,31 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         public EditContext EditContext { get; set; }
 
-        public Member Member { get; set; }       
+        [Parameter]
+        public Member Member { get; set; }
 
         protected override void OnInitialized()
         {
-            Contribution = new MembershipContributionToAdd();
+            Contribution = new MembershipContributionToAdd();            
             EditContext = new EditContext(Contribution);
         }
-      
-        protected override async Task OnParametersSetAsync()
-        {          
-            Member ??= new Member();
 
-            Member = await MemberService.GetMemberByIdAsync(Id);
-            
-            if (Edit = IsEditingMode())
+        protected override async Task OnParametersSetAsync()
+        {
+            SetEditMode();
+
+            Member = new Member();
+          
+            if (Edit == true)
             {
+                Member = await MemberService.GetMemberByIdAsync(Id);
                 SetCurrentMemberToContributeDetails();
-            }                   
+            }
 
             await base.OnParametersSetAsync();
-        }       
-
-        public void SetCurrentMemberToContributeDetails()
+        }
+       
+        private void SetCurrentMemberToContributeDetails()
         {           
             Contribution.MemberFirstName = Member.FirstName;
             Contribution.MemberLastName = Member.LastName;            
@@ -69,9 +71,14 @@ namespace TogoleseAssociationSystem.APP.Pages
             Navigation.NavigateTo("/memberlist");
         }
 
-        private bool IsEditingMode()
+        private bool SetEditMode()
         {
-            return Id != null && Member.Id == Id;
+            if (Id == Guid.Empty)
+            {
+                return Edit;
+            }
+            Edit = true;
+            return Edit;
         }
     }
 }
