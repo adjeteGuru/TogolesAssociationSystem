@@ -25,17 +25,19 @@ namespace TogoleseAssociationSystem.APP.Pages
                 Members.AddRange(members);
             }
             catch (Exception ex)
-            {
+            {               
                 ErrorMessage = ex.Message;
             }
         }
-        protected void NavigateToDetails(int id)
+
+        protected void NavigateToDetails(Guid id)
         {
-            Navigation.NavigateTo($"/memberdetail/{id}");
+            Navigation.NavigateTo($"/memberdetail/{id}/edit");
         }
+
         protected void NavigateToCreate()
         {
-            Navigation.NavigateTo("/membercreate/edit");
+            Navigation.NavigateTo("/membercreate");
         }
     }
 }

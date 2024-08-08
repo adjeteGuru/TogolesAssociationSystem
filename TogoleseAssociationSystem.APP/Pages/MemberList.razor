@@ -3,8 +3,8 @@
 @inherits MemberListComponent
 
 <div class="my-3 d-flex flex-wrap justify-content-between">
-    <h3>Members</h3>
-    <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Create Member</button>
+    <h3>List of members</h3>
+    <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
 </div>
 <hr />
 
@@ -13,10 +13,6 @@
     <div class="empty-state">
         <span class="empty-state-title">Loading, please wait...</span>
     </div>
-}
-else if (ErrorMessage != null && ErrorMessage == "Failed to fetch")
-{
-    <span class="empty-state-title">Loading, please wait while the api load...</span>
 }
 else if (ErrorMessage != null)
 {
@@ -31,12 +27,13 @@ else
            <thead>
                <tr>
                    <th>Title</th>
-                   <th>FirsName</th>
-                   <th>LastName</th>
+                   <th>Firtsname</th>
+                   <th>Lastname</th>
                    <th>Date of birth</th>
                    <th>Date joinded</th>
-                   <th>Is active member?</th>
-                   <th>Is president?</th>
+                   <th>1st Line of address</th>                   
+                   <th>Location</th>
+                   <th>Telephone</th>
                    <th>Photo</th>
                </tr>
            </thead>
@@ -49,17 +46,18 @@ else
                             <a @onclick="()=> NavigateToDetails(member.Id)" class="list-group-item list-group-item-action">@member.FirstName</a>
                        </td>                      
                        <td>@member.LastName</td>
-                       <td>@member.DateOfBirth</td>
-                       <td>@member.MembershipDate</td>
-                       <td>@member.IsActive</td>
-                       <td>@member.IsChair</td>
+                       <td>@member.DateOfBirth.Value.ToString("dd-MMM-yyyy")</td>
+                       <td>@member.MembershipDate.Value.ToString("dd-MMM-yyyy")</td>
+                       <td>@member.Address</td>
+                       <td>@member.City</td>
+                       <td>@member.Telephone</td>                       
                        <td>
                            <div class="modal-dialog-centered">
-                               @if(member.Title == "Mr")
+                               @if(member.Title == "Mr" || member.Title =="mr" || member.Title == "dr" || member.Title == "Dr")
                                {
                                     <img src="http://findicons.com/files/icons/1688/web_blog/48/user_male_white_red_brown.png" alt="male">     
                                }
-                               else if(member.Title == "Miss" || member.Title == "Mrs")
+                               else if(member.Title == "Miss" || member.Title == "miss" || member.Title == "Mrs" || member.Title == "mrs")
                                {
                                     <img src="http://findicons.com/files/icons/1688/web_blog/48/user_female_white_pink_black.png" alt="female">     
                                }

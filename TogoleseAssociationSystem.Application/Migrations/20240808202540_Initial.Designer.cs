@@ -12,8 +12,8 @@ using TogoleseAssociationSystem.Application.Database;
 namespace TogoleseAssociationSystem.Application.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240805084935_AddMemberDetails")]
-    partial class AddMemberDetails
+    [Migration("20240808202540_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,20 +26,18 @@ namespace TogoleseAssociationSystem.Application.Migrations
 
             modelBuilder.Entity("TogoleseAssociationSystem.Domain.Models.HasRole", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MemberId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("MemberId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
@@ -53,11 +51,9 @@ namespace TogoleseAssociationSystem.Application.Migrations
 
             modelBuilder.Entity("TogoleseAssociationSystem.Domain.Models.Member", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -83,10 +79,17 @@ namespace TogoleseAssociationSystem.Application.Migrations
                     b.Property<DateTime?>("MembershipDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PhotoUrl")
+                    b.Property<string>("NextOfKin")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("PhotoUrl")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Postcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Relationship")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Telephone")
@@ -102,11 +105,9 @@ namespace TogoleseAssociationSystem.Application.Migrations
 
             modelBuilder.Entity("TogoleseAssociationSystem.Domain.Models.MembershipContribution", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -120,8 +121,8 @@ namespace TogoleseAssociationSystem.Application.Migrations
                     b.Property<bool?>("IsAnnualContribution")
                         .HasColumnType("bit");
 
-                    b.Property<int>("MemberId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("MemberId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -132,14 +133,13 @@ namespace TogoleseAssociationSystem.Application.Migrations
 
             modelBuilder.Entity("TogoleseAssociationSystem.Domain.Models.Role", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Json;
+using System.Text;
 using TogoleseAssociationSystem.Core.DTOs;
 using TogoleseAssociationSystem.Core.Models;
 
@@ -14,7 +15,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
         {
             this.httpClient = httpClient;
         }
-        public async Task<Member> GetMemberByIdAsync(int id)
+        public async Task<Member> GetMemberByIdAsync(Guid id)
         {
             var httpResponse = await httpClient.GetAsync($"{RequestUri}/{id}");
             try
@@ -111,6 +112,47 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                     }
 
                     return membership;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return null;
+        }
+
+        public async Task<Member> UpdateMemberDetails(Member member)
+        {
+            var json = JsonConvert.SerializeObject(member);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var newRequestUri = $"api/member/" + member.Id;
+
+            var response = await httpClient.PutAsync(newRequestUri, content);
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+
+                    var memberUpdated = JsonConvert.DeserializeObject<Member>(responseContent);
+
+                    if (memberUpdated == null)
+                    {
+                        throw new Exception("Not found!");
+                    }                 
+
+                    return memberUpdated;
+                }
+
+                var errorContent = await response.Content.ReadAsStringAsync();
+
+                var failureResponse = JsonConvert.DeserializeObject<FailureResponseModel>(errorContent)?.Detail;
+
+                if (failureResponse != null)
+                {
+                    throw new Exception(failureResponse);
                 }
             }
             catch (Exception e)

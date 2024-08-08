@@ -1,8 +1,8 @@
 ﻿namespace TogoleseAssociationSystem.Core.Models
 {
-    public class Member
+    public class Member : BaseEntity
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public string? Title { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
@@ -13,9 +13,16 @@
         public DateTime? DateOfBirth { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsChair { get; set; } = false;
-        public string? PhotoUrl { get; set; } = "https://via.placeholder.com/300x300";
+        public byte[] PhotoUrl { get; set; }
         public DateTime? MembershipDate { get; set; }
-        public List<MembershipContribution>? Memberships { get; set; } = new List<MembershipContribution>();
-        public List<HasRole>? HasRoles { get; set; } = new List<HasRole>();
+        public string? NextOfKin { get; set; }
+        public string? Relationship { get; set; }
+        public List<MembershipContribution>? Memberships { get; set; }
+        public List<HasRole>? HasRoles { get; set; }
+        public Member()
+        {
+            Memberships = new List<MembershipContribution>();
+            HasRoles = new List<HasRole>();
+        }
     }
 }

@@ -1,36 +1,48 @@
-﻿@page "/memberdetail/{id:int}"
+﻿@page "/memberdetail/{id:guid}/edit"
 @inherits MemberDetailComponent
 
 <div class="my-3 d-flex flex-wrap justify-content-between">
      <h3 class="blueTextOverride">@Member.FirstName @Member.LastName's current year membership contribution is: £@TotalCurrentYearAmount</h3>
-    <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Create Member</button>
+    <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
 </div>
 <hr />
     <form>
  <EditForm EditContext="EditContext">
-  <div class="mb-3 row">
+  <div class="mb-5 row">
     <div class="form-group col-md-1">
       <label for="inputCity"><b>Title</b></label>
       <InputText id="Title"
                      class="form-control form-control-lg"
                      @bind-Value="Member.Title"/>
     </div>
-    <div class="form-group col-md-5">
+    <div class="form-group col-md-3">
       <label for="inputState"><b>Firstname</b></label>
       <InputText id="FirstName"
                      class="form-control form-control-lg"
                      @bind-Value="Member.FirstName" />
     </div>
-    <div class="form-group col-md-5">
+    <div class="form-group col-md-3">
       <label for="inputZip"><b>Lastname</b></label>
       <InputText id="LastName"
                      class="form-control form-control-lg"
                      @bind-Value="Member.LastName"/>
     </div>
+    <div class="form-group col-md-2">
+      <label for="inputState"><b>Next of kin</b></label>
+      <InputText id="FirstName"
+                     class="form-control form-control-lg"
+                     @bind-Value="Member.NextOfKin" />
+    </div>
+    <div class="form-group col-md-2">
+      <label for="inputState"><b>Relationship to you</b></label>
+      <InputText id="FirstName"
+                     class="form-control form-control-lg"
+                     @bind-Value="Member.Relationship" />
+    </div>
   </div>
    <div class="mb-4 row">
     <div class="form-group col-md-4">
-      <label for="inputCity"><b>Address</b></label>
+      <label for="inputCity"><b>1st line of address</b></label>
       <InputText id="Address"
                      class="form-control form-control-lg"
                      @bind-Value="Member.Address"/>
@@ -78,13 +90,13 @@
           <label for="inputCity"><b>Date of birth</b></label>
           <InputDate id="DateOfBirth"
                          class="form-control-lg"
-                         @bind-Value="Member.DateOfBirth" />
+                         @bind-Value="Member.DateOfBirth" disabled="true" />
         </div>
         <div class="form-group col-md-4">
           <label for="inputState"><b>Date joined</b></label>
           <InputDate id="MembershipDate"
                          class="form-control-lg"
-                         @bind-Value="Member.MembershipDate" />    
+                         @bind-Value="Member.MembershipDate" disabled="true"/>    
       </div>
        <div class="form-group col-md-4">
            <label for="PhotoUrl" class="form-control-lg"><b>Photo ID</b></label>        
@@ -98,23 +110,29 @@
                      <img src="http://findicons.com/files/icons/1688/web_blog/48/user_female_white_pink_black.png" alt="female">     
                 }
             </div>             
-            <input type="file" class="form-control-file">        
+           <div class="form-group col-md-4">
+          <label for="inputState"><b>Photo ID</b></label>
+          <InputFile 
+          type="file" 
+          class="form-control-file"
+          OnChange="OnInputFileChanged"/>          
+      </div>        
       </div>
       </div> 
  <div class="btn-group" role="group">
-           <button id="member-update"
-                   class="btn btn-outline-primary"
-                   @onclick="@(()=> NavigateToAddContribution(Member.Id))"
+      <button id="member-update"
+                   class="btn btn-primary"
+                   @onclick="@(()=> UpdateMemberDetails(Member))"
                    title="Update member">
                Update
-           </button>
+           </button>         
            &nbsp;
            <button id="member-delete"
-                   class="btn btn-outline-danger"
-                   @onclick="@NavigateToHome"
+                   class="btn btn-danger"
+                   @onclick="@GoBack"
                    title="Cancel member">
                Cancel
-           </button>
+           </button>          
        </div> 
  </EditForm>
  </form>
@@ -122,16 +140,16 @@
       <hr />  
       <div class="my-3 d-flex flex-wrap justify-content-between">
       <h3 class="blueTextOverride">@Member.FirstName's total contribution since becoming active member is: <span class="priceTextOverride"><b>£@TotalCount</b></span></h3>
-    <button id="Membership-create" class="btn btn-primary" @onclick="@(()=>NavigateToAddContribution(Member.Id))">Add Membership</button>
+    <button id="Membership-create" class="btn btn-primary" @onclick="@(()=>NavigateToAddContribution(Member.Id))">Add Member's contribution</button>
 </div>
 
       <table class="table table-bordered table-hover">
           <thead class="thead-light">
               <tr class="table-info">
-                  <th>Contribution Name</th>
+                  <th>Contribution purpose</th>
                   <th>Amount</th>
                   <th>Date of contribution</th>
-                  <th>Is annual contribution?</th>                  
+                  <th>Is annual membership?</th>                  
               </tr>
           </thead>
           <tbody>
@@ -140,7 +158,7 @@
                   <tr>
                       <td>@contribution.ContributionName</td>                                             
                       <td>@contribution.Amount</td>
-                      <td>@contribution.DateOfContribution</td>
+                      <td>@contribution.DateOfContribution.Value.ToString("dd-MMM-yyyy")</td>
                       <td>@contribution.IsAnnualContribution</td>  
                   </tr>                        
               }

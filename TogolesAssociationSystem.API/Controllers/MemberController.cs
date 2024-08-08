@@ -44,7 +44,7 @@ namespace TogolesAssociationSystem.API.Controllers
         }
 
         [HttpGet("{id}")]       
-        public async Task<IActionResult> GetMemberById(int id)
+        public async Task<IActionResult> GetMemberById(Guid id)
         {
             try
             {
@@ -75,6 +75,26 @@ namespace TogolesAssociationSystem.API.Controllers
                 memberService.CreateMember(member);
 
                 return CreatedAtAction(nameof(GetMemberById), new { id = member.Id }, member);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateMemberAsync(Guid id, Member memberUpdate)
+        {
+            try
+            {
+                if (id != memberUpdate.Id)
+                {
+                    BadRequest();
+                }               
+
+                memberService.UpdateMember(memberUpdate);
+
+                return Ok(memberUpdate);
             }
             catch (Exception ex)
             {

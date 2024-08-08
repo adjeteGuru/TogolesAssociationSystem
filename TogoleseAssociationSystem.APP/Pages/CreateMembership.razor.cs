@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using TogoleseAssociationSystem.Core.DTOs;
 using TogoleseAssociationSystem.Core.Models;
 using TogoleseAssociationSystem.Core.ServiceProvider;
@@ -15,37 +16,43 @@ namespace TogoleseAssociationSystem.APP.Pages
         [Inject]
         public IMemberService MemberService { get; set; }
 
+        [Inject]
+        public IJSRuntime JSRuntime { get; set; }
+
         [Parameter]
-        public int Id { get; set; }
-        public EditContext EditContext { get; set; }
+        public Guid Id { get; set; }
 
         [Parameter]
         public MembershipContributionToAdd Contribution { get; set; }
 
+        [Parameter]
+        public bool Edit { get; set; }
+
+        public EditContext EditContext { get; set; }
+
+        [Parameter]
         public Member Member { get; set; }
 
         protected override void OnInitialized()
         {
-            Contribution = new MembershipContributionToAdd();
+            Contribution = new MembershipContributionToAdd();            
             EditContext = new EditContext(Contribution);
         }
 
         protected override async Task OnParametersSetAsync()
         {
-            Member ??= new Member();
+            SetEditMode();
 
-            Member = await MemberService.GetMemberByIdAsync(Id);
-
-            GetCurrentMemberToContribute();
+            Member = new Member();
+          
+            if (Edit == true)
+            {
+                Member = await MemberService.GetMemberByIdAsync(Id);
+                SetCurrentMemberToContributeDetails();
+            }
 
             await base.OnParametersSetAsync();
-        }
-
-        public void GetCurrentMemberToContribute()
-        {
-            Contribution.MemberFirstName = Member.FirstName;
-            Contribution.MemberLastName = Member.LastName;
-        }
+        } 
 
         protected async Task Submit()
         {
@@ -57,9 +64,25 @@ namespace TogoleseAssociationSystem.APP.Pages
             Navigation.NavigateTo("/memberlist");
         }
 
-        public void NavigateToHome()
+        protected async Task GoBack()
         {
-            Navigation.NavigateTo("/memberlist");
-        }     
+            await JSRuntime.InvokeVoidAsync("history.back");
+        }      
+
+        private bool SetEditMode()
+        {
+            if (Id == Guid.Empty)
+            {
+                return Edit;
+            }
+            Edit = true;
+            return Edit;
+        }
+
+        private void SetCurrentMemberToContributeDetails()
+        {
+            Contribution.MemberFirstName = Member.FirstName;
+            Contribution.MemberLastName = Member.LastName;
+        }
     }
 }

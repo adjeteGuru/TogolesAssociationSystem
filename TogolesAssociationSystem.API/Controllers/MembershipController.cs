@@ -19,7 +19,7 @@ namespace TogoleseAssociationSystem.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMembershipById(int id)
+        public async Task<IActionResult> GetMembershipById(Guid id)
         {
             try
             {
