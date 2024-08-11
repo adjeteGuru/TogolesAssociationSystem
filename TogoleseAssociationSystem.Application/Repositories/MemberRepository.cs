@@ -56,12 +56,12 @@ namespace TogoleseAssociationSystem.Application.Repositories
             if (filter != null)
             {
                 var filteredMembers = await dbContext.Members
-                .Where(member => member.LastName.ToLower()
+                .Where(member => member.IsActive == true && member.LastName.ToLower()
                 .Contains(filter.ToLower())).ToListAsync();
 
                 return filteredMembers;
             }
-            return await dbContext.Members.ToListAsync();         
+            return await dbContext.Members.Where(member => member.IsActive.Equals(true)).ToListAsync();         
         }
 
         public async Task<MembershipContribution> GetMembershipByIdAsync(Guid id)

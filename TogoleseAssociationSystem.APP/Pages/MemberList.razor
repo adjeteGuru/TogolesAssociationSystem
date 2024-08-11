@@ -3,16 +3,17 @@
 @inherits MemberListComponent
 
 <div class="my-3 d-flex flex-wrap justify-content-between">
-    <h3>List of members</h3>
+    <h3 class="priceTextOverride">List of active members</h3>
     <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
 </div>
 <hr />
 
 @if (Members == null && ErrorMessage == null)
 {
-    <div class="empty-state">
+  @*   <div class="empty-state">
         <span class="empty-state-title">Loading, please wait...</span>
-    </div>
+    </div> *@
+    <Spinner />
 }
 else if (ErrorMessage != null)
 {
@@ -70,7 +71,7 @@ else
        </div>
    }
    else
-   {
-        <span> There is no member on the list to display!</span>
+   {    
+       <Spinner/>
    }
 }

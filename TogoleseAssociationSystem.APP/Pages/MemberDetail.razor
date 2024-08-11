@@ -2,7 +2,7 @@
 @inherits MemberDetailComponent
 
 <div class="my-3 d-flex flex-wrap justify-content-between">
-     <h3 class="blueTextOverride">@Member.FirstName @Member.LastName's current year membership contribution is: £@TotalCurrentYearAmount</h3>
+    <h3 class="blueTextOverride">@Member.FirstName @Member.LastName's current year membership contribution is: <span class="redTextOverride"><b>£@TotalCurrentYearAmount</b></span></h3>
     <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
 </div>
 <hr />
@@ -96,30 +96,22 @@
           <label for="inputState"><b>Date joined</b></label>
           <InputDate id="MembershipDate"
                          class="form-control-lg"
-                         @bind-Value="Member.MembershipDate" disabled="true"/>    
-      </div>
-       <div class="form-group col-md-4">
-           <label for="PhotoUrl" class="form-control-lg"><b>Photo ID</b></label>        
-           <div class="modal-dialog-centered">
-                @if(Member.Title == "Mr" || Member.Title == "mr" || Member.Title == "dr" || Member.Title == "Dr")
-                {
-                     <img src="http://findicons.com/files/icons/1688/web_blog/48/user_male_white_red_brown.png" alt="male">     
-                }
-                else if(Member.Title == "Miss" || Member.Title == "Mrs" || Member.Title == "mrs" || Member.Title == "miss")
-                {
-                     <img src="http://findicons.com/files/icons/1688/web_blog/48/user_female_white_pink_black.png" alt="female">     
-                }
-            </div>             
-           <div class="form-group col-md-4">
-          <label for="inputState"><b>Photo ID</b></label>
-          <InputFile 
-          type="file" 
-          class="form-control-file"
-          OnChange="OnInputFileChanged"/>          
-      </div>        
-      </div>
+                         @bind-Value="Member.MembershipDate" disabled="true"/>           
+        </div>
+            <div class="form-group col mb-4">
+           <label for="PhotoUrl"><b>Photo ID</b></label>
+           <div class="card">
+               <img alt="Card image cap" 
+                   class="card-img-top img-fluid" 
+                   src="image/OIP.jfif" />                    
+           </div>
+           <br />
+                <InputFile type="file"
+                           class="form-control-file"
+                           OnChange="OnInputFileChanged" />           
+          </div>
       </div> 
- <div class="btn-group" role="group">
+    <div class="btn-group" role="group">
       <button id="member-update"
                    class="btn btn-primary"
                    @onclick="@(()=> UpdateMemberDetails(Member))"
@@ -139,9 +131,9 @@
  <div>
       <hr />  
       <div class="my-3 d-flex flex-wrap justify-content-between">
-      <h3 class="blueTextOverride">@Member.FirstName's total contribution since becoming active member is: <span class="priceTextOverride"><b>£@TotalCount</b></span></h3>
+        <h3 class="blueTextOverride">@Member.FirstName's total contribution since becoming active member is: <span class="redTextOverride"><b>£@TotalCount</b></span></h3>
     <button id="Membership-create" class="btn btn-primary" @onclick="@(()=>NavigateToAddContribution(Member.Id))">Add Member's contribution</button>
-</div>
+        </div>
 
       <table class="table table-bordered table-hover">
           <thead class="thead-light">

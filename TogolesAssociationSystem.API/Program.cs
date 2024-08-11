@@ -53,6 +53,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-DbInitializer.EnsureSeedData(app);
+//DbInitializer.EnsureSeedData(app);
 
 app.Run();

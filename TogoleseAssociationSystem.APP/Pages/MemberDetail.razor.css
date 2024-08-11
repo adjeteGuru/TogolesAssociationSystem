@@ -1,29 +1,17 @@
-﻿.blueTextOverride {
+﻿.redTextOverride {
     color: red !important;
+}
+.blueTextOverride {
+    color: mediumblue !important;
 }
 .priceTextOverride {
     color: mediumblue !important;
 }
-
-table, th, td {
-    border: 1px solid Black;
+.card {
+    width: 13rem;
+    height: 13rem;
 }
-
-/* make the table a 100% wide by default */
-table {
-    width: 100%;
-}
-
-/* if the browser window is at least 800px-s wide: */
-@media screen and (min-width: 800px) {
-    table {
-        width: 90%;
-    }
-}
-
-/* if the browser window is at least 1000px-s wide: */
-@media screen and (min-width: 1000px) {
-    table {
-        width: 80%;
-    }
+.card-img-top {
+    flex-grow: 1;
+    object-fit: contain;
 }
