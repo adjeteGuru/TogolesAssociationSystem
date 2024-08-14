@@ -21,7 +21,7 @@ namespace TogolesAssociationSystem.API.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet]      
         public async Task<IActionResult> GetAllMembersAsync(string? filter = null)
         {
             try
@@ -41,7 +41,7 @@ namespace TogolesAssociationSystem.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-        }
+        }      
 
         [HttpGet("{id}")]       
         public async Task<IActionResult> GetMemberById(Guid id)

@@ -6,13 +6,13 @@
     <h3 class="priceTextOverride">List of active members</h3>
     <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
 </div>
+
+<SearchBar OnSearch="HandleSearch"></SearchBar>
+
 <hr />
 
 @if (Members == null && ErrorMessage == null)
 {
-  @*   <div class="empty-state">
-        <span class="empty-state-title">Loading, please wait...</span>
-    </div> *@
     <Spinner />
 }
 else if (ErrorMessage != null)
@@ -28,8 +28,8 @@ else
            <thead>
                <tr>
                    <th>Title</th>
-                   <th>Firtsname</th>
-                   <th>Lastname</th>
+                   <th>Firstname</th>
+                   <th>Surname</th>
                    <th>Date of birth</th>
                    <th>Date joinded</th>
                    <th>1st Line of address</th>                   

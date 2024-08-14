@@ -46,7 +46,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
 
         public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
         {
-            var httpResponse = await httpClient.GetAsync($"{RequestUri}");
+            var httpResponse = await httpClient.GetAsync($"{RequestUri}?filter={filter}");
             try
             {
                 if (httpResponse.IsSuccessStatusCode)
@@ -158,6 +158,30 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             catch (Exception e)
             {
                 throw new Exception(e.Message);
+            }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<Member>> GetAllExistingMembersAsync()
+        {
+            var httpResponse = await httpClient.GetAsync($"{MembershipUri}");
+            try
+            {
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var stringContent = await httpResponse.Content.ReadAsStringAsync();
+                    var membersRead = JsonConvert.DeserializeObject<IEnumerable<Member>>(stringContent);
+                    if (membersRead == null)
+                    {
+                        throw new Exception("Not found!");
+                    }
+                    return membersRead;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
 
             return null;

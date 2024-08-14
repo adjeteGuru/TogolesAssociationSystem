@@ -62,5 +62,25 @@ namespace TogoleseAssociationSystem.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllExstingMembersAsync()
+        {
+            try
+            {              
+                var members = await memberService.GetAllExisitingMembersAsync();
+
+                if (!members.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(members);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }

@@ -25,6 +25,11 @@ namespace TogoleseAssociationSystem.Application.Repositories
             SaveChanges();
         }
 
+        public async Task<IEnumerable<Member>> GetAllExisitingMembersAsync()
+        {
+            return await dbContext.Members.ToListAsync();
+        }
+
         public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()
         {
             return await dbContext.MembershipContributions.ToListAsync();
@@ -57,7 +62,7 @@ namespace TogoleseAssociationSystem.Application.Repositories
             {
                 var filteredMembers = await dbContext.Members
                 .Where(member => member.IsActive == true && member.LastName.ToLower()
-                .Contains(filter.ToLower())).ToListAsync();
+                .Contains(filter.ToLower().Trim())).ToListAsync();
 
                 return filteredMembers;
             }
