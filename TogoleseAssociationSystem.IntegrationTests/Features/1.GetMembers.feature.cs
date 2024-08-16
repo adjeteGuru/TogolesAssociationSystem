@@ -126,7 +126,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "0x",
                             "8/8/2024 12:00:00 AM"});
 #line 8
- testRunner.Given("the following members exist", ((string)(null)), table1, "Given ");
+ testRunner.Given("the following contribution to associate with member exist", ((string)(null)), table1, "Given ");
 #line hidden
 #line 11
  testRunner.When("the user sends request to get members", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

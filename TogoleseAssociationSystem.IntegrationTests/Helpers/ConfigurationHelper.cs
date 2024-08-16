@@ -1,24 +1,24 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Newtonsoft.Json.Linq;
 
 namespace TogoleseAssociationSystem.IntegrationTests.Helpers
 {
     public static class ConfigurationHelper
     {
-        private static IConfiguration cachedAppSettings;
-
-        public static IConfiguration GetAppSettings()
+        private static readonly Dictionary<string, string> Config = new Dictionary<string, string>();
+        static ConfigurationHelper()
         {
-            if (cachedAppSettings == null)
+            var launchSettings = JObject.Parse(File.ReadAllText("Properties/launchSettings.json"));
+            var environmentVariables = launchSettings["profiles"]["TogolesAssociationSystem.IntegrationTests"]["environmentVariables"];
+            var tempDictionary = environmentVariables.ToObject<Dictionary<string, string>>();
+            foreach (var (key, value) in tempDictionary)
             {
-                cachedAppSettings = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, true).Build();
+                Config.Add(key, value.ToString());
             }
-
-            return cachedAppSettings;
         }
 
-        public static string GetConfigurationByName(string settingName)
+        public static string GetSetting(string name)
         {
-            return GetAppSettings().GetValue<string>(settingName);
+            return Environment.GetEnvironmentVariable(name) ?? Config[name];
         }
     }
 }

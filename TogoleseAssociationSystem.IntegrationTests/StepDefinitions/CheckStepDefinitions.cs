@@ -32,5 +32,17 @@ namespace TogoleseAssociationSystem.IntegrationTests.StepDefinitions
             members.Should().NotBeNull();
             members.Count().Should().Be(1);
         }
+
+        [Then(@"an alert message indicating that the member with name '([^']*)'was successfully created is displayed")]
+        public void ThenAnAlertMessageIndicatingThatTheMemberWithNameWasSuccessfullyCreatedIsDisplayed(string test)
+        {
+            throw new PendingStepException();
+        }
+
+        [Then(@"the Member with the following properties is displayed on the list page")]
+        public void ThenTheMemberWithTheFollowingPropertiesIsDisplayedOnTheListPage(Table table)
+        {
+            throw new PendingStepException();
+        }
     }
 }
