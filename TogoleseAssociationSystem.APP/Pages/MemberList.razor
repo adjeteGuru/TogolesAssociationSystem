@@ -30,7 +30,7 @@ else
                    <th>Title</th>
                    <th>Firstname</th>
                    <th>Surname</th>
-                   <th>Date of birth</th>
+                   <th>Next of Kin</th>
                    <th>Date joinded</th>
                    <th>1st Line of address</th>                   
                    <th>Location</th>
@@ -47,7 +47,7 @@ else
                             <a @onclick="()=> NavigateToDetails(member.Id)" class="list-group-item list-group-item-action">@member.FirstName</a>
                        </td>                      
                        <td>@member.LastName</td>
-                       <td>@member.DateOfBirth.Value.ToString("dd-MMM-yyyy")</td>
+                       <td>@member.NextOfKin</td>
                        <td>@member.MembershipDate.Value.ToString("dd-MMM-yyyy")</td>
                        <td>@member.Address</td>
                        <td>@member.City</td>
