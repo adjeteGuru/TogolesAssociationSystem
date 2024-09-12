@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using TogoleseAssociationSystem.Application.AutoMapper;
+using TogoleseAssociationSystem.Application.Configurations;
 using TogoleseAssociationSystem.Application.Database;
 using TogoleseAssociationSystem.Application.Repositories;
 using TogoleseAssociationSystem.Application.Services;
@@ -18,20 +20,24 @@ builder.Services.AddControllers(o =>o.Filters.Add(new AuthorizeFilter()));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+var azureAdConfig = builder.Configuration.GetSection("AzureAd").Get<AzureAdSettings>();
+var swaggerConfig = builder.Configuration.GetSection("SwaggerConfiguration").Get<SwaggerSettings>();
 //configer to add client credential flow with the token url pointing to the token endpoint of the Identity provider and the scope global api defined 
 builder.Services.AddSwaggerGen(o =>
 {
-    o.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    o.AddSecurityDefinition(swaggerConfig.AuthType, new OpenApiSecurityScheme
     {
+        Name = swaggerConfig.AuthType,
+        Description = swaggerConfig.Description,
         Type = SecuritySchemeType.OAuth2,
         Flows = new OpenApiOAuthFlows
         {
-            ClientCredentials = new OpenApiOAuthFlow
+            Implicit = new OpenApiOAuthFlow
             {
-                TokenUrl = new Uri("https://localhost:5001/connect/token"),
+                AuthorizationUrl = new Uri(string.Format(swaggerConfig.AuthUrlFormat, azureAdConfig.TenantId), UriKind.RelativeOrAbsolute),
                 Scopes = new Dictionary<string, string>
                 {
-                    {"togoleseapi","Access to Togolese Association API" }
+                    {swaggerConfig.Scope, swaggerConfig.AuthScope}
                 }
             }
         }
@@ -43,12 +49,20 @@ builder.Services.AddSwaggerGen(o =>
             {
                 Reference = new OpenApiReference
                 {
-                    Id = "oauth2",
+                    Id = swaggerConfig.AuthType,
                     Type = ReferenceType.SecurityScheme
                 }
-            }, new List<string>()
+            }, new List<string>(){ swaggerConfig.AuthScope }
         }
     });
+    o.SwaggerDoc(swaggerConfig.Version, new OpenApiInfo
+    {
+        Title = swaggerConfig.Title,
+        Version = swaggerConfig.Version
+    });
+    o.DescribeAllParametersInCamelCase();
+
+    AddSwaggerXmlComments(o);
 });
 
 builder.Services.AddScoped<IMemberService, MemberService>();
@@ -75,6 +89,12 @@ var mapperConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new Profiles());
 });
+
+static void AddSwaggerXmlComments(SwaggerGenOptions options)
+{
+    foreach (var xmlDocFile in Directory.EnumerateFiles(AppContext.BaseDirectory, "*.XML"))
+        options.IncludeXmlComments(xmlDocFile);
+}
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 var app = builder.Build();
@@ -84,6 +104,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    //app.UseSwaggerUI(c =>
+    //{
+    //    c.RoutePrefix = string.Empty;
+    //    c.SwaggerEndpoint(string.Format(swaggerConfig.UrlFormat, swaggerConfig.Version), swaggerConfig.Title);
+    //    c.OAuthClientId(azureAdConfig.ClientId);
+    //});
 }
 
 //here is the url that's been granted access by the CORS policy (use web url address allowed )
