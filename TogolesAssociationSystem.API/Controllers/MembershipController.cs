@@ -9,6 +9,7 @@ namespace TogoleseAssociationSystem.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public class MembershipController : ControllerBase
     {
         private readonly IMemberService memberService;

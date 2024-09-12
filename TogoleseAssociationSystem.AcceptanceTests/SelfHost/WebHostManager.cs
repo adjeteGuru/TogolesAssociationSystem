@@ -76,8 +76,8 @@ namespace TogoleseAssociationSystem.AcceptanceTests.SelfHost
 
         public void Start<T>(int startupTcpPort) where T : class
         {
-            var services = new ServiceCollection();
-            Start<T>(startupTcpPort, services);
+            //var services = new ServiceCollection();
+            //Start<T>(startupTcpPort, services);
         }
 
         public void Stop()

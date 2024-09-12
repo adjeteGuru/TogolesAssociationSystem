@@ -1,6 +1,9 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 using TogoleseAssociationSystem.Application.AutoMapper;
 using TogoleseAssociationSystem.Application.Database;
 using TogoleseAssociationSystem.Application.Repositories;
@@ -10,12 +13,54 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+//glogal filter for all controllers autorization attribute set
+builder.Services.AddControllers(o =>o.Filters.Add(new AuthorizeFilter()));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+//configer to add client credential flow with the token url pointing to the token endpoint of the Identity provider and the scope global api defined 
+builder.Services.AddSwaggerGen(o =>
+{
+    o.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.OAuth2,
+        Flows = new OpenApiOAuthFlows
+        {
+            ClientCredentials = new OpenApiOAuthFlow
+            {
+                TokenUrl = new Uri("https://localhost:5001/connect/token"),
+                Scopes = new Dictionary<string, string>
+                {
+                    {"togoleseapi","Access to Togolese Association API" }
+                }
+            }
+        }
+    });
+    o.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "oauth2",
+                    Type = ReferenceType.SecurityScheme
+                }
+            }, new List<string>()
+        }
+    });
+});
+
 builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(o =>
+    {
+        o.Authority = "https://localhost:5001";
+        o.TokenValidationParameters.ValidateAudience = false;
+        o.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+    });
 
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
@@ -49,6 +94,7 @@ app.UseCors(policy => policy.WithOrigins("https://localhost:7031")
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
