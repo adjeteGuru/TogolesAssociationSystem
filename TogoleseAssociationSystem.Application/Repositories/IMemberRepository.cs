@@ -5,10 +5,8 @@ namespace TogoleseAssociationSystem.Application.Repositories
     public interface IMemberRepository
     {
         Task<IEnumerable<Member>> GetMembersAsync(string? filter);
-        Task<Member> GetMemberByIdAsync(Guid id);
-          //Task<Member> GetMemberByNameAsync(string name);
-          Task<Member> RetrieveMember(string firsname, string lastname);
-        //Task<MembershipContribution> AddContributionAsync(MembershipContributionToAdd contributionToAdd);
+        Task<Member> GetMemberByIdAsync(Guid id);        
+          Task<Member> RetrieveMember(string firsname, string lastname);     
         Task<IEnumerable<HasRole>> GetMemberRolesByIdAsync(Guid memberId);
         Task<IEnumerable<MembershipContribution>> GetMemberContributionsByIdAsync(Guid memberId);
         bool SaveChanges();

@@ -1,6 +1,5 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -18,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 //glogal filter for all controllers autorization attribute set
-builder.Services.AddControllers(o =>o.Filters.Add(new AuthorizeFilter()));
+builder.Services.AddControllers(o => o.Filters.Add(new AuthorizeFilter()));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -88,6 +87,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//{
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"));
+//});
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
@@ -110,6 +114,11 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    builder.Services.AddDbContext<AppDbContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
+    });
+
     app.UseSwagger();
 
     app.UseSwaggerUI(c =>

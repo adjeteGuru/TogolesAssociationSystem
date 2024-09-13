@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TogoleseAssociationSystem.Application.Migrations
 {
-    public partial class Initial : Migration
+    /// <inheritdoc />
+    public partial class INitialCreate : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -100,6 +102,7 @@ namespace TogoleseAssociationSystem.Application.Migrations
                 column: "MemberId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

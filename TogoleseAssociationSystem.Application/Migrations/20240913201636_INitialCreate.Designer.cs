@@ -12,17 +12,18 @@ using TogoleseAssociationSystem.Application.Database;
 namespace TogoleseAssociationSystem.Application.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240808202540_Initial")]
-    partial class Initial
+    [Migration("20240913201636_INitialCreate")]
+    partial class INitialCreate
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("TogoleseAssociationSystem.Domain.Models.HasRole", b =>
                 {
