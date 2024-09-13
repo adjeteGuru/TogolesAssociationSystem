@@ -8,9 +8,11 @@ using TogoleseAssociationSystem.Domain.Models;
 namespace TogolesAssociationSystem.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    [Produces("application/json")]
+    [Route("api/[controller]")]    
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class MemberController : ControllerBase
     {
         private readonly IMemberService memberService;

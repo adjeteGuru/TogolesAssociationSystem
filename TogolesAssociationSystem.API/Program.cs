@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -68,21 +69,27 @@ builder.Services.AddSwaggerGen(o =>
 builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(o =>
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.Audience = azureAdConfig.Audience;
+    options.Authority = string.Format(azureAdConfig.Instance, azureAdConfig.TenantId);
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        o.Authority = "https://localhost:5001";
-        o.TokenValidationParameters.ValidateAudience = false;
-        o.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
-    });
+        SaveSigninToken = true,
+        ValidateLifetime = true,
+        ValidateAudience = true,
+        ValidateIssuer = true
+    };
+});
 
-var configuration = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json")
-    .Build();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseSqlServer(configuration.GetConnectionString("DefaultConnectionString"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
 });
 
 var mapperConfig = new MapperConfiguration(mc =>
