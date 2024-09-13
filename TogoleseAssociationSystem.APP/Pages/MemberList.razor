@@ -3,16 +3,17 @@
 @inherits MemberListComponent
 
 <div class="my-3 d-flex flex-wrap justify-content-between">
-    <h3>List of members</h3>
+    <h3 class="priceTextOverride">List of active members</h3>
     <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
 </div>
+
+<SearchBar OnSearch="HandleSearch"></SearchBar>
+
 <hr />
 
 @if (Members == null && ErrorMessage == null)
 {
-    <div class="empty-state">
-        <span class="empty-state-title">Loading, please wait...</span>
-    </div>
+    <Spinner />
 }
 else if (ErrorMessage != null)
 {
@@ -27,9 +28,9 @@ else
            <thead>
                <tr>
                    <th>Title</th>
-                   <th>Firtsname</th>
-                   <th>Lastname</th>
-                   <th>Date of birth</th>
+                   <th>Firstname</th>
+                   <th>Surname</th>
+                   <th>Next of Kin</th>
                    <th>Date joinded</th>
                    <th>1st Line of address</th>                   
                    <th>Location</th>
@@ -46,7 +47,7 @@ else
                             <a @onclick="()=> NavigateToDetails(member.Id)" class="list-group-item list-group-item-action">@member.FirstName</a>
                        </td>                      
                        <td>@member.LastName</td>
-                       <td>@member.DateOfBirth.Value.ToString("dd-MMM-yyyy")</td>
+                       <td>@member.NextOfKin</td>
                        <td>@member.MembershipDate.Value.ToString("dd-MMM-yyyy")</td>
                        <td>@member.Address</td>
                        <td>@member.City</td>
@@ -70,7 +71,7 @@ else
        </div>
    }
    else
-   {
-        <span> There is no member on the list to display!</span>
+   {    
+       <Spinner/>
    }
 }

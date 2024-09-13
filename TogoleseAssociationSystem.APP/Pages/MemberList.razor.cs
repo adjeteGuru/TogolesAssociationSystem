@@ -12,6 +12,8 @@ namespace TogoleseAssociationSystem.APP.Pages
         [Inject]
         public NavigationManager Navigation { get; set; }
 
+        public EventCallback<List<Member>> OnMemberSearched { get; set; }
+
         protected List<Member>? Members;
 
         public string? ErrorMessage { get; set; }
@@ -27,6 +29,22 @@ namespace TogoleseAssociationSystem.APP.Pages
             catch (Exception ex)
             {               
                 ErrorMessage = ex.Message;
+            }
+        }
+
+        public async void HandleSearch(string filter)
+        {
+            try
+            {
+                var searchedMembers = await MemberService.GetMembersAsync(filter);
+                Members = searchedMembers.ToList();
+              
+                StateHasChanged();
+            }
+            catch
+            {      
+                //alert to state the error then load home
+                Navigation.NavigateTo("/memberlist");
             }
         }
 

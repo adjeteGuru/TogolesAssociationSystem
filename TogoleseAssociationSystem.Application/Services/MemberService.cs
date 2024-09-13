@@ -84,5 +84,10 @@ namespace TogoleseAssociationSystem.Application.Services
         {
             memberRepository.UpdateMember(member);
         }
+
+        public async Task<IEnumerable<Member>> GetAllExisitingMembersAsync()
+        {
+            return await memberRepository.GetAllExisitingMembersAsync();
+        }
     }
 }

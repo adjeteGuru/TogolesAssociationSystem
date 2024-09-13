@@ -8,8 +8,11 @@ using TogoleseAssociationSystem.Domain.Models;
 namespace TogolesAssociationSystem.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    [Produces("application/json")]
+    [Route("api/[controller]")]    
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class MemberController : ControllerBase
     {
         private readonly IMemberService memberService;
@@ -21,7 +24,7 @@ namespace TogolesAssociationSystem.API.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet]      
         public async Task<IActionResult> GetAllMembersAsync(string? filter = null)
         {
             try
@@ -41,7 +44,7 @@ namespace TogolesAssociationSystem.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-        }
+        }      
 
         [HttpGet("{id}")]       
         public async Task<IActionResult> GetMemberById(Guid id)

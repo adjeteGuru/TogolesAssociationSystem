@@ -6,6 +6,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
     public interface IMemberService
     {           
         Task<IEnumerable<Member>> GetMembersAsync(string? filter);
+        Task<IEnumerable<Member>> GetAllExistingMembersAsync();
         Task<Member> GetMemberByIdAsync(Guid id);
         Task<Member> GetMemberByNameAsync(string name);
         Task<Member> CreateMemberAsync(MemberToAdd memberToAdd);

@@ -1,7 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Smart.Blazor;
+
 using TogoleseAssociationSystem.APP;
 using TogoleseAssociationSystem.Core.AutoMapper;
 using TogoleseAssociationSystem.Core.ServiceProvider;
@@ -20,7 +20,4 @@ var mapperConfig = new MapperConfiguration(mc =>
 });
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
-
-builder.Services.AddSmart();
-
 await builder.Build().RunAsync();

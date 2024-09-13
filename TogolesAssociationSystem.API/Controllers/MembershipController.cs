@@ -8,7 +8,10 @@ namespace TogoleseAssociationSystem.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class MembershipController : ControllerBase
     {
         private readonly IMemberService memberService;
@@ -56,6 +59,26 @@ namespace TogoleseAssociationSystem.API.Controllers
                 memberService.CreateMembership(membership);
 
                 return CreatedAtAction(nameof(GetMembershipById), new { id = membership.Id }, membership);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllExstingMembersAsync()
+        {
+            try
+            {              
+                var members = await memberService.GetAllExisitingMembersAsync();
+
+                if (!members.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(members);
             }
             catch (Exception ex)
             {

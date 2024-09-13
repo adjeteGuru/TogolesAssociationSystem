@@ -21,56 +21,56 @@
 //        {
 //            expectedResult = new Member
 //            {
-//                Id = 1,
+//                Id = Guid.Parse("a703c95e-1807-437e-b947-9d7b33cb9b1f"),
 //                FirstName = "John",
 //                LastName = "Doe",
 //                DateOfBirth = new DateTime(2000, 01, 31),
 //                IsActive = true,
 //                IsChair = false,
 //                MembershipDate = DateTime.Today,
-//                PhotoUrl = null
+//                PhotoUrl = Array.Empty<byte>()
 //            };
 
 //            members = new List<Member>
 //            {
 //                new Member
 //                {
-//                    Id = 1,
+//                    Id = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807"),
 //                    FirstName ="John",
 //                    LastName ="Doe",
 //                    DateOfBirth = new DateTime(2000,01,31),
 //                    IsActive=true,
 //                    IsChair = false,
 //                    MembershipDate = DateTime.Today,
-//                    PhotoUrl = null
+//                    PhotoUrl = Array.Empty<byte>()
 //                },
 //                new Member
 //                {
-//                    Id = 2,
+//                   Id = Guid.Parse("cba764d4-883e-4731-aa29-74e2fae8cc11"),
 //                    FirstName ="Brenda",
 //                    LastName ="Love",
 //                    DateOfBirth = new DateTime(1980,11,20),
 //                    IsActive=true,
 //                    IsChair = true,
 //                    MembershipDate = DateTime.Today,
-//                    PhotoUrl = null
+//                    PhotoUrl = Array.Empty<byte>()
 //                },
 //                new Member
 //                {
-//                    Id = 3,
+//                    Id = Guid.Parse("9c86fb1c-0941-4d5a-96ff-f6eb919f8b99"),
 //                    FirstName ="Smith",
 //                    LastName ="Joe",
 //                    DateOfBirth = new DateTime(1970,07,30),
 //                    IsActive=true,
 //                    IsChair = false,
 //                    MembershipDate = DateTime.Today,
-//                    PhotoUrl = null
+//                    PhotoUrl = Array.Empty<byte>()
 //                },
 //            };
 
 //            mockMemberRepository = new Mock<IMemberRepository>();
 //            mockMemberRepository.Setup(m => m.GetMembersAsync(It.IsAny<string>())).ReturnsAsync(members);
-//            mockMemberRepository.Setup(m => m.GetMemberByIdAsync(It.IsAny<int>())).ReturnsAsync(expectedResult);
+//            mockMemberRepository.Setup(m => m.GetMemberByIdAsync(It.IsAny<Guid>())).ReturnsAsync(expectedResult);
 
 //            systemUnderTest = new MemberService(mockMemberRepository.Object);
 //        }
@@ -125,14 +125,14 @@
 //        [Fact]
 //        public async Task GetMemberByIdAsync_WhenIsInvoked_ThenNoExceptionIsThrown()
 //        {
-//            Func<Task> func = async () => await systemUnderTest.GetMemberByIdAsync(1);
+//            Func<Task> func = async () => await systemUnderTest.GetMemberByIdAsync(Guid.Empty);
 //            await func.Should().NotThrowAsync();
 //        }
 
 //        [Fact]
 //        public async Task GetMemberByIdAsync_WhenIsInvokedWithAValidId_ThenTheExpectedResultIsReturned()
 //        {
-//            var result = await systemUnderTest.GetMemberByIdAsync(1);
+//            var result = await systemUnderTest.GetMemberByIdAsync(Guid.Empty);
 //            result.Should().NotBeNull();
 //            result.Should().BeEquivalentTo(expectedResult);
 //        }
@@ -140,9 +140,9 @@
 //        [Fact]
 //        public async Task GetMemberByIdAsync_WhenIsInvokedWithAnInvalidId_ThenTheExpectedErrorIsReturned()
 //        {
-//            var id = 100;
+//            var id = Guid.Empty;
 //            var exception = new Exception($"member with id:{id} is not found!");
-//            mockMemberRepository.Setup(m => m.GetMemberByIdAsync(It.IsAny<int>())).ReturnsAsync((Member)null);
+//            mockMemberRepository.Setup(m => m.GetMemberByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Member)null);
 
 //            Func<Task> func = async () => await systemUnderTest.GetMemberByIdAsync(id);
 //            await func.Should().ThrowAsync<Exception>(exception.Message);

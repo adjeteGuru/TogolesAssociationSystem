@@ -17,5 +17,6 @@ namespace TogoleseAssociationSystem.Application.Repositories
         void UpdateMember(Member member);
         void CreateMembership(MembershipContribution membership);
         Task<MembershipContribution> GetMembershipByIdAsync(Guid id);
+        Task<IEnumerable<Member>> GetAllExisitingMembersAsync();
     }
 }

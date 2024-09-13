@@ -1,7 +1,7 @@
 ﻿@page "/membercreate"
 @inherits CreateMemberComponent
 
-<h3>Add new Member</h3>
+<h3 class="priceTextOverride">Add new Member</h3>
 <hr />
 <form>
  <EditForm EditContext="EditContext">
@@ -19,7 +19,7 @@
                      @bind-Value="Member.FirstName" />
     </div>
     <div class="form-group col-md-3">
-      <label for="inputZip"><b>Lastname</b></label>
+                <label for="inputZip"><b>Surname</b></label>
       <InputText id="LastName"
                      class="form-control form-control-lg"
                      @bind-Value="Member.LastName"/>
