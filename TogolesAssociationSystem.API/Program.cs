@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -110,13 +111,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
-    //app.UseSwaggerUI(c =>
-    //{
-    //    c.RoutePrefix = string.Empty;
-    //    c.SwaggerEndpoint(string.Format(swaggerConfig.UrlFormat, swaggerConfig.Version), swaggerConfig.Title);
-    //    c.OAuthClientId(azureAdConfig.ClientId);
-    //});
+
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint(string.Format(swaggerConfig.UrlFormat, swaggerConfig.Version), swaggerConfig.Title);
+        c.OAuthClientId(azureAdConfig.ClientId);
+    });
 }
 
 //here is the url that's been granted access by the CORS policy (use web url address allowed )
