@@ -1,4 +1,5 @@
-﻿using TogoleseAssociationSystem.Application.Repositories;
+﻿
+using TogoleseAssociationSystem.Domain.Interfaces;
 using TogoleseAssociationSystem.Domain.Models;
 
 namespace TogoleseAssociationSystem.Application.Services
@@ -52,12 +53,7 @@ namespace TogoleseAssociationSystem.Application.Services
         {
             throw new NotImplementedException();
         }
-
-        public Task<IEnumerable<HasRole>> GetMemberRolesByIdAsync(Guid memberId)
-        {
-            throw new NotImplementedException();
-        }
-
+       
         public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
         {
             var members = await memberRepository.GetMembersAsync(filter);

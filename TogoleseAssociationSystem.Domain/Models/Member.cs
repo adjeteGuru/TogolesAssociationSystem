@@ -16,12 +16,10 @@
         public string? NextOfKin { get; set; }
         public string? Relationship { get; set; }
         public DateTime? MembershipDate { get; set; }
-        public List<MembershipContribution>? Memberships { get; set; }
-        public List<HasRole>? HasRoles { get; set; }
+        public List<MembershipContribution>? Memberships { get; set; }      
         public Member()
         {
-            Memberships = new List<MembershipContribution>();
-            HasRoles = new List<HasRole>();
+            Memberships = new List<MembershipContribution>();           
         }
     }
 }

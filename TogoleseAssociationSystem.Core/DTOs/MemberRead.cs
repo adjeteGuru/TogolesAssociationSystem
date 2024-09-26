@@ -1,6 +1,4 @@
-﻿using TogoleseAssociationSystem.Core.Models;
-
-namespace TogoleseAssociationSystem.Core.DTOs
+﻿namespace TogoleseAssociationSystem.Core.DTOs
 {
     public class MemberRead
     {
@@ -19,12 +17,10 @@ namespace TogoleseAssociationSystem.Core.DTOs
         public DateTime? MembershipDate { get; set; }
         public string? NextOfKin { get; set; }
         public string? Relationship { get; set; }
-        public List<MembershipContribution>? Memberships { get; set; }
-        public List<HasRole>? HasRoles { get; set; }
+        public List<MembershipContributionReadDto>? Memberships { get; set; }       
         public MemberRead()
         {
-            Memberships = new List<MembershipContribution>();
-            HasRoles = new List<HasRole>();
+            Memberships = new List<MembershipContributionReadDto>();           
         }
     }
 }

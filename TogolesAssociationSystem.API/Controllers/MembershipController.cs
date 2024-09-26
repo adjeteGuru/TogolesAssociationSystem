@@ -1,24 +1,25 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TogoleseAssociationSystem.API.Extensions;
-using TogoleseAssociationSystem.Application.Services;
-using TogoleseAssociationSystem.Domain.DTOs;
+using TogoleseAssociationSystem.Application.DTOs;
+using TogoleseAssociationSystem.Domain.Interfaces;
 
 namespace TogoleseAssociationSystem.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class MembershipController : ControllerBase
     {
         private readonly IMemberService memberService;
+        private readonly IMapper mapper;
 
         public MembershipController(IMemberService memberService, IMapper mapper)
         {
             this.memberService = memberService;
+            this.mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -33,7 +34,9 @@ namespace TogoleseAssociationSystem.API.Controllers
                     return NotFound();
                 }
 
-                return Ok(membership);
+                var membershipDto = mapper.Map<MembershipContributionReadDto>(membership);
+
+                return Ok(membershipDto);
             }
             catch (Exception ex)
             {
@@ -67,18 +70,19 @@ namespace TogoleseAssociationSystem.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllExstingMembersAsync()
-        {
+        public async Task<IActionResult> GetAllMembershipsAsync()
+        {            
             try
-            {              
-                var members = await memberService.GetAllExisitingMembersAsync();
+            {
+                var memberships = await memberService.GetContributionsAsync();
 
-                if (!members.Any())
+                if (!memberships.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(members);
+                var membershipsDto = mapper.Map<IEnumerable<MembershipContributionReadDto>>(memberships);
+                return Ok(membershipsDto);
             }
             catch (Exception ex)
             {

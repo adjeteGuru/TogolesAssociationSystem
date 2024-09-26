@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using TogoleseAssociationSystem.Core.DTOs;
-using TogoleseAssociationSystem.Core.Models;
-using TogoleseAssociationSystem.Core.ServiceProvider;
+using TogoleseAssociationSystem.Core.ServiceProvider.Interfaces;
 
 namespace TogoleseAssociationSystem.APP.Pages
 {
@@ -31,11 +30,11 @@ namespace TogoleseAssociationSystem.APP.Pages
         public EditContext EditContext { get; set; }
 
         [Parameter]
-        public Member Member { get; set; }
+        public MemberRead Member { get; set; }
 
         protected override void OnInitialized()
         {
-            Contribution = new MembershipContributionToAdd();            
+            Contribution = new MembershipContributionToAdd();
             EditContext = new EditContext(Contribution);
         }
 
@@ -43,8 +42,8 @@ namespace TogoleseAssociationSystem.APP.Pages
         {
             SetEditMode();
 
-            Member = new Member();
-          
+            Member = new MemberRead();
+
             if (Edit == true)
             {
                 Member = await MemberService.GetMemberByIdAsync(Id);
@@ -52,7 +51,7 @@ namespace TogoleseAssociationSystem.APP.Pages
             }
 
             await base.OnParametersSetAsync();
-        } 
+        }
 
         protected async Task Submit()
         {
@@ -67,7 +66,7 @@ namespace TogoleseAssociationSystem.APP.Pages
         protected async Task GoBack()
         {
             await JSRuntime.InvokeVoidAsync("history.back");
-        }      
+        }
 
         private bool SetEditMode()
         {

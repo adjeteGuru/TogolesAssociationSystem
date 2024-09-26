@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using System.Text;
 using TogoleseAssociationSystem.Core.DTOs;
-using TogoleseAssociationSystem.Core.ServiceProvider;
+using TogoleseAssociationSystem.Core.ServiceProvider.Interfaces;
 
 namespace TogoleseAssociationSystem.APP.Pages
 {
@@ -15,7 +14,7 @@ namespace TogoleseAssociationSystem.APP.Pages
         public IMemberService MemberService { get; set; }
         public EditContext EditContext { get; set; }
 
-        public MemberToAdd  Member { get; set; }
+        public MemberToAdd Member { get; set; }
         protected override void OnInitialized()
         {
             Member = new MemberToAdd();
@@ -39,20 +38,14 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         protected async Task OnInputFileChanged(InputFileChangeEventArgs args)
         {
-            var memoryStream = new MemoryStream();
-            await args.File.OpenReadStream().CopyToAsync(memoryStream);
-            var bytes = memoryStream.ToArray();
-            var imageFile = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-            //Member.PhotoUrl = bytes;
-
-            //InputFileMessage = args.File.Name;
-            //await OnFileChanged.InvokeAsync(args);
-            //if (File.ContentType == "image/png")
-            //{
-            //    File = await File.RequestImageFileAsync("image/png", 400, 400);
-            //}
-
-            //ErrorMessage = "Please choose the right format.";
+            var file = args.File;
+            if (file != null)
+            {
+                using var memoryStream = new MemoryStream();
+                await file.OpenReadStream().CopyToAsync(memoryStream);
+                var bytes = memoryStream.ToArray();
+                Member.PhotoUrl = bytes;
+            }
         }
     }
 }

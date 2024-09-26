@@ -1,14 +1,15 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TogoleseAssociationSystem.API.Extensions;
 using TogoleseAssociationSystem.Application.AutoMapper;
-using TogoleseAssociationSystem.Application.Services;
-using TogoleseAssociationSystem.Domain.DTOs;
+using TogoleseAssociationSystem.Application.DTOs;
+using TogoleseAssociationSystem.Domain.Interfaces;
 using TogoleseAssociationSystem.Domain.Models;
 
 namespace TogolesAssociationSystem.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]    
+    [Route("api/[controller]")]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -24,29 +25,41 @@ namespace TogolesAssociationSystem.API.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet]      
+        [HttpGet]
         public async Task<IActionResult> GetAllMembersAsync(string? filter = null)
         {
             try
             {
-                var contributions = await memberService.GetContributionsAsync();
-
-                var members = await memberService.GetMembersAsync(filter);              
+                IEnumerable<MembershipContributionReadDto> contributionsDto;
+                List<MemberRead> membersDto;
+                var members = await memberService.GetMembersAsync(filter);
 
                 if (!members.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(members);
+                var contributions = await memberService.GetContributionsAsync();
+
+                if (contributions.ToList().Count == 0)
+                {
+                    membersDto = members.ConvertToDto();
+                }
+                else
+                {
+                    contributionsDto = contributions.ToList().ConvertToDto();
+                    membersDto = members.ConvertToDto(contributionsDto);
+                }
+
+                return Ok(membersDto);
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-        }      
+        }
 
-        [HttpGet("{id}")]       
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetMemberById(Guid id)
         {
             try
@@ -56,9 +69,10 @@ namespace TogolesAssociationSystem.API.Controllers
                 if (member == null)
                 {
                     return NotFound();
-                }              
+                }
+                var memberDto = mapper.Map<MemberRead>(member);
 
-                return Ok(member);
+                return Ok(memberDto);
             }
             catch (Exception ex)
             {
@@ -67,7 +81,7 @@ namespace TogolesAssociationSystem.API.Controllers
         }
 
         // POST api/Member
-        [HttpPost]       
+        [HttpPost]
         public async Task<IActionResult> CreateNewMemberAsync([FromBody] MemberToAdd memberToAdd)
         {
             try
@@ -86,16 +100,18 @@ namespace TogolesAssociationSystem.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMemberAsync(Guid id, Member memberUpdate)
+        public async Task<IActionResult> UpdateMemberAsync(Guid id, MemberUpdateDto memberUpdate)
         {
             try
             {
                 if (id != memberUpdate.Id)
                 {
                     BadRequest();
-                }               
+                }
 
-                memberService.UpdateMember(memberUpdate);
+                var member = mapper.Map<Member>(memberUpdate);
+
+                memberService.UpdateMember(member);
 
                 return Ok(memberUpdate);
             }

@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TogoleseAssociationSystem.Application\TogoleseAssociationSystem.Application.csproj" />
+    <ProjectReference Include="..\TogoleseAssociationSystem.Infrastructure\TogoleseAssociationSystem.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
