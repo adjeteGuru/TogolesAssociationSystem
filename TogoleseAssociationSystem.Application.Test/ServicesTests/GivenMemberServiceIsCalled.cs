@@ -4,10 +4,10 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TogoleseAssociationSystem.Application.Repositories;
-using TogoleseAssociationSystem.Application.Services;
-using TogoleseAssociationSystem.Domain.Models;
 
+using TogoleseAssociationSystem.Application.Services;
+using TogoleseAssociationSystem.Domain.Interfaces;
+using TogoleseAssociationSystem.Domain.Models;
 namespace TogoleseAssociationSystem.Application.Test.ServicesTests
 {
     public class GivenMemberServiceIsCalled

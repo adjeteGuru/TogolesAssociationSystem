@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using TogoleseAssociationSystem.Domain.DTOs;
+using TogoleseAssociationSystem.Application.DTOs;
 using TogoleseAssociationSystem.Domain.Models;
 
 namespace TogoleseAssociationSystem.Application.AutoMapper
@@ -9,10 +9,10 @@ namespace TogoleseAssociationSystem.Application.AutoMapper
         public Profiles()
         {
             CreateMap<Member, MemberRead>();
-            CreateMap<MemberRead, Member>();
-            //CreateMap<List<Member>, List<MemberRead>>();
-            CreateMap<MembershipContribution, MembershipContributionRead>();
-            CreateMap<MembershipContributionRead, MembershipContribution>();
+            CreateMap<MemberRead, Member>();           
+            CreateMap<MembershipContribution, MembershipContributionReadDto>();           
+            CreateMap<MembershipContributionReadDto, MembershipContribution>();
+            CreateMap<MemberUpdateDto, Member>();
         }
     }
 }

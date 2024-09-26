@@ -34,9 +34,6 @@ namespace TogoleseAssociationSystem.IntegrationTests.StepDefinitions
         {
             var id = scenarioContext.Get<List<string>>(TestConstants.ScenarioContextKeys.AllCreatedMembers)
                 .Single(x => x.StartsWith(dataType, StringComparison.InvariantCultureIgnoreCase));
-
-            //var dataSuffix = dataType =="member"
-
         }
 
         protected void WaitForSelectableMembershipContribution() 

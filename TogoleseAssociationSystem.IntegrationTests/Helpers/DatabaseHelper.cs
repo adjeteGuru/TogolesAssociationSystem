@@ -1,8 +1,8 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using TogoleseAssociationSystem.Application.Database;
 using TogoleseAssociationSystem.Domain.Models;
+using TogoleseAssociationSystem.Infrastructure.Database;
 
 namespace TogoleseAssociationSystem.IntegrationTests.Helpers
 {

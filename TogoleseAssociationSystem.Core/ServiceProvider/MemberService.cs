@@ -1,21 +1,25 @@
 ﻿using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using TogoleseAssociationSystem.Core.DTOs;
 using TogoleseAssociationSystem.Core.Models;
+using TogoleseAssociationSystem.Core.ServiceProvider.Interfaces;
 
 namespace TogoleseAssociationSystem.Core.ServiceProvider
 {
     public class MemberService : IMemberService
     {
         private readonly HttpClient httpClient;
+        private IAlertService alertService;
         private static string RequestUri = "api/member";
         private static string MembershipUri = "api/membership";
-        public MemberService(HttpClient httpClient)
+        public MemberService(HttpClient httpClient, IAlertService alertService)
         {
             this.httpClient = httpClient;
+            this.alertService = alertService;
         }
-        public async Task<Member> GetMemberByIdAsync(Guid id)
+        public async Task<MemberRead> GetMemberByIdAsync(Guid id)
         {
             var httpResponse = await httpClient.GetAsync($"{RequestUri}/{id}");
             try
@@ -23,28 +27,27 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                 if (httpResponse.IsSuccessStatusCode)
                 {
                     var stringContent = await httpResponse.Content.ReadAsStringAsync();
-                    var memberRead = JsonConvert.DeserializeObject<Member>(stringContent);
+                    var memberRead = JsonConvert.DeserializeObject<MemberRead>(stringContent);
                     if (memberRead == null)
                     {
-                        throw new Exception("Not found!");
+                       alertService.ShowAlert("No member found");
                     }
                     return memberRead;
                 }
+                if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
 
             return null;
         }
-
-        public async Task<Member> GetMemberByNameAsync(string name)
-        {            
-            return default(Member);
-        }
-
-        public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
+       
+        public async Task<IEnumerable<MemberRead>> GetMembersAsync(string? filter = null)
         {
             var httpResponse = await httpClient.GetAsync($"{RequestUri}?filter={filter}");
             try
@@ -52,39 +55,47 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                 if (httpResponse.IsSuccessStatusCode)
                 {
                     var stringContent = await httpResponse.Content.ReadAsStringAsync();
-                    var membersRead = JsonConvert.DeserializeObject<IEnumerable<Member>>(stringContent);
-                    if (membersRead == null)
+                    var membersRead = JsonConvert.DeserializeObject<IEnumerable<MemberRead>>(stringContent);
+                    if (membersRead == null || !membersRead.Any())
                     {
-                        throw new Exception("Not found!");
+                        alertService.ShowAlert("No member found");
                     }
                     return membersRead;
                 }
+                if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
 
             return null;
         }
 
-        public async Task<Member> CreateMemberAsync(MemberToAdd memberToAdd)
+        public async Task<MemberRead> CreateMemberAsync(MemberToAdd memberToAdd)
         {
-            var response = await httpClient.PostAsJsonAsync($"{RequestUri}", memberToAdd);
+            var httpResponse = await httpClient.PostAsJsonAsync($"{RequestUri}", memberToAdd);
             try
             {
-                if (response.IsSuccessStatusCode)
+                if (httpResponse.IsSuccessStatusCode)
                 {
-                    var stringContent = await response.Content.ReadAsStringAsync();
+                    var stringContent = await httpResponse.Content.ReadAsStringAsync();
 
-                    var member = JsonConvert.DeserializeObject<Member>(stringContent);
+                    var member = JsonConvert.DeserializeObject<MemberRead>(stringContent);
 
                     if (member == null)
                     {
-                        throw new Exception("Not found!");
+                        alertService.ShowAlert("No member found");
                     }
-                  
+
                     return member;
+                }
+                if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
                 }
             }
             catch (Exception e)
@@ -95,24 +106,28 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             return null;
         }
 
-        public async Task<MembershipContribution> CreateMembershipAsync(MembershipContributionToAdd contributionToAdd)
+        public async Task<MembershipContributionReadDto> CreateMembershipAsync(MembershipContributionToAdd contributionToAdd)
         {
-            var response = await httpClient.PostAsJsonAsync($"{MembershipUri}", contributionToAdd);
+            var httpResponse = await httpClient.PostAsJsonAsync($"{MembershipUri}", contributionToAdd);
             try
             {
-                if (response.IsSuccessStatusCode)
+                if (httpResponse.IsSuccessStatusCode)
                 {
-                    var stringContent = await response.Content.ReadAsStringAsync();
+                    var stringContent = await httpResponse.Content.ReadAsStringAsync();
 
-                    var membership = JsonConvert.DeserializeObject<MembershipContribution>(stringContent);
+                    var membership = JsonConvert.DeserializeObject<MembershipContributionReadDto>(stringContent);
 
                     if (membership == null)
                     {
-                        throw new Exception("Not found!");
+                        alertService.ShowAlert("No member found");
                     }
 
                     return membership;
                 }
+                if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
+                }
             }
             catch (Exception e)
             {
@@ -122,31 +137,35 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             return null;
         }
 
-        public async Task<Member> UpdateMemberDetails(Member member)
+        public async Task<MemberRead> UpdateMemberDetails(MemberUpdateDto member)
         {
             var json = JsonConvert.SerializeObject(member);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var newRequestUri = $"api/member/" + member.Id;
 
-            var response = await httpClient.PutAsync(newRequestUri, content);
+            var httpResponse = await httpClient.PutAsync(newRequestUri, content);
 
             try
             {
-                if (response.IsSuccessStatusCode)
+                if (httpResponse.IsSuccessStatusCode)
                 {
-                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var responseContent = await httpResponse.Content.ReadAsStringAsync();
 
-                    var memberUpdated = JsonConvert.DeserializeObject<Member>(responseContent);
+                    var memberUpdated = JsonConvert.DeserializeObject<MemberRead>(responseContent);
 
                     if (memberUpdated == null)
                     {
-                        throw new Exception("Not found!");
-                    }                 
+                        alertService.ShowAlert("No member found");
+                    }
 
                     return memberUpdated;
                 }
+                if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
+                }
 
-                var errorContent = await response.Content.ReadAsStringAsync();
+                var errorContent = await httpResponse.Content.ReadAsStringAsync();
 
                 var failureResponse = JsonConvert.DeserializeObject<FailureResponseModel>(errorContent)?.Detail;
 
@@ -163,7 +182,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             return null;
         }
 
-        public async Task<IEnumerable<Member>> GetAllExistingMembersAsync()
+        public async Task<IEnumerable<MemberRead>> GetAllExistingMembersAsync()
         {
             var httpResponse = await httpClient.GetAsync($"{MembershipUri}");
             try
@@ -171,17 +190,49 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                 if (httpResponse.IsSuccessStatusCode)
                 {
                     var stringContent = await httpResponse.Content.ReadAsStringAsync();
-                    var membersRead = JsonConvert.DeserializeObject<IEnumerable<Member>>(stringContent);
+                    var membersRead = JsonConvert.DeserializeObject<IEnumerable<MemberRead>>(stringContent);
                     if (membersRead == null)
                     {
-                        throw new Exception("Not found!");
+                        alertService.ShowAlert("No member found");
                     }
                     return membersRead;
                 }
+                if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
+            }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<MembershipContributionReadDto>> GetAllMembershipsAsync()
+        {
+            var httpResponse = await httpClient.GetAsync($"{MembershipUri}");
+            try
+            {
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var stringContent = await httpResponse.Content.ReadAsStringAsync();
+                    var membershipsRead = JsonConvert.DeserializeObject<IEnumerable<MembershipContributionReadDto>>(stringContent);
+                    if (membershipsRead == null || !membershipsRead.Any())
+                    {
+                        alertService.ShowAlert("No member found");
+                    }
+                    return membershipsRead;
+                }
+                if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
 
             return null;

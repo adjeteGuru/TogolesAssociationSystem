@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
-using System.Text;
-using TogoleseAssociationSystem.Core.Models;
-using TogoleseAssociationSystem.Core.ServiceProvider;
+using TogoleseAssociationSystem.Core.DTOs;
+using TogoleseAssociationSystem.Core.ServiceProvider.Interfaces;
 
 namespace TogoleseAssociationSystem.APP.Pages
 {
@@ -20,9 +19,10 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         [Parameter]
         public Guid Id { get; set; }
-        public Member Member { get; set; }
+        public MemberRead Member { get; set; }
+
         public string? ErrorMessage { get; set; }
-        public EditContext  EditContext { get; set; }
+        public EditContext EditContext { get; set; }
 
         protected decimal TotalCount = 0;
 
@@ -30,7 +30,7 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            Member = new Member();
+            Member = new MemberRead();
             EditContext = new EditContext(Member);
 
             try
@@ -48,7 +48,7 @@ namespace TogoleseAssociationSystem.APP.Pages
         protected async Task GoBack()
         {
             await JSRuntime.InvokeVoidAsync("history.back");
-        } 
+        }
 
         protected void NavigateToCreate()
         {
@@ -60,31 +60,38 @@ namespace TogoleseAssociationSystem.APP.Pages
             Navigation.NavigateTo($"/membershipcreate/{selectedMemberId}/edit");
         }
 
-        protected async Task UpdateMemberDetails(Member member)
+        protected async Task UpdateMemberDetails(MemberRead member)
         {
-            await MemberService.UpdateMemberDetails(member);
+            var memberUpdateDto = new MemberUpdateDto
+            {
+                Id = member.Id,
+                FirstName = member.FirstName,
+                LastName = member.LastName,
+                Title = member.Title,
+                Telephone = member.Telephone,
+                Address = member.Address,
+                Postcode = member.Postcode,
+                City = member.City,
+                DateOfBirth = member.DateOfBirth,
+                PhotoUrl = member.PhotoUrl,
+                IsActive = member.IsActive,
+                IsChair = member.IsChair,
+                MembershipDate = member.MembershipDate,
+                NextOfKin = member.NextOfKin,
+                Relationship = member.Relationship,
+                Memberships = null               
+            };
+            await MemberService.UpdateMemberDetails(memberUpdateDto);
             StateHasChanged();
             Navigation.NavigateTo("/memberlist");
         }
-               
+
         protected async Task OnInputFileChanged(InputFileChangeEventArgs args)
         {
             var memoryStream = new MemoryStream();
             await args.File.OpenReadStream().CopyToAsync(memoryStream);
-            var bytes = memoryStream.ToArray();           
-            //var imageFile = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+            var bytes = memoryStream.ToArray();
             Member.PhotoUrl = bytes;
-
-
-            //InputFileMessage = args.File.Name;
-            //await OnFileChanged.InvokeAsync(args);
-            //if (File.ContentType == "image/png")
-            //{
-            //    File = await File.RequestImageFileAsync("image/png", 400, 400);
-            //}
-
-            //ErrorMessage = "Please choose the right format.";
-            //string imageData = @"data:image / jpeg; base64," + Convert.ToBase64String(File.ReadAllBytes(imgPath));
         }
 
         private void CalculateTotalContributionByMember()

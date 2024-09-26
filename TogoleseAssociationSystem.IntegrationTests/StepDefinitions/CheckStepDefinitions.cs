@@ -1,8 +1,6 @@
 using AutoMapper.Execution;
 using Newtonsoft.Json;
-using System;
 using System.Net;
-using TechTalk.SpecFlow;
 using TogoleseAssociationSystem.IntegrationTests.Constants;
 
 namespace TogoleseAssociationSystem.IntegrationTests.StepDefinitions

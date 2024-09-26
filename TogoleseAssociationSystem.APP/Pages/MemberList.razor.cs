@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using TogoleseAssociationSystem.Core.Models;
-using TogoleseAssociationSystem.Core.ServiceProvider;
+using TogoleseAssociationSystem.Core.DTOs;
+using TogoleseAssociationSystem.Core.ServiceProvider.Interfaces;
 
 namespace TogoleseAssociationSystem.APP.Pages
 {
@@ -12,9 +12,9 @@ namespace TogoleseAssociationSystem.APP.Pages
         [Inject]
         public NavigationManager Navigation { get; set; }
 
-        public EventCallback<List<Member>> OnMemberSearched { get; set; }
+        public EventCallback<List<MemberRead>> OnMemberSearched { get; set; }
 
-        protected List<Member>? Members;
+        protected List<MemberRead>? Members;
 
         public string? ErrorMessage { get; set; }
 
@@ -22,12 +22,12 @@ namespace TogoleseAssociationSystem.APP.Pages
         {
             try
             {
-                Members = new List<Member>();
+                Members = new List<MemberRead>();
                 var members = await MemberService.GetMembersAsync(null);
                 Members.AddRange(members);
             }
             catch (Exception ex)
-            {               
+            {
                 ErrorMessage = ex.Message;
             }
         }
@@ -38,11 +38,11 @@ namespace TogoleseAssociationSystem.APP.Pages
             {
                 var searchedMembers = await MemberService.GetMembersAsync(filter);
                 Members = searchedMembers.ToList();
-              
+
                 StateHasChanged();
             }
             catch
-            {      
+            {
                 //alert to state the error then load home
                 Navigation.NavigateTo("/memberlist");
             }

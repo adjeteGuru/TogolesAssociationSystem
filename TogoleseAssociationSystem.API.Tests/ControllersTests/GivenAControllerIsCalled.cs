@@ -6,7 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TogolesAssociationSystem.API.Controllers;
-using TogoleseAssociationSystem.Application.Services;
+using TogoleseAssociationSystem.Application.DTOs;
+using TogoleseAssociationSystem.Domain.Interfaces;
 using TogoleseAssociationSystem.Domain.Models;
 using Xunit;
 
@@ -108,8 +109,7 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
         [Fact]
         public async Task GetMembersAsync_WhenInvokesWithNullFilter_ThenTheExpectedResultIsReturned()
         {
-
-            var returnedMembers = new List<Member>
+            var membersReturned = new List<Member>
             {
                 new Member
                 {
@@ -119,36 +119,71 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
                     DateOfBirth = new DateTime(2000,01,31),
                     IsActive=true,
                     IsChair = false,
-                    MembershipDate = DateTime.Today,
-                    PhotoUrl = Array.Empty<byte>()
-                },
-                new Member
+                    MembershipDate = new DateTime(2022,01,31),
+                    PhotoUrl = Array.Empty<byte>(),
+                    Memberships = new List<MembershipContribution>
+                    {
+                        new MembershipContribution
+                        {
+                            Id = Guid.Parse("22477ab6-420f-4d32-95b9-20574cb57367"),
+                            ContributionName = "Funerals",
+                            IsAnnualContribution = false,
+                            Amount = 50,
+                            DateOfContribution = new DateTime(2023, 12, 01),
+                            MemberId = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807")
+                        }
+                    }
+                }
+            };
+
+            var contributions = new List<MembershipContributionReadDto>
+             {
+                 new MembershipContributionReadDto
+                 {
+                     Id = Guid.Parse("22477ab6-420f-4d32-95b9-20574cb57367"),
+                     ContributionName = "Funerals",
+                     IsAnnualContribution = false,
+                     Amount = 50,
+                     DateOfContribution = new DateTime(2023, 12, 01),
+                     MemberId = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807")
+                 }
+             };
+
+            var returnedMembersDto = new List<MemberRead>
+            {
+                new MemberRead
                 {
-                   Id = Guid.Parse("cba764d4-883e-4731-aa29-74e2fae8cc11"),
-                    FirstName ="Brenda",
-                    LastName ="Love",
-                    DateOfBirth = new DateTime(1980,11,20),
-                    IsActive=true,
-                    IsChair = true,
-                    MembershipDate = DateTime.Today,
-                    PhotoUrl = Array.Empty<byte>()
-                },
-                new Member
-                {
-                    Id = Guid.Parse("9c86fb1c-0941-4d5a-96ff-f6eb919f8b99"),
-                    FirstName ="Smith",
-                    LastName ="Joe",
-                    DateOfBirth = new DateTime(1970,07,30),
+                    Id = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807"),
+                    FirstName ="John",
+                    LastName ="Doe",
+                    DateOfBirth = new DateTime(2000,01,31),
                     IsActive=true,
                     IsChair = false,
-                    MembershipDate = DateTime.Today,
-                    PhotoUrl = Array.Empty<byte>()
-                },
+                    MembershipDate = new DateTime(2022,01,31),
+                    PhotoUrl = Array.Empty<byte>(),
+                    Memberships = contributions
+                }                
             };
-            mockMapper.Setup(x => x.Map<List<Member>>(It.IsAny<List<Member>>())).Returns(returnedMembers);
+
+            mockMemberService.Setup(m => m.GetContributionsAsync())
+                .ReturnsAsync(
+                new List<MembershipContribution> 
+                { 
+                    new MembershipContribution
+                    {
+                        Id = Guid.Parse("22477ab6-420f-4d32-95b9-20574cb57367"),
+                        ContributionName = "Funerals",
+                        IsAnnualContribution = false,
+                        Amount = 50,
+                        DateOfContribution = new DateTime(2023, 12, 01),
+                        MemberId = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807")
+                }   });
+
+            mockMemberService.Setup(m => m.GetMembersAsync(It.IsAny<string>())).ReturnsAsync(membersReturned);
+
             var result = await systemUnderTest.GetAllMembersAsync();
-            var expectedResult = result as ObjectResult;
-            expectedResult!.Value.Should().BeEquivalentTo(returnedMembers);
+            var expectedResult = result as ObjectResult;           
+            expectedResult!.Value.Should().BeEquivalentTo(returnedMembersDto);
         }
 
         [Fact]
@@ -157,17 +192,29 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
             var searchMembers = new List<Member>
             {
                 new Member
-            {
-                Id = Guid.Parse("a703c95e-1807-437e-b947-9d7b33cb9b1f"),
-                FirstName = "John",
-                LastName = "Doe",
-                DateOfBirth = new DateTime(2000, 01, 31),
-                IsActive = true,
-                IsChair = false,
-                MembershipDate = DateTime.Today,
-                PhotoUrl = Array.Empty<byte>()
-            }
-        };
+                {
+                    Id = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807"),
+                    FirstName ="John",
+                    LastName ="Doe",
+                    DateOfBirth = new DateTime(2000,01,31),
+                    IsActive=true,
+                    IsChair = false,
+                    MembershipDate = new DateTime(2022,01,31),
+                    PhotoUrl = Array.Empty<byte>(),
+                    Memberships = new List<MembershipContribution>
+                    {
+                        new MembershipContribution
+                        {
+                            Id = Guid.Parse("22477ab6-420f-4d32-95b9-20574cb57367"),
+                            ContributionName = "Funerals",
+                            IsAnnualContribution = false,
+                            Amount = 50,
+                            DateOfContribution = new DateTime(2023, 12, 01),
+                            MemberId = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807")
+                        }
+                    }
+                }
+            };
 
             var returnedMembers = new List<Member>
             {
@@ -184,11 +231,52 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
             }
         };
 
+            var contributions = new List<MembershipContributionReadDto>
+             {
+                 new MembershipContributionReadDto
+                 {
+                     Id = Guid.Parse("22477ab6-420f-4d32-95b9-20574cb57367"),
+                     ContributionName = "Funerals",
+                     IsAnnualContribution = false,
+                     Amount = 50,
+                     DateOfContribution = new DateTime(2023, 12, 01),
+                     MemberId = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807")
+                 }
+             };
+
+            var returnedMembersDto = new List<MemberRead>
+            {
+                new MemberRead
+                {
+                    Id = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807"),
+                    FirstName ="John",
+                    LastName ="Doe",
+                    DateOfBirth = new DateTime(2000,01,31),
+                    IsActive=true,
+                    IsChair = false,
+                    MembershipDate = new DateTime(2022,01,31),
+                    PhotoUrl = Array.Empty<byte>(),
+                    Memberships = contributions
+                }
+            };
+
             mockMemberService.Setup(m => m.GetMembersAsync(It.IsAny<string>())).ReturnsAsync(searchMembers);
-         
+            mockMemberService.Setup(m => m.GetContributionsAsync())
+                  .ReturnsAsync(
+                  new List<MembershipContribution>
+                  {
+                    new MembershipContribution
+                    {
+                        Id = Guid.Parse("22477ab6-420f-4d32-95b9-20574cb57367"),
+                        ContributionName = "Funerals",
+                        IsAnnualContribution = false,
+                        Amount = 50,
+                        DateOfContribution = new DateTime(2023, 12, 01),
+                        MemberId = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807")
+                }   });
             var result = await systemUnderTest.GetAllMembersAsync("Doe");
             var expectedResult = result as ObjectResult;
-            expectedResult!.Value.Should().BeEquivalentTo(returnedMembers);
+            expectedResult!.Value.Should().BeEquivalentTo(returnedMembersDto);
         }
 
         [Fact]
@@ -245,7 +333,17 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
                 PhotoUrl = Array.Empty<byte>()
             };
             mockMemberService.Setup(m => m.GetMemberByIdAsync(It.IsAny<Guid>())).ReturnsAsync(expectedResult);
-
+            mockMapper.Setup(m => m.Map<MemberRead>(It.IsAny<Member>())).Returns(new MemberRead
+            {
+                Id = Guid.Parse("a703c95e-1807-437e-b947-9d7b33cb9b1f"),
+                FirstName = "John",
+                LastName = "Doe",
+                DateOfBirth = new DateTime(2000, 01, 31),
+                IsActive = true,
+                IsChair = false,
+                MembershipDate = DateTime.Today,
+                PhotoUrl = Array.Empty<byte>()
+            });
             var result = (await systemUnderTest.GetMemberById(Guid.Empty)) as ObjectResult;
 
             result!.Value.Should().BeEquivalentTo(returnedMember);
