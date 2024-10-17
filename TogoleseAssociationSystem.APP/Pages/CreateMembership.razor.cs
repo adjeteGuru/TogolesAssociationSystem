@@ -8,7 +8,6 @@ namespace TogoleseAssociationSystem.APP.Pages
 {
     public class CreateMembershipComponent : ComponentBase
     {
-
         [Inject]
         public NavigationManager Navigation { get; set; }
 
@@ -17,6 +16,9 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
+
+        [Inject]
+        public IAlertService AlertService { get; set; }
 
         [Parameter]
         public Guid Id { get; set; }
@@ -27,10 +29,19 @@ namespace TogoleseAssociationSystem.APP.Pages
         [Parameter]
         public bool Edit { get; set; }
 
+        [Parameter]
+        public bool IsAlertVisible { get; set; }
+
+        [Parameter]
+        public bool IsVisible { get; set; }
+
         public EditContext EditContext { get; set; }
 
         [Parameter]
         public MemberRead Member { get; set; }
+
+        [Parameter]
+        public string AlertMessage { get; set; } = string.Empty;
 
         protected override void OnInitialized()
         {
@@ -42,25 +53,47 @@ namespace TogoleseAssociationSystem.APP.Pages
         {
             SetEditMode();
 
-            Member = new MemberRead();
-
-            if (Edit == true)
+            if (Edit)
             {
                 Member = await MemberService.GetMemberByIdAsync(Id);
                 SetCurrentMemberToContributeDetails();
+                AlertService.OnAlert += HandleAlert;
+            }
+            else
+            {
+                Contribution = new MembershipContributionToAdd();
+                AlertService.OnAlert += HandleAlert;
             }
 
             await base.OnParametersSetAsync();
         }
 
+        private void HandleAlert(string message)
+        {
+            IsAlertVisible = true;
+            AlertMessage = message;
+        }
+
         protected async Task Submit()
         {
-            var result = await MemberService.CreateMembershipAsync(Contribution);
-            if (result == null)
+            var contribution = await MemberService.CreateMembershipAsync(Contribution);
+            
+            if (contribution == null)
             {
                 return;
             }
-            Navigation.NavigateTo("/memberlist");
+
+            AlertMessage = $"{contribution.ContributionName} is added successfully.";
+
+            AlertService.ShowAlert(AlertMessage);
+
+            Reset();
+        }
+
+        private void Reset()
+        {
+            Contribution = new MembershipContributionToAdd();
+            StateHasChanged();
         }
 
         protected async Task GoBack()
@@ -70,11 +103,7 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         private bool SetEditMode()
         {
-            if (Id == Guid.Empty)
-            {
-                return Edit;
-            }
-            Edit = true;
+            Edit = Id != Guid.Empty;
             return Edit;
         }
 
@@ -82,6 +111,11 @@ namespace TogoleseAssociationSystem.APP.Pages
         {
             Contribution.MemberFirstName = Member.FirstName;
             Contribution.MemberLastName = Member.LastName;
+        }
+
+        private void UnsubscribeAlert()
+        {
+            AlertService.OnAlert -= HandleAlert;
         }
     }
 }

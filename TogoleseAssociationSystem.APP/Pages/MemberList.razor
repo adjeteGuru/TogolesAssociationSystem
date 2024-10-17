@@ -2,6 +2,14 @@
 @page "/memberlist"
 @inherits MemberListComponent
 
+<span>Test Banner</span>
+@if (DisplayAlert)
+{
+    <div class="alert alert-success fade-in" role="alert" visibility="@IsVisible">
+        @Message
+    </div>
+}
+
 <div class="my-3 d-flex flex-wrap justify-content-between">
     <h3 class="priceTextOverride">List of active members</h3>
     <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
