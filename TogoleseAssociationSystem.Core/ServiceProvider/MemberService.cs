@@ -57,8 +57,8 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                     var stringContent = await httpResponse.Content.ReadAsStringAsync();
                     var membersRead = JsonConvert.DeserializeObject<IEnumerable<MemberRead>>(stringContent);
                     if (membersRead == null || !membersRead.Any())
-                    {
-                        alertService.ShowAlert("No member found");
+                    {                        
+                        return [];
                     }
                     return membersRead;
                 }
@@ -69,7 +69,8 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                //throw new Exception(ex.Message);
+                alertService.ShowAlert(ex.Message);
             }
 
             return null;
@@ -100,7 +101,8 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                //throw new Exception(e.Message);
+                alertService.ShowAlert(e.Message);
             }
 
             return null;
@@ -131,7 +133,8 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                //throw new Exception(e.Message);
+                alertService.ShowAlert(e.Message);
             }
 
             return null;
@@ -171,12 +174,14 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
 
                 if (failureResponse != null)
                 {
-                    throw new Exception(failureResponse);
+                    //throw new Exception(failureResponse);
+                    alertService.ShowAlert(failureResponse);
                 }
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                //throw new Exception(e.Message);
+                alertService.ShowAlert(e.Message);
             }
 
             return null;
@@ -193,7 +198,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                     var membersRead = JsonConvert.DeserializeObject<IEnumerable<MemberRead>>(stringContent);
                     if (membersRead == null)
                     {
-                        alertService.ShowAlert("No member found");
+                        return [];
                     }
                     return membersRead;
                 }
@@ -204,7 +209,8 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                //throw new Exception(ex.Message);
+                alertService.ShowAlert(ex.Message);
             }
 
             return null;
@@ -232,7 +238,8 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                //throw new Exception(ex.Message);
+                alertService.ShowAlert(ex.Message);
             }
 
             return null;

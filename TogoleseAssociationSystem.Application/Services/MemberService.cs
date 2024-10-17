@@ -1,5 +1,4 @@
-﻿
-using TogoleseAssociationSystem.Domain.Interfaces;
+﻿using TogoleseAssociationSystem.Domain.Interfaces;
 using TogoleseAssociationSystem.Domain.Models;
 
 namespace TogoleseAssociationSystem.Application.Services
@@ -20,7 +19,7 @@ namespace TogoleseAssociationSystem.Application.Services
 
         public void CreateMembership(MembershipContribution membership)
         {
-            memberRepository.CreateMembership(membership);
+            memberRepository.CreateMembership(membership);           
         }
 
         public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()

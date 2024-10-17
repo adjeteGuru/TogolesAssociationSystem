@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using TogoleseAssociationSystem.Infrastructure.Database;
 using TogoleseAssociationSystem.Domain.Interfaces;
 using TogoleseAssociationSystem.Domain.Models;
-using TogoleseAssociationSystem.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace TogoleseAssociationSystem.Infrastructure.Repositories
 {

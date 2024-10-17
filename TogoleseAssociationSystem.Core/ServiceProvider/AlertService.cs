@@ -9,6 +9,6 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
         public void ShowAlert(string message)
         {
             OnAlert?.Invoke(message);
-        }
+        }      
     }
 }

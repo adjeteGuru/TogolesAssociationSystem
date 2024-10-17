@@ -12,11 +12,26 @@ namespace TogoleseAssociationSystem.APP.Pages
         [Inject]
         public NavigationManager Navigation { get; set; }
 
+        [Inject]
+        public IAlertService AlertService { get; set; }
+
+        [Parameter]
+        public bool DisplayAlert { get; set; }
+
+        public MembershipContributionReadDto MembershipContributionRead { get; set; }
+
         public EventCallback<List<MemberRead>> OnMemberSearched { get; set; }
 
         protected List<MemberRead>? Members;
 
         public string? ErrorMessage { get; set; }
+
+        [Parameter]
+        public string? Message { get; set; }
+
+        [Parameter]
+        public bool IsVisible { get; set; }
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -25,11 +40,19 @@ namespace TogoleseAssociationSystem.APP.Pages
                 Members = new List<MemberRead>();
                 var members = await MemberService.GetMembersAsync(null);
                 Members.AddRange(members);
+                AlertService.OnAlert += HandleAlert;
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                AlertService.ShowAlert(ex.Message);
             }
+        }
+
+        private void HandleAlert(string message)
+        {
+            IsVisible = true;
+            DisplayAlert = true;
+            Message = message;
         }
 
         public async void HandleSearch(string filter)
@@ -43,7 +66,6 @@ namespace TogoleseAssociationSystem.APP.Pages
             }
             catch
             {
-                //alert to state the error then load home
                 Navigation.NavigateTo("/memberlist");
             }
         }
@@ -56,6 +78,11 @@ namespace TogoleseAssociationSystem.APP.Pages
         protected void NavigateToCreate()
         {
             Navigation.NavigateTo("/membercreate");
+        }
+
+        private void Unsuscribe()
+        {
+            AlertService.OnAlert -= HandleAlert;
         }
     }
 }

@@ -1,6 +1,13 @@
 ﻿@page "/membercreate"
 @inherits CreateMemberComponent
 
+@if (DisplayAlert)
+{
+    <div class="alert alert-success fade-in" role="alert" visibility="@IsVisible">
+        @AlertMessage
+    </div>
+}
+
 <h3 class="priceTextOverride">Add new Member</h3>
 <hr />
 <form>

@@ -15,22 +15,31 @@ namespace TogoleseAssociationSystem.APP.Pages
         public NavigationManager Navigation { get; set; }
 
         [Inject]
+        public IAlertService AlertService { get; set; }
+
+        [Inject]
         public IJSRuntime JSRuntime { get; set; }
 
         [Parameter]
-        public Guid Id { get; set; }
-        public MemberRead Member { get; set; }
+        public string AlertMessage { get; set; } = string.Empty;
 
-        public string? ErrorMessage { get; set; }
+        [Parameter]
+        public Guid Id { get; set; }
+
+        [Parameter]
+        public bool IsAlertVisible { get; set; }
+
+        [Parameter]
+        public bool IsVisible { get; set; }
+
+        public MemberRead Member { get; set; } = new MemberRead();
         public EditContext EditContext { get; set; }
 
         protected decimal TotalCount = 0;
-
         protected decimal TotalCurrentYearAmount = 0;
 
         protected override async Task OnInitializedAsync()
         {
-            Member = new MemberRead();
             EditContext = new EditContext(Member);
 
             try
@@ -38,10 +47,11 @@ namespace TogoleseAssociationSystem.APP.Pages
                 Member = await MemberService.GetMemberByIdAsync(Id);
                 CalculateTotalContributionByMember();
                 TotalAnnualContribution();
+                AlertService.OnAlert += HandleAlert;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                ErrorMessage = e.Message;
+                AlertService.ShowAlert(ex.Message);
             }
         }
 
@@ -79,11 +89,29 @@ namespace TogoleseAssociationSystem.APP.Pages
                 MembershipDate = member.MembershipDate,
                 NextOfKin = member.NextOfKin,
                 Relationship = member.Relationship,
-                Memberships = null               
+                Memberships = null
             };
+
             await MemberService.UpdateMemberDetails(memberUpdateDto);
+
+            AlertMessage = $"{member.FirstName} {member.LastName} is updated successfully";
+
+            AlertService.ShowAlert(AlertMessage);
+
+            AlertService.OnAlert += HandleAlert;
+
             StateHasChanged();
-            Navigation.NavigateTo("/memberlist");
+        }
+
+        public void SetAlert(string message)
+        {
+            AlertService.ShowAlert(message);
+        }
+
+        private void HandleAlert(string message)
+        {
+            IsAlertVisible = true;
+            AlertMessage = message;
         }
 
         protected async Task OnInputFileChanged(InputFileChangeEventArgs args)
@@ -96,25 +124,19 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         private void CalculateTotalContributionByMember()
         {
-            foreach (var item in Member.Memberships)
-            {
-                TotalCount += item.Amount;
-            };
+            TotalCount = Member.Memberships.Sum(m => m.Amount);
         }
 
         private void TotalAnnualContribution()
         {
-            foreach (var membership in Member.Memberships)
-            {
-                var dateFormatted = membership.DateOfContribution.Value.ToString("dd-MMM-yyyy").Split('-');
+            TotalCurrentYearAmount = Member.Memberships
+                .Where(m => m.IsAnnualContribution == true && m.DateOfContribution?.Year == DateTime.Today.Year)
+                .Sum(m => m.Amount);
+        }
 
-                int.TryParse(dateFormatted[2], out int yearContributed);
-
-                if (membership.IsAnnualContribution.Equals(true) && yearContributed == DateTime.Today.Year)
-                {
-                    TotalCurrentYearAmount += membership.Amount;
-                }
-            }
+        private void UnsubscribeAlert()
+        {
+            AlertService.OnAlert -= HandleAlert;
         }
     }
 }
