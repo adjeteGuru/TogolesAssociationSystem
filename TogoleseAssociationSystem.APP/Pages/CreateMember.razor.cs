@@ -47,6 +47,7 @@ namespace TogoleseAssociationSystem.APP.Pages
         protected async Task Submit()
         {
             var member = await MemberService.CreateMemberAsync(Member);
+            
             if (member == null)
             {
                 return;
