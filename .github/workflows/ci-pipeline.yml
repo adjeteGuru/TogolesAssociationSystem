@@ -1,49 +1,15 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: Main-Build
-
+name: Triggered Workflow
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
+  repository_dispatch:
+    types: [trigger-event]
 jobs:
-  build:
-
+  run:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-        
-    - name: Restore dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build --no-restore
-      
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-      
-    - name: INIT WORKFLOW - Dispatch init event to REMOTE repository
-      if: github.event.action != 'TgAssSystem Workflow Response'
-      run: |
-        curl -X POST https://api.github.com/repos/adjeteGuru/TogolesAssociationSystem/dispatches \
-        -H 'Accept: application/vnd.github.v3+json' \
-        -u ${{ secrets.ACCESS_TOKEN }} \
-        --data '{"event_type": "Trigger TgAssSystem Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
+      - name: Event Received
+        run: echo "Event received"
+          ```[_{{{CITATION{{{_1{How to trigger a GitHub action workflow in another repository](https://dev.to/ngnijland/how-to-trigger-a-github-action-workflow-in-another-repository-k3k)
 
-    - name: TgAssSystem RESPONSE - Response event from REMOTE repository
-      if: github.event.action == 'TgAssSystem Workflow Response'
-      run: |
-        echo "RESPONSE received from '${{ github.event.client_payload.repository }}'"
-        curl -X POST https://api.github.com/repos/adjeteGuru/TogolesAssociationSystem/dispatches \
-        -H 'Accept: application/vnd.github.v3+json' \
-        -u ${{ secrets.ACCESS_TOKEN }} \
-        --data '{"event_type": "Unexpected Event Process", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}' 
