@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using TogoleseAssociationSystem.Core.DTOs;
 using TogoleseAssociationSystem.Core.Models;
 using TogoleseAssociationSystem.Core.ServiceProvider;
 using TogoleseAssociationSystem.Core.ServiceProvider.Interfaces;
@@ -137,7 +138,7 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
         }
 
         [Fact]
-        public async Task GetMembersAsync_AndTheModelReturnedIsEmpty_ThenTheAlertServiceIsInvoked()
+        public async Task GetMembersAsync_AndTheModelReturnedIsEmpty_ThenEmptyListIsInitialised()
         {
             var response = new HttpResponseMessage()
             {
@@ -147,8 +148,7 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
             SetMessageHandler(response);
 
             var result = await systemUnderTest.GetMembersAsync("test");
-
-            mockAlertService.Verify(x => x.ShowAlert("No member found"), Times.Once);
+            result.Should().BeEquivalentTo(new List<MemberRead>());           
         }
 
         [Fact]

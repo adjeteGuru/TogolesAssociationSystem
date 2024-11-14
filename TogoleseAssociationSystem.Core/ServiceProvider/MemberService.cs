@@ -69,8 +69,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             }
             catch (Exception ex)
             {
-                //throw new Exception(ex.Message);
-                alertService.ShowAlert(ex.Message);
+                throw new Exception(ex.Message);               
             }
 
             return null;
