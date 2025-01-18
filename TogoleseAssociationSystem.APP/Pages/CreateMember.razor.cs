@@ -59,6 +59,9 @@ namespace TogoleseAssociationSystem.APP.Pages
             Reset();
         }
 
+
+
+
         private void Reset()
         {
             Member = new MemberToAdd();

@@ -330,7 +330,8 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
                 IsActive = true,
                 IsChair = false,
                 MembershipDate = DateTime.Today,
-                PhotoUrl = Array.Empty<byte>()
+                PhotoUrl = Array.Empty<byte>(),
+                Claims = [],
             };
             mockMemberService.Setup(m => m.GetMemberByIdAsync(It.IsAny<Guid>())).ReturnsAsync(expectedResult);
             mockMapper.Setup(m => m.Map<MemberRead>(It.IsAny<Member>())).Returns(new MemberRead

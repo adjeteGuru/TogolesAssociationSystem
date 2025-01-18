@@ -12,6 +12,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Database
 
         public DbSet<Member> Members { get; set; }
         public DbSet<MembershipContribution> MembershipContributions { get; set; }
+        public DbSet<Claim> Claims { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

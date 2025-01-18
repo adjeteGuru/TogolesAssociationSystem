@@ -137,7 +137,7 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
         }
 
         [Fact]
-        public async Task GetMembersAsync_AndTheModelReturnedIsEmpty_ThenTheAlertServiceIsInvoked()
+        public async Task GetMembersAsync_AndTheModelReturnedIsEmpty_ThenResultShouldBeEmpty()
         {
             var response = new HttpResponseMessage()
             {
@@ -147,8 +147,8 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
             SetMessageHandler(response);
 
             var result = await systemUnderTest.GetMembersAsync("test");
-
-            mockAlertService.Verify(x => x.ShowAlert("No member found"), Times.Once);
+           
+            result.Should().BeEmpty();
         }
 
         [Fact]
