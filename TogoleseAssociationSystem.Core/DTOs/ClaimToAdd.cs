@@ -1,6 +1,6 @@
 ﻿using TogoleseAssociationSystem.Domain.Models;
 
-namespace TogoleseAssociationSystem.Application.DTOs
+namespace TogoleseAssociationSystem.Core.DTOs
 {
     public class ClaimToAdd
     {

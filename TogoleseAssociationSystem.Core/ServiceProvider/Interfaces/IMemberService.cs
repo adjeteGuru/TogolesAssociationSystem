@@ -11,5 +11,6 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider.Interfaces
         Task<MemberRead> CreateMemberAsync(MemberToAdd memberToAdd);
         Task<MemberRead> UpdateMemberDetails(MemberUpdateDto member);
         Task<MembershipContributionReadDto> CreateMembershipAsync(MembershipContributionToAdd contributionToAdd);
+        Task<ClaimReadDto> CreateClaimAsync(ClaimToAdd claimToAdd);
     }
 }

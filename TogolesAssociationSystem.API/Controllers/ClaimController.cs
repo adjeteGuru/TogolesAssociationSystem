@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using TogoleseAssociationSystem.API.Extensions;
+using TogoleseAssociationSystem.Application.DTOs;
 using TogoleseAssociationSystem.Domain.Interfaces;
-using TogoleseAssociationSystem.Domain.Models;
 
 namespace TogoleseAssociationSystem.API.Controllers
 {
@@ -12,17 +14,29 @@ namespace TogoleseAssociationSystem.API.Controllers
     public class ClaimController : ControllerBase
     {
         private readonly IMemberService memberService;
+        private readonly IMapper mapper;
 
-        public ClaimController(IMemberService memberService)
+        public ClaimController(IMemberService memberService, IMapper mapper)
         {
             this.memberService = memberService;
-        }      
+            this.mapper = mapper;
+        }
 
         [HttpPost]
-        public async Task<IActionResult> MakeAClaimAsync(Claim claim)
-        {            
+        public async Task<IActionResult> MakeAClaimAsync(ClaimToAdd claimToAdd)
+        {
             try
             {
+                var membertoFetch = claimToAdd.ConvertToDto();
+
+                var member = await memberService.RetrieveMember(membertoFetch.FirstName, membertoFetch.LastName);
+                if (member == null)
+                {
+                    return NotFound();
+                }
+
+                var claim = claimToAdd.ConvertToDto(member);
+
                 await memberService.CreateClaimAsync(claim);
 
                 return Ok(claim);
@@ -30,7 +44,7 @@ namespace TogoleseAssociationSystem.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }          
+            }
         }
     }
 }

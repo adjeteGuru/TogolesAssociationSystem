@@ -80,6 +80,15 @@ namespace TogoleseAssociationSystem.API.Extensions
             };
         }
 
+        public static Member ConvertToDto(this ClaimToAdd claimToAdd)
+        {
+            return new Member
+            {
+                FirstName = claimToAdd.MemberFirstName,
+                LastName = claimToAdd.MemberLastName
+            };
+        }
+
         public static MembershipContribution ConvertToDto(this MembershipContributionToAdd membership, Member member)
         {
             return new MembershipContribution
@@ -89,6 +98,19 @@ namespace TogoleseAssociationSystem.API.Extensions
                 DateOfContribution = membership.DateOfContribution,
                 IsAnnualContribution = membership.IsAnnualContribution,
                 MemberId = member.Id
+            };
+        }
+
+        public static Claim ConvertToDto(this ClaimToAdd claim, Member member)
+        {
+            return new Claim
+            {
+                Name = claim.Name,
+                Description = claim.Description,
+                TotalClaimPerMember = claim.TotalClaimPerMember,
+                CurrentClaim = claim.CurrentClaim,
+                MemberId = member.Id,
+                ClaimType = claim.ClaimType
             };
         }
     }

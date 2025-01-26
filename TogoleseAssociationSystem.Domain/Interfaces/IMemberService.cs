@@ -17,5 +17,6 @@ namespace TogoleseAssociationSystem.Domain.Interfaces
         Task<Claim> GetClaimByIdAsync(Guid id);
         Task<IEnumerable<Claim>> GetClaimsAsync();
         bool SaveChanges();
+        void CreateMember(Member member);
     }
 }

@@ -14,6 +14,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
         private IAlertService alertService;
         private static string RequestUri = "api/member";
         private static string MembershipUri = "api/membership";
+        private static string ClaimUri = "api/claim";
         public MemberService(HttpClient httpClient, IAlertService alertService)
         {
             this.httpClient = httpClient;
@@ -240,6 +241,40 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             {
                 //throw new Exception(ex.Message);
                 alertService.ShowAlert(ex.Message);
+            }
+
+            return null;
+        }
+
+        public async Task<ClaimReadDto> CreateClaimAsync(ClaimToAdd claimToAdd)
+        {
+          var response = await httpClient.SendAsync(new HttpRequestMessage
+          {
+              Method = HttpMethod.Post,
+              RequestUri = new Uri(httpClient.BaseAddress + ClaimUri),
+              Content = JsonContent.Create(claimToAdd)
+          });
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var stringContent = await response.Content.ReadAsStringAsync();
+                    var claim = JsonConvert.DeserializeObject<ClaimReadDto>(stringContent);
+                    if (claim == null)
+                    {
+                        alertService.ShowAlert("No claim found");
+                    }
+                    return claim;
+                }
+                if (response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
 
             return null;

@@ -15,25 +15,22 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
             this.dbContext = dbContext;
         }
 
-        public void CreateClaim(Claim claim)
+        public async Task CreateClaimAsync(Claim claim)
         {
-            if (claim.ClaimType == ClaimType.Death && claim.ClaimRemain > 0)
-            {            
-                var member = GetMemberByIdAsync(claim.MemberId);
-                member.Result.IsActive = false;
-                dbContext.Claims.Add(claim);
-                SaveChanges();
-            }
-            else if (claim.ClaimType == ClaimType.Medical && claim.ClaimRemain > 0)
-            {
-                dbContext.Claims.Add(claim);
-                SaveChanges();
-            }
-            else
+            var member = await GetMemberByIdAsync(claim.MemberId);
+
+            if (member == null || !member.IsActive || claim.ClaimRemain <= 0)
             {
                 return;
             }
 
+            if (claim.ClaimType == ClaimType.Death)
+            {
+                member.IsActive = false;
+            }
+
+            dbContext.Claims.Add(claim);
+            SaveChanges();
         }
 
         public void CreateMember(Member member)
@@ -108,8 +105,8 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
         public async Task<Member> RetrieveMember(string firsname, string lastname)
         {
             var member = await dbContext.Members
-                .Where(x => x.FirstName.ToLower() == firsname.ToLower().Trim()
-                && x.LastName.ToLower() == lastname.ToLower().Trim())
+                .Where(x => x.FirstName.Equals(firsname.ToLower())
+                && x.LastName.Equals(lastname.ToLower()))
                 .FirstOrDefaultAsync();
             return member;
         }
@@ -135,26 +132,6 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
         private bool IsValid(Member member)
         {
             return dbContext.Members.Any(x => x.Id == member.Id);
-        }
-
-        public async Task CreateClaimAsync(Claim claim)
-        {
-            if (claim.ClaimRemain <= 0)
-            {
-                return;
-            }
-
-            if (claim.ClaimType == ClaimType.Death)
-            {
-                var member = await GetMemberByIdAsync(claim.MemberId);
-                if (member != null)
-                {
-                    member.IsActive = false;
-                }
-            }
-
-            dbContext.Claims.Add(claim);
-            await dbContext.SaveChangesAsync();
         }
     }
 }
