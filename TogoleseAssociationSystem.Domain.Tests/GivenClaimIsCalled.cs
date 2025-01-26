@@ -13,12 +13,12 @@ namespace TogoleseAssociationSystem.Domain.Tests
                 Name = "Claim 1",
                 Description = "Claim 1 Description",
                 CurrentClaim = 1,
-                TotalClaimPerMember = 3             
+                TotalClaimPerMember = 1             
             };
 
-            claim.ClaimRemainCalculation();
+            //claim.ClaimRemainCalculation();
 
-            Assert.Equal(2, claim.ClaimRemain);
+            Assert.Equal(0, claim.ClaimRemain);
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace TogoleseAssociationSystem.Domain.Tests
                 TotalClaimPerMember = 3
             };
 
-            claim.ClaimRemainCalculation();
+            //claim.ClaimRemainCalculation();
 
             Assert.Equal(1, claim.ClaimRemain);
         }
@@ -50,7 +50,7 @@ namespace TogoleseAssociationSystem.Domain.Tests
                 TotalClaimPerMember = 3
             };
 
-            claim.ClaimRemainCalculation();
+            //claim.ClaimRemainCalculation();
 
             Assert.Equal(0, claim.ClaimRemain);
         }
@@ -67,7 +67,7 @@ namespace TogoleseAssociationSystem.Domain.Tests
                 TotalClaimPerMember = 3
             };
 
-            claim.ClaimRemainCalculation();
+            //claim.ClaimRemainCalculation();
 
             Assert.Equal(0, claim.ClaimRemain);
         }

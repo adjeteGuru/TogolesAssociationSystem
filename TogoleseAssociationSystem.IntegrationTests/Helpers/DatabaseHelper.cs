@@ -84,7 +84,7 @@ namespace TogoleseAssociationSystem.IntegrationTests.Helpers
                 City = member.City,
                 Telephone = member.Telephone,
                 IsActive = member.IsActive,
-                IsChair = member.IsChair,
+                IsChair = member.IsEligibleToClaim,
                 DateOfBirth = member.DateOfBirth,
                 NextOfKin = member.NextOfKin,
                 Title = member.Title,

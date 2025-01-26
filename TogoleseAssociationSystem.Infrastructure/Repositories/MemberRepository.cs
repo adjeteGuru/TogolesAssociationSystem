@@ -2,6 +2,7 @@
 using TogoleseAssociationSystem.Domain.Interfaces;
 using TogoleseAssociationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace TogoleseAssociationSystem.Infrastructure.Repositories
 {
@@ -12,6 +13,27 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
         public MemberRepository(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+
+        public void CreateClaim(Claim claim)
+        {
+            if (claim.ClaimType == ClaimType.Death && claim.ClaimRemain > 0)
+            {            
+                var member = GetMemberByIdAsync(claim.MemberId);
+                member.Result.IsActive = false;
+                dbContext.Claims.Add(claim);
+                SaveChanges();
+            }
+            else if (claim.ClaimType == ClaimType.Medical && claim.ClaimRemain > 0)
+            {
+                dbContext.Claims.Add(claim);
+                SaveChanges();
+            }
+            else
+            {
+                return;
+            }
+
         }
 
         public void CreateMember(Member member)
@@ -29,6 +51,18 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
         public async Task<IEnumerable<Member>> GetAllExisitingMembersAsync()
         {
             return await dbContext.Members.ToListAsync();
+        }
+
+        public async Task<Claim> GetClaimByIdAsync(Guid id)
+        {
+            var claim = await dbContext.Claims.FindAsync(id);
+            return claim;
+        }
+
+        public async Task<IEnumerable<Claim>> GetClaimsAsync()
+        {
+            var claims = await dbContext.Claims.ToListAsync();
+            return claims;
         }
 
         public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()
@@ -54,11 +88,12 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
        
         public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
         {
-            if (filter != null)
+            if (!string.IsNullOrEmpty(filter))
             {
                 var filteredMembers = await dbContext.Members
-                .Where(member => member.IsActive == true && member.LastName.ToLower()
-                .Contains(filter.ToLower().Trim())).ToListAsync();
+                .Where(member => member.IsActive == true && member.LastName.ToLowerInvariant()
+                .Contains(filter.ToLower(CultureInfo.CurrentCulture)
+                .Trim())).ToListAsync();
 
                 return filteredMembers;
             }
@@ -100,6 +135,26 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
         private bool IsValid(Member member)
         {
             return dbContext.Members.Any(x => x.Id == member.Id);
+        }
+
+        public async Task CreateClaimAsync(Claim claim)
+        {
+            if (claim.ClaimRemain <= 0)
+            {
+                return;
+            }
+
+            if (claim.ClaimType == ClaimType.Death)
+            {
+                var member = await GetMemberByIdAsync(claim.MemberId);
+                if (member != null)
+                {
+                    member.IsActive = false;
+                }
+            }
+
+            dbContext.Claims.Add(claim);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

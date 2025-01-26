@@ -10,10 +10,12 @@ namespace TogoleseAssociationSystem.Domain.Interfaces
         Task<Member> RetrieveMember(string firsname, string lastname);      
         Task<IEnumerable<MembershipContribution>> GetMemberContributionsByIdAsync(Guid memberId);
         Task<IEnumerable<MembershipContribution>> GetContributionsAsync();
-        void CreateMember(Member member);
+        Task CreateClaimAsync(Claim claim);
         void UpdateMember(Member member);
         void CreateMembership(MembershipContribution membership);
-        Task<IEnumerable<Member>> GetAllExisitingMembersAsync();
+        Task<IEnumerable<Member>> GetAllExisitingMembersAsync();      
+        Task<Claim> GetClaimByIdAsync(Guid id);
+        Task<IEnumerable<Claim>> GetClaimsAsync();
         bool SaveChanges();
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TogoleseAssociationSystem.Infrastructure.Database;
 
@@ -11,9 +12,11 @@ using TogoleseAssociationSystem.Infrastructure.Database;
 namespace TogoleseAssociationSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250125164821_updateClaim")]
+    partial class updateClaim
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ClaimRemain")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClaimType")
                         .HasColumnType("int");
 
                     b.Property<int>("CurrentClaim")
@@ -111,15 +111,15 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f56fc7b0-772b-4c88-a9d8-97aee2ce6d9c"),
+                            Id = new Guid("b2f569a2-5bf9-4358-b7e8-12b607611a67"),
                             Address = "34 Bentley road",
                             City = "Birmingham",
                             DateOfBirth = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "John",
                             IsActive = true,
-                            IsEligibleToClaim = true,
+                            IsEligibleToClaim = false,
                             LastName = "Doe",
-                            MembershipDate = new DateTime(2025, 1, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            MembershipDate = new DateTime(2025, 1, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             NextOfKin = "Brenda",
                             PhotoUrl = new byte[0],
                             Postcode = "BR3 1AS",
@@ -129,7 +129,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("96f6b2dd-bc82-48d4-8a4b-900b79941db3"),
+                            Id = new Guid("d35c413b-4e72-4b2b-b052-82e689a711bd"),
                             Address = "34 Bentley road",
                             City = "Birmingham",
                             DateOfBirth = new DateTime(1980, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -137,7 +137,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                             IsActive = true,
                             IsEligibleToClaim = true,
                             LastName = "Love",
-                            MembershipDate = new DateTime(2025, 1, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            MembershipDate = new DateTime(2025, 1, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             NextOfKin = "John",
                             PhotoUrl = new byte[0],
                             Postcode = "BR3 1AS",
@@ -147,15 +147,15 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e58a5765-6e09-431b-9af3-b363e56d80f7"),
+                            Id = new Guid("9333379b-0cdc-414c-90e2-42a1596ec55c"),
                             Address = "5 Batman garden",
                             City = "Nottingham",
                             DateOfBirth = new DateTime(1970, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Smith",
                             IsActive = true,
-                            IsEligibleToClaim = true,
+                            IsEligibleToClaim = false,
                             LastName = "Joe",
-                            MembershipDate = new DateTime(2025, 1, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            MembershipDate = new DateTime(2025, 1, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             NextOfKin = "Jenny",
                             PhotoUrl = new byte[0],
                             Postcode = "NG5 9AQ",

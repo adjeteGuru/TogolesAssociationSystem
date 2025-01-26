@@ -84,5 +84,20 @@ namespace TogoleseAssociationSystem.Application.Services
         {
             return await memberRepository.GetAllExisitingMembersAsync();
         }
+
+        public async Task<Claim> GetClaimByIdAsync(Guid id)
+        {
+            return await memberRepository.GetClaimByIdAsync(id);
+        }
+
+        public async Task<IEnumerable<Claim>> GetClaimsAsync()
+        {
+            return await memberRepository.GetClaimsAsync();
+        }
+
+        public Task CreateClaimAsync(Claim claim)
+        {
+            return memberRepository.CreateClaimAsync(claim);
+        }
     }
 }

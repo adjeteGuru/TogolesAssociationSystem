@@ -24,7 +24,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                 LastName = "Doe",
                 DateOfBirth = new DateTime(2000, 01, 31),
                 IsActive = true,
-                IsChair = false,
+                IsEligibleToClaim = false,
                 MembershipDate = DateTime.Today,
                 PhotoUrl = Array.Empty<byte>()
             };
@@ -38,7 +38,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                     LastName ="Doe",
                     DateOfBirth = new DateTime(2000,01,31),
                     IsActive=true,
-                    IsChair = false,
+                    IsEligibleToClaim = false,
                     MembershipDate = DateTime.Today,
                     PhotoUrl = Array.Empty<byte>()
                 },
@@ -49,7 +49,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                     LastName ="Love",
                     DateOfBirth = new DateTime(1980,11,20),
                     IsActive=true,
-                    IsChair = true,
+                    IsEligibleToClaim = true,
                     MembershipDate = DateTime.Today,
                     PhotoUrl = Array.Empty<byte>()
                 },
@@ -60,7 +60,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                     LastName ="Joe",
                     DateOfBirth = new DateTime(1970,07,30),
                     IsActive=true,
-                    IsChair = false,
+                    IsEligibleToClaim = false,
                     MembershipDate = DateTime.Today,
                     PhotoUrl = Array.Empty<byte>()
                 },
@@ -179,7 +179,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                 LastName = "Doe",
                 DateOfBirth = new DateTime(2000, 01, 31),
                 IsActive = true,
-                IsChair = false,
+                IsEligibleToClaim = false,
                 MembershipDate = DateTime.Today,
                 PhotoUrl = Array.Empty<byte>()
             };
@@ -192,7 +192,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                 LastName = "Love",
                 DateOfBirth = new DateTime(1980, 11, 20),
                 IsActive = true,
-                IsChair = true,
+                IsEligibleToClaim = true,
                 MembershipDate = DateTime.Today,
                 PhotoUrl = Array.Empty<byte>()
             };
@@ -205,7 +205,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                 LastName = "Joe",
                 DateOfBirth = new DateTime(1970, 07, 30),
                 IsActive = true,
-                IsChair = false,
+                IsEligibleToClaim = false,
                 MembershipDate = DateTime.Today,
                 PhotoUrl = Array.Empty<byte>()
             };

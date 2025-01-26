@@ -2,9 +2,8 @@
 
 namespace TogoleseAssociationSystem.Application.DTOs
 {
-    public class ClaimReadDto
+    public class ClaimToAdd
     {
-        public Guid Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public int TotalClaimPerMember { get; set; }
