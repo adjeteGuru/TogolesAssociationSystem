@@ -14,6 +14,7 @@
         public bool IsEligibleToClaim { get; set; } = true;
         public byte[]? PhotoUrl { get; set; }
         public string? NextOfKin { get; set; }
+        public string? NextOfKinContact { get; set; }
         public string? Relationship { get; set; }
         public DateTime? MembershipDate { get; set; }
         public List<Claim>? Claims { get; set; }

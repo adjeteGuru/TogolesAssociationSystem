@@ -36,7 +36,10 @@ namespace TogoleseAssociationSystem.APP.Pages
         public EditContext EditContext { get; set; }
 
         protected decimal TotalCount = 0;
+
         protected decimal TotalCurrentYearAmount = 0;
+
+        //protected decimal TotalNumberOfClaimRemain = 0;
 
         protected override async Task OnInitializedAsync()
         {
@@ -46,7 +49,8 @@ namespace TogoleseAssociationSystem.APP.Pages
             {
                 Member = await MemberService.GetMemberByIdAsync(Id);
                 CalculateTotalContributionByMember();
-                TotalAnnualContribution();
+                //TotalAnnualContribution();
+                //TotalClaimRemain();
                 AlertService.OnAlert += HandleAlert;
             }
             catch (Exception ex)
@@ -70,6 +74,11 @@ namespace TogoleseAssociationSystem.APP.Pages
             Navigation.NavigateTo($"/membershipcreate/{selectedMemberId}/edit");
         }
 
+        protected void NavigateToAddClaim(Guid selectedMemberId)
+        {
+            Navigation.NavigateTo($"/claimcreate/{selectedMemberId}/edit");
+        }
+
         protected async Task UpdateMemberDetails(MemberRead member)
         {
             var memberUpdateDto = new MemberUpdateDto
@@ -88,6 +97,7 @@ namespace TogoleseAssociationSystem.APP.Pages
                 IsChair = member.IsChair,
                 MembershipDate = member.MembershipDate,
                 NextOfKin = member.NextOfKin,
+                NextOfKinContact = member.NextOfKinContact,
                 Relationship = member.Relationship,
                 Memberships = null
             };
@@ -130,9 +140,16 @@ namespace TogoleseAssociationSystem.APP.Pages
         private void TotalAnnualContribution()
         {
             TotalCurrentYearAmount = Member.Memberships
-                .Where(m => m.IsAnnualContribution == true && m.DateOfContribution?.Year == DateTime.Today.Year)
+                .Where(x => x.DateOfContribution?.Year == DateTime.Today.Year)
                 .Sum(m => m.Amount);
         }
+
+        //private void TotalClaimRemain()
+        //{
+        //    TotalNumberOfClaimRemain = Member.Claims
+        //        .Where(c => c.TotalClaimPerMember > 0)
+        //        .Sum(c => c.ClaimRemain);
+        //}
 
         private void UnsubscribeAlert()
         {

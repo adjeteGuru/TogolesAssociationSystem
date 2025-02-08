@@ -46,5 +46,49 @@ namespace TogoleseAssociationSystem.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetClaimByIdAsync(Guid id)
+        {
+            try
+            {
+                var claim = await memberService.GetClaimByIdAsync(id);
+                if (claim == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(claim);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        // POST api/claim
+        [HttpPost]
+        public async Task<IActionResult> CreateClaimAsync([FromBody] ClaimToAdd claimToAdd)
+        {
+            try
+            {
+                var membertoFetch = claimToAdd.ConvertToDto();
+
+                var member = await memberService.RetrieveMember(membertoFetch.FirstName, membertoFetch.LastName);
+                if (member == null)
+                {
+                    return NotFound();
+                }
+                var claim = claimToAdd.ConvertToDto(member);
+
+                await memberService.CreateClaimAsync(claim);
+
+                return CreatedAtAction(nameof(GetClaimByIdAsync), new { id = claim.Id }, claim);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }

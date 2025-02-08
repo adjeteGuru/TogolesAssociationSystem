@@ -12,17 +12,20 @@ namespace TogoleseAssociationSystem.Application.AutoMapper
             var mapperConfig = new MapperConfiguration(x =>
             {
                 x.CreateMap<Member, MemberRead>()
-               .ForMember(des => des.Memberships, act => act.MapFrom(src => src.Memberships));
+               .ForMember(des => des.Memberships, act => act.MapFrom(src => src.Memberships))
+               .ForMember(des => des.Claims, act => act.MapFrom(src => src.Claims));
 
                 x.CreateMap<MemberRead, Member>()
-               .ForMember(des => des.Memberships, act => act.MapFrom(src => src.Memberships));
+               .ForMember(des => des.Memberships, act => act.MapFrom(src => src.Memberships))
+               .ForMember(des => des.Claims, act => act.MapFrom(src => src.Claims));
 
 
                 x.CreateMap<MemberToAdd, Member>()
                 .ForMember(des => des.Memberships, act => act.MapFrom(src => src.Memberships));
 
                 x.CreateMap<Member, MemberToAdd>()
-               .ForMember(des => des.Memberships, act => act.MapFrom(src => src.Memberships));
+               .ForMember(des => des.Memberships, act => act.MapFrom(src => src.Memberships))
+               .ForMember(des => des.Claims, act => act.MapFrom(src => src.Claims));
             
                 x.CreateMap<MembershipContribution, MembershipContributionToAdd>()
                   .ForMember(des => des.ContributionName, act => act.MapFrom(src => src.ContributionName));

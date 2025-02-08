@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TogoleseAssociationSystem.Infrastructure.Database;
 
@@ -11,9 +12,11 @@ using TogoleseAssociationSystem.Infrastructure.Database;
 namespace TogoleseAssociationSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250202122449_modifyClaim")]
+    partial class modifyClaim
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,9 +30,6 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("ClaimDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("ClaimRemain")
                         .HasColumnType("int");
@@ -123,7 +123,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9efde281-973c-4810-ae4b-9e6120f7ce31"),
+                            Id = new Guid("90ce893c-0418-4760-9764-d88e08626184"),
                             Address = "34 Bentley road",
                             City = "Birmingham",
                             DateOfBirth = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -131,9 +131,8 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                             IsActive = true,
                             IsEligibleToClaim = true,
                             LastName = "Doe",
-                            MembershipDate = new DateTime(2025, 2, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            MembershipDate = new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Local),
                             NextOfKin = "Brenda",
-                            NextOfKinContact = "07459999999",
                             PhotoUrl = new byte[0],
                             Postcode = "BR3 1AS",
                             Relationship = "sister",
@@ -142,7 +141,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4bc952fd-5e6a-45cc-aa96-d21b503d3993"),
+                            Id = new Guid("58be5772-8485-4489-a0bf-e6baf4876fa1"),
                             Address = "34 Bentley road",
                             City = "Birmingham",
                             DateOfBirth = new DateTime(1980, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -150,9 +149,8 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                             IsActive = true,
                             IsEligibleToClaim = true,
                             LastName = "Love",
-                            MembershipDate = new DateTime(2025, 2, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            MembershipDate = new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Local),
                             NextOfKin = "John",
-                            NextOfKinContact = "07459999999",
                             PhotoUrl = new byte[0],
                             Postcode = "BR3 1AS",
                             Relationship = "brother",
@@ -161,7 +159,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e55e7bd0-7769-42eb-a266-4eb3f08b6d8d"),
+                            Id = new Guid("fe2a3f76-ebf7-4c4f-a06f-ee367d6ea62f"),
                             Address = "5 Batman garden",
                             City = "Nottingham",
                             DateOfBirth = new DateTime(1970, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -169,9 +167,8 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                             IsActive = true,
                             IsEligibleToClaim = true,
                             LastName = "Joe",
-                            MembershipDate = new DateTime(2025, 2, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            MembershipDate = new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Local),
                             NextOfKin = "Jenny",
-                            NextOfKinContact = "07459999999",
                             PhotoUrl = new byte[0],
                             Postcode = "NG5 9AQ",
                             Relationship = "wife",
@@ -194,6 +191,9 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
 
                     b.Property<DateTime?>("DateOfContribution")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool?>("IsAnnualContribution")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("MemberId")
                         .HasColumnType("uniqueidentifier");

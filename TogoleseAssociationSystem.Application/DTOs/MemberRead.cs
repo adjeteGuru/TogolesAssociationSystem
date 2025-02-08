@@ -16,6 +16,7 @@
         public byte[]? PhotoUrl { get; set; }
         public DateTime? MembershipDate { get; set; }
         public string? NextOfKin { get; set; }
+        public string? NextOfKinContact { get; set; }
         public string? Relationship { get; set; }
         public List<MembershipContributionReadDto>? Memberships { get; set; }
         public List<ClaimReadDto>? Claims { get; set; }

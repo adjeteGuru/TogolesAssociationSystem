@@ -9,8 +9,11 @@
 }
 
 <div class="my-3 d-flex flex-wrap justify-content-between">
-    <h3 class="blueTextOverride">@Member.FirstName @Member.LastName's current year membership contribution is: <span class="redTextOverride"><b>£@TotalCurrentYearAmount</b></span></h3>
-    <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
+    <h3 class="blueTextOverride"> @Member.FirstName @Member.LastName's remaining claims:<span class="redTextOverride"><b>2</b></span></h3>
+    <div class="btn-group" role="group">
+        <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
+        <button id="Claim-create" class="btn btn-warning" @onclick="@(()=>NavigateToAddClaim(Member.Id))">Add Member Claim</button>
+    </div>    
 </div>
 <hr />
 <form>
@@ -22,13 +25,13 @@
                            class="form-control form-control-lg"
                            @bind-Value="Member.Title" />
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
                 <label for="inputState"><b>Firstname</b></label>
                 <InputText id="FirstName"
                            class="form-control form-control-lg"
                            @bind-Value="Member.FirstName" />
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-2">
                 <label for="inputZip"><b>Surname</b></label>
                 <InputText id="LastName"
                            class="form-control form-control-lg"
@@ -39,6 +42,12 @@
                 <InputText id="FirstName"
                            class="form-control form-control-lg"
                            @bind-Value="Member.NextOfKin" />
+            </div>
+            <div class="form-group col-md-2">
+                <label for="inputState"><b>Next of kin contact</b></label>
+                <InputText id="FirstName"
+                           class="form-control form-control-lg"
+                           @bind-Value="Member.NextOfKinContact" />
             </div>
             <div class="form-group col-md-2">
                 <label for="inputState"><b>Relationship to you</b></label>
@@ -139,8 +148,8 @@
 <div>
     <hr />
     <div class="my-3 d-flex flex-wrap justify-content-between">
-        <h3 class="blueTextOverride">@Member.FirstName's total contribution since becoming active member is: <span class="redTextOverride"><b>£@TotalCount</b></span></h3>
-        <button id="Membership-create" class="btn btn-primary" @onclick="@(()=>NavigateToAddContribution(Member.Id))">Add Member's contribution</button>
+        <h3 class="blueTextOverride">@Member.FirstName's total contribution since becoming member is: <span class="redTextOverride"><b>£@TotalCount</b></span></h3>
+        <button id="Membership-create" class="btn btn-primary" @onclick="@(()=>NavigateToAddContribution(Member.Id))">Add Member's Contribution</button>       
     </div>
 
     <table class="table table-bordered table-hover">
@@ -149,7 +158,6 @@
                 <th>Contribution purpose</th>
                 <th>Amount</th>
                 <th>Date of contribution</th>
-                <th>Is annual membership?</th>
             </tr>
         </thead>
         <tbody>
@@ -158,8 +166,32 @@
                 <tr>
                     <td>@contribution.ContributionName</td>
                     <td>@contribution.Amount</td>
-                    <td>@contribution.DateOfContribution.Value.ToString("dd-MMM-yyyy")</td>
-                    <td>@contribution.IsAnnualContribution</td>
+                    <td>@contribution.DateOfContribution.Value.ToString("dd-MMM-yyyy")</td>                    
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr />
+    <h3>Claim history</h3>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr class="table-info">
+                <th>Claim name</th>
+                <th>Claim description</th>
+                <th>Claim type</th>
+                <th>Total left</th>
+                <th>Date claimed</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var claim in Member.Claims)
+            {
+                <tr>
+                    <td>@claim.Name</td>
+                    <td>@claim.Description</td>
+                    <td>@claim.ClaimType</td>
+                    <td>@claim.ClaimRemain</td>
+                    <td>@claim.ClaimDate.Value.ToString("dd-MMM-yyyy")</td>
                 </tr>
             }
         </tbody>

@@ -1,0 +1,97 @@
+﻿@page "/claimcreate/{id:guid}/edit"
+@page "/claimcreate"
+@using TogoleseAssociationSystem.Core.Models
+@inherits CreateClaimComponent
+
+<h3>Start a claim</h3>
+<EditForm Model="Claim">
+
+    <div class="mb-3 row">
+
+        <div class="form-group col-md-3">
+            <label for="inputZip"><b>Claim type</b></label>
+            <InputSelect class="form-control" @bind-Value="Claim.ClaimType">
+                @foreach (var value in Enum.GetValues(typeof(ClaimType)))
+                {
+                    <option value="@value">@value</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="name"><b>Claim name</b></label>
+            <InputText id="name"
+                       class="form-control form-control-large"
+                       @bind-Value="Claim.Name" />
+        </div>
+        <div class="form-group col-md-3">
+            <label for="desc"><b>Claim purpose</b></label>
+            <InputTextArea id="desc"
+                           class="form-control form-control-large"
+                       @bind-Value="Claim.Description" />
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputCity"><b>Date of Claim</b></label>
+            <InputDate id="DateOfClaim"
+                       class="form-control-lg"
+                       @bind-Value="Claim.ClaimDate" />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <div class="form-group col-md-3">
+            <label for="inputCity"><b>Member Firstname</b></label>
+            <InputText id="Title"
+                       class="form-control form-control"
+                       @bind-Value="Claim.MemberFirstName"
+                       disabled="@Edit" />
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputCity"><b>Member Surname</b></label>
+            <InputText id="Title"
+                       class="form-control form-control"
+                       @bind-Value="Claim.MemberLastName"
+                       disabled="@Edit" />
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputCity"><b>Member Next of kin</b></label>
+            <InputText id="Title"
+                       class="form-control form-control"
+                       @bind-Value="Claim.NextOfKinName"
+                       disabled="@Edit" />
+        </div>
+        <div class="form-group col-md-3">
+            <label for="inputCity"><b>Next of kin contact</b></label>
+            <InputText id="Title"
+                       class="form-control form-control"
+                       @bind-Value="Claim.NextOfKinContact"
+                       disabled="@Edit" />
+        </div>
+    </div>
+</EditForm>
+
+<hr />
+<div>
+    <h3>Claim history</h3>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+            <tr class="table-info">
+                <th>Claim name</th>
+                <th>Claim description</th>
+                <th>Claim type</th>
+                <th>Total left</th>
+                <th>Date claimed</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var claim in Member.Claims)
+            {
+                <tr>
+                    <td>@claim.Name</td>
+                    <td>@claim.Description</td>
+                    <td>@claim.ClaimType</td>
+                    <td>@claim.ClaimRemain</td>
+                    <td>@claim.ClaimDate.Value.ToString("dd-MMM-yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

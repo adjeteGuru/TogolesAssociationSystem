@@ -1,4 +1,4 @@
-﻿namespace TogoleseAssociationSystem.Domain.Models
+﻿namespace TogoleseAssociationSystem.Core.Models
 {
 
     public class Claim : BaseEntity
@@ -14,8 +14,6 @@
         public bool IsEligibleForClaim => ClaimRemain > 0;
         public Guid MemberId { get; set; }
         public ClaimType ClaimType { get; set; }
-        public string? NextOfKinName { get; set; }
-        public string? NextOfKinContact { get; set; }
         public DateTime? ClaimDate { get; set; } = DateTime.Today;
 
         private int totalClaimPerMember = 2;

@@ -12,7 +12,7 @@
         public DateTime? DateOfBirth { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsChair { get; set; } = false;
-        public byte[] PhotoUrl { get; set; }
+        public byte[]? PhotoUrl { get; set; }
         public DateTime? MembershipDate { get; set; }
         public string? NextOfKin { get; set; }
         public string? Relationship { get; set; }

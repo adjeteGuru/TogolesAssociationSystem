@@ -69,7 +69,10 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
 
         public async Task<Member> GetMemberByIdAsync(Guid id)
         {
-            var member = await dbContext.Members.Include(x => x.Memberships).FirstOrDefaultAsync(x => x.Id.Equals(id));
+            var member = await dbContext.Members
+                .Include(x => x.Memberships)
+                .Include(x => x.Claims)
+                .FirstOrDefaultAsync(x => x.Id.Equals(id));
             return member;
         }
 

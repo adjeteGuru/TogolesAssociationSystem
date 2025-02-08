@@ -1,4 +1,4 @@
-﻿using TogoleseAssociationSystem.Domain.Models;
+﻿using TogoleseAssociationSystem.Core.Models;
 
 namespace TogoleseAssociationSystem.Core.DTOs
 {
@@ -12,6 +12,9 @@ namespace TogoleseAssociationSystem.Core.DTOs
         public ClaimType ClaimType { get; set; }
         public string? MemberFirstName { get; set; }
         public string? MemberLastName { get; set; }
+        public string? NextOfKinName { get; set; }
+        public string? NextOfKinContact{ get; set; }
+        public DateTime? ClaimDate { get; set; } = DateTime.Today;
 
         private int totalClaimPerMember = 2;
         public int TotalClaimPerMember

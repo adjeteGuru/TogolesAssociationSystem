@@ -31,6 +31,7 @@ namespace TogolesAssociationSystem.API.Controllers
             try
             {
                 IEnumerable<MembershipContributionReadDto> contributionsDto;
+                IEnumerable<ClaimReadDto> claimsReadDto;
                 List<MemberRead> membersDto;
                 var members = await memberService.GetMembersAsync(filter);
 
@@ -40,15 +41,17 @@ namespace TogolesAssociationSystem.API.Controllers
                 }
 
                 var contributions = await memberService.GetContributionsAsync();
+                var claims = await memberService.GetClaimsAsync();
 
-                if (contributions.ToList().Count == 0)
+                if (contributions.ToList().Count == 0 || claims.ToList().Count == 0)
                 {
                     membersDto = members.ConvertToDto();
                 }
                 else
                 {
                     contributionsDto = contributions.ToList().ConvertToDto();
-                    membersDto = members.ConvertToDto(contributionsDto);
+                    claimsReadDto = claims.ToList().ConvertToDto();
+                    membersDto = members.ConvertToDto(contributionsDto, claimsReadDto);
                 }
 
                 return Ok(membersDto);

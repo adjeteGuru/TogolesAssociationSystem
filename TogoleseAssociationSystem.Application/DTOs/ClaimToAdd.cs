@@ -12,6 +12,10 @@ namespace TogoleseAssociationSystem.Application.DTOs
         public ClaimType ClaimType { get; set; }
         public string? MemberFirstName { get; set; }
         public string? MemberLastName { get; set; }
+        public string? NextOfKinName { get; set; }
+
+        public DateTime? ClaimDate { get; set; } = DateTime.Today;
+        public string? NextOfKinContact { get; set; }
 
         private int totalClaimPerMember = 2;
         public int TotalClaimPerMember

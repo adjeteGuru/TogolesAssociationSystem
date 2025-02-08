@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TogoleseAssociationSystem.I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TogoleseAssociationSytem.Infrastructure.Test", "TogoleseAssociationSytem.Infrastructure.Test\TogoleseAssociationSytem.Infrastructure.Test.csproj", "{6D6F0CC7-2C78-42E5-806F-9BD59DD461AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TogoleseAssociationSystem.Domain.Tests", "TogoleseAssociationSystem.Domain.Tests\TogoleseAssociationSystem.Domain.Tests.csproj", "{3FC55C70-35FD-40FF-871A-D8CF0D780280}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TogoleseAssociationSystem.Domain.Tests", "TogoleseAssociationSystem.Domain.Tests\TogoleseAssociationSystem.Domain.Tests.csproj", "{3FC55C70-35FD-40FF-871A-D8CF0D780280}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

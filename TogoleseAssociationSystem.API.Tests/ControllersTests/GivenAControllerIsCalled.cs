@@ -127,7 +127,6 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
                         {
                             Id = Guid.Parse("22477ab6-420f-4d32-95b9-20574cb57367"),
                             ContributionName = "Funerals",
-                            IsAnnualContribution = false,
                             Amount = 50,
                             DateOfContribution = new DateTime(2023, 12, 01),
                             MemberId = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807")
@@ -142,7 +141,6 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
                  {
                      Id = Guid.Parse("22477ab6-420f-4d32-95b9-20574cb57367"),
                      ContributionName = "Funerals",
-                     IsAnnualContribution = false,
                      Amount = 50,
                      DateOfContribution = new DateTime(2023, 12, 01),
                      MemberId = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807")
@@ -173,7 +171,6 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
                     {
                         Id = Guid.Parse("22477ab6-420f-4d32-95b9-20574cb57367"),
                         ContributionName = "Funerals",
-                        IsAnnualContribution = false,
                         Amount = 50,
                         DateOfContribution = new DateTime(2023, 12, 01),
                         MemberId = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807")
@@ -207,7 +204,6 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
                         {
                             Id = Guid.Parse("22477ab6-420f-4d32-95b9-20574cb57367"),
                             ContributionName = "Funerals",
-                            IsAnnualContribution = false,
                             Amount = 50,
                             DateOfContribution = new DateTime(2023, 12, 01),
                             MemberId = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807")
@@ -237,8 +233,6 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
                  {
                      Id = Guid.Parse("22477ab6-420f-4d32-95b9-20574cb57367"),
                      ContributionName = "Funerals",
-                     IsAnnualContribution = false,
-                     Amount = 50,
                      DateOfContribution = new DateTime(2023, 12, 01),
                      MemberId = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807")
                  }
@@ -269,7 +263,6 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
                     {
                         Id = Guid.Parse("22477ab6-420f-4d32-95b9-20574cb57367"),
                         ContributionName = "Funerals",
-                        IsAnnualContribution = false,
                         Amount = 50,
                         DateOfContribution = new DateTime(2023, 12, 01),
                         MemberId = Guid.Parse("b4bf30e0-8f69-48c4-a7cd-c9a8019b1807")

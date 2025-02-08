@@ -13,10 +13,12 @@
         public DateTime? DateOfBirth { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsChair { get; set; } = false;
-        public byte[] PhotoUrl { get; set; }
+        public byte[]? PhotoUrl { get; set; }
         public DateTime? MembershipDate { get; set; }
         public string? NextOfKin { get; set; }
+        public string? NextOfKinContact { get; set; }
         public string? Relationship { get; set; }
-        public List<MembershipContributionToUpdate>? Memberships { get; set; }        
+        public List<MembershipContributionToUpdate>? Memberships { get; set; }
+        public List<ClaimToUpdate>? ClaimToUpdates { get; set; }
     }
 }

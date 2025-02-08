@@ -12,6 +12,9 @@ namespace TogoleseAssociationSystem.Application.DTOs
         public int ClaimRemain { get; set; }
         public Guid MemberId { get; set; }
         public string? MemberName { get; set; }
+        public string? NextOfKinName { get; set; }
+        public string? NextOfKinContact { get; set; }
+        public DateTime? ClaimDate { get; set; }
         public ClaimType ClaimType { get; set; }
     }
 }
