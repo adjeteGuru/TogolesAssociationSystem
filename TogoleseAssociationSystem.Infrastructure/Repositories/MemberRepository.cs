@@ -91,8 +91,8 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
             if (!string.IsNullOrEmpty(filter))
             {
                 var filteredMembers = await dbContext.Members
-                .Where(member => member.IsActive == true && member.LastName.ToLowerInvariant()
-                .Contains(filter.ToLower(CultureInfo.CurrentCulture)
+                .Where(member => member.IsActive == true && member.LastName.ToLower()
+                .Contains(filter.ToLower()
                 .Trim())).ToListAsync();
 
                 return filteredMembers;

@@ -46,7 +46,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                 {
                    Id = Guid.Parse("cba764d4-883e-4731-aa29-74e2fae8cc11"),
                     FirstName ="Brenda",
-                    LastName ="Love",
+                    LastName ="Dovevi",
                     DateOfBirth = new DateTime(1980,11,20),
                     IsActive=true,
                     IsEligibleToClaim = true,

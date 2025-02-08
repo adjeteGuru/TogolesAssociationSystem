@@ -109,7 +109,24 @@ namespace TogoleseAssociationSystem.Application.Test.ServicesTests
             mockMemberRepository.Setup(m => m.GetMembersAsync(It.IsAny<string>())).ReturnsAsync(searchMembers);
 
             var result = await systemUnderTest.GetMembersAsync("Doe");
-            result.Should().BeEquivalentTo(searchMembers);
+            result.Should().BeEquivalentTo(
+                new List<Member> 
+                {
+                    new Member
+                    {
+                        Id = searchMembers[0].Id,
+                        FirstName = searchMembers[0].FirstName,
+                        LastName = searchMembers[0].LastName,
+                        DateOfBirth = searchMembers[0].DateOfBirth,
+                        IsActive = searchMembers[0].IsActive,
+                        IsEligibleToClaim = searchMembers[0].IsEligibleToClaim,
+                        MembershipDate = searchMembers[0].MembershipDate,
+                        PhotoUrl = searchMembers[0].PhotoUrl,
+                        NextOfKin = searchMembers[0].NextOfKin,
+                        Claims = searchMembers[0].Claims,
+                        Memberships = searchMembers[0].Memberships
+                    }
+                });
         }
 
         [Test]
