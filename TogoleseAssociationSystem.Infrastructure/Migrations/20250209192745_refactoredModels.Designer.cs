@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TogoleseAssociationSystem.Infrastructure.Database;
 
@@ -11,9 +12,11 @@ using TogoleseAssociationSystem.Infrastructure.Database;
 namespace TogoleseAssociationSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250209192745_refactoredModels")]
+    partial class refactoredModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,7 +120,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("42139830-195f-45ce-9d58-9a7b34df14a0"),
+                            Id = new Guid("a50ce162-5031-4edc-8a14-8cf9eac8d723"),
                             Address = "34 Bentley road",
                             City = "Birmingham",
                             DateOfBirth = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -135,7 +138,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("386c66fa-67ce-4fc7-a445-361f6c4b93bd"),
+                            Id = new Guid("d3fb09f2-a22b-41cc-a1e1-aeb4bb07ae14"),
                             Address = "34 Bentley road",
                             City = "Birmingham",
                             DateOfBirth = new DateTime(1980, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -153,7 +156,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2e1524b4-0ace-4423-9e59-ffdcd993341e"),
+                            Id = new Guid("8d495f2d-91c6-4007-89e3-f9757e1451dc"),
                             Address = "5 Batman garden",
                             City = "Nottingham",
                             DateOfBirth = new DateTime(1970, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),

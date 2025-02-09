@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using TogoleseAssociationSystem.Core.DTOs;
+using TogoleseAssociationSystem.Core.Models;
 using TogoleseAssociationSystem.Core.ServiceProvider.Interfaces;
 
 namespace TogoleseAssociationSystem.APP.Pages
@@ -38,6 +39,19 @@ namespace TogoleseAssociationSystem.APP.Pages
         protected decimal TotalCount = 0;
 
         protected decimal TotalCurrentYearAmount = 0;
+
+
+        public bool IsEligibleForClaim { get; set; } = false;
+
+        private void CheckClaimEligibility()
+        {
+            var claims = Member.Claims.FirstOrDefault();
+            if (claims != null && claims.ClaimRemain > 0 && claims.ClaimType != ClaimType.Death)
+            {
+                IsEligibleForClaim = true;
+            }
+
+        }
 
         //protected decimal TotalNumberOfClaimRemain = 0;
 
@@ -92,9 +106,8 @@ namespace TogoleseAssociationSystem.APP.Pages
                 Postcode = member.Postcode,
                 City = member.City,
                 DateOfBirth = member.DateOfBirth,
-                PhotoUrl = member.PhotoUrl,
                 IsActive = member.IsActive,
-                IsChair = member.IsChair,
+                IsEligibleToClaim = member.IsEligibleToClaim,
                 MembershipDate = member.MembershipDate,
                 NextOfKin = member.NextOfKin,
                 NextOfKinContact = member.NextOfKinContact,
@@ -124,13 +137,13 @@ namespace TogoleseAssociationSystem.APP.Pages
             AlertMessage = message;
         }
 
-        protected async Task OnInputFileChanged(InputFileChangeEventArgs args)
-        {
-            var memoryStream = new MemoryStream();
-            await args.File.OpenReadStream().CopyToAsync(memoryStream);
-            var bytes = memoryStream.ToArray();
-            Member.PhotoUrl = bytes;
-        }
+        //protected async Task OnInputFileChanged(InputFileChangeEventArgs args)
+        //{
+        //    var memoryStream = new MemoryStream();
+        //    await args.File.OpenReadStream().CopyToAsync(memoryStream);
+        //    var bytes = memoryStream.ToArray();
+        //    Member.PhotoUrl = bytes;
+        //}
 
         private void CalculateTotalContributionByMember()
         {

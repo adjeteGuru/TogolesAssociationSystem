@@ -2,7 +2,7 @@
 {
     public enum ClaimType
     {
-        Medical,
+        Disability,
         Death
     }
 }

@@ -74,17 +74,6 @@ namespace TogoleseAssociationSystem.APP.Pages
             AlertMessage = message;
         }
 
-        protected async Task OnInputFileChanged(InputFileChangeEventArgs args)
-        {
-            var file = args.File;
-            if (file != null)
-            {
-                using var memoryStream = new MemoryStream();
-                await file.OpenReadStream().CopyToAsync(memoryStream);
-                Member.PhotoUrl = memoryStream.ToArray();
-            }
-        }
-
         private void UnsubscribeAlert()
         {
             AlertService.OnAlert -= HandleAlert;

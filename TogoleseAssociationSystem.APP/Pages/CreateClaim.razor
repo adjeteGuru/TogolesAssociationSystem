@@ -67,31 +67,3 @@
         </div>
     </div>
 </EditForm>
-
-<hr />
-<div>
-    <h3>Claim history</h3>
-    <table class="table table-bordered table-hover">
-        <thead class="thead-light">
-            <tr class="table-info">
-                <th>Claim name</th>
-                <th>Claim description</th>
-                <th>Claim type</th>
-                <th>Total left</th>
-                <th>Date claimed</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var claim in Member.Claims)
-            {
-                <tr>
-                    <td>@claim.Name</td>
-                    <td>@claim.Description</td>
-                    <td>@claim.ClaimType</td>
-                    <td>@claim.ClaimRemain</td>
-                    <td>@claim.ClaimDate.Value.ToString("dd-MMM-yyyy")</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>

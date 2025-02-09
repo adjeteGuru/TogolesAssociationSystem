@@ -25,7 +25,7 @@ namespace TogoleseAssociationSystem.API.Extensions
                     DateOfBirth = member.DateOfBirth,
                     IsEligibleToClaim = member.IsEligibleToClaim,
                     MembershipDate = member.MembershipDate,
-                    PhotoUrl = member.PhotoUrl,
+                    //PhotoUrl = member.PhotoUrl,
                     Title = member.Title,
                     Memberships = null,
                     Claims = null
@@ -52,7 +52,7 @@ namespace TogoleseAssociationSystem.API.Extensions
                     DateOfBirth = member.DateOfBirth,
                     IsEligibleToClaim = member.IsEligibleToClaim,
                     MembershipDate = member.MembershipDate,
-                    PhotoUrl = member.PhotoUrl,
+                    //PhotoUrl = member.PhotoUrl,
                     Title = member.Title,
                     Memberships = membershipsDto.ToList(),
                     Claims = claimReadDtos.ToList()
@@ -79,7 +79,7 @@ namespace TogoleseAssociationSystem.API.Extensions
                     DateOfBirth = member.DateOfBirth,
                     IsEligibleToClaim = member.IsEligibleToClaim,
                     MembershipDate = member.MembershipDate,
-                    PhotoUrl = member.PhotoUrl,
+                    //PhotoUrl = member.PhotoUrl,
                     Title = member.Title,
                     Memberships = null,
                     Claims = claimReadDtos.ToList()
@@ -155,7 +155,7 @@ namespace TogoleseAssociationSystem.API.Extensions
                 Name = claim.Name,
                 Description = claim.Description,
                 TotalClaimPerMember = claim.TotalClaimPerMember,
-                CurrentClaim = claim.CurrentClaim,
+                ClaimRemain = claim.ClaimRemain,
                 MemberId = member.Id,
                 ClaimType = claim.ClaimType
             };

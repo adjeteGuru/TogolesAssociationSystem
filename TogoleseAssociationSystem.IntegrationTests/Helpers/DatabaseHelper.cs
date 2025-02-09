@@ -90,7 +90,7 @@ namespace TogoleseAssociationSystem.IntegrationTests.Helpers
                 Title = member.Title,
                 Relationship = member.Relationship,
                 MembershipDate = member.DateOfBirth,
-                PhotoUrl = member.PhotoUrl
+                //PhotoUrl = member.PhotoUrl
             });
 
             scenarioContext.Get<List<string>>("allCreatedMembers").Add(member.LastName);

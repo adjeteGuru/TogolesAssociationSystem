@@ -1,6 +1,6 @@
 ﻿@inherits SearchBarComponent
 
 <div class="d-flex">
-    <input class="me-2" type="search" @bind-value="Filter" placeholder="please enter Surname" aria-label="Search" />
+    <input class="form-control col-md-3 me-2" type="search" @bind-value="Filter" placeholder="please enter Surname" aria-label="Search" />
     <button class="btn btn-outline-primary" @onclick="HandleSearch" type="submit">Search</button>
 </div>

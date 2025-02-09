@@ -83,14 +83,14 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="form-check">
+           @*  <div class="form-check">
                 <InputCheckbox id="IsChair"
                                class="form-check-input"
-                               @bind-Value="Member.IsChair" />
+                               @bind-Value="Member" />
                 <label class="form-check-label" for="gridCheck">
                     <b>Is President?</b>
                 </label>
-            </div>
+            </div> *@
             <div class="form-check">
                 <InputCheckbox id="IsChair"
                                class="form-check-input"
@@ -114,7 +114,7 @@
                            class="form-control-lg"
                            @bind-Value="Member.MembershipDate" disabled="true" />
             </div>
-            <div class="form-group col mb-4">
+       @*      <div class="form-group col mb-4">
                 <label for="PhotoUrl"><b>Photo ID</b></label>
                 <div class="card">
                     <img alt="There is no image to display"
@@ -125,7 +125,7 @@
                 <InputFile type="file"
                            class="form-control-file"
                            OnChange="OnInputFileChanged" />
-            </div>
+            </div> *@
         </div>
         <div class="btn-group" role="group">
             <button id="member-update"

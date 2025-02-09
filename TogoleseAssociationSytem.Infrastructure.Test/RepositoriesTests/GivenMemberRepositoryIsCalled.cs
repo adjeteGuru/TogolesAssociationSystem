@@ -26,7 +26,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                 IsActive = true,
                 IsEligibleToClaim = false,
                 MembershipDate = DateTime.Today,
-                PhotoUrl = Array.Empty<byte>()
+                //PhotoUrl = Array.Empty<byte>()
             };
 
             members = new List<Member>
@@ -40,7 +40,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                     IsActive=true,
                     IsEligibleToClaim = false,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = Array.Empty<byte>()
+                    //PhotoUrl = Array.Empty<byte>()
                 },
                 new Member
                 {
@@ -51,7 +51,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                     IsActive=true,
                     IsEligibleToClaim = true,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = Array.Empty<byte>()
+                    //PhotoUrl = Array.Empty<byte>()
                 },
                 new Member
                 {
@@ -62,7 +62,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                     IsActive=true,
                     IsEligibleToClaim = false,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = Array.Empty<byte>()
+                    //PhotoUrl = Array.Empty<byte>()
                 },
             };
         }
@@ -181,7 +181,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                 IsActive = true,
                 IsEligibleToClaim = false,
                 MembershipDate = DateTime.Today,
-                PhotoUrl = Array.Empty<byte>()
+                //PhotoUrl = Array.Empty<byte>()
             };
             memberList.Add(member);
 
@@ -194,7 +194,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                 IsActive = true,
                 IsEligibleToClaim = true,
                 MembershipDate = DateTime.Today,
-                PhotoUrl = Array.Empty<byte>()
+                //PhotoUrl = Array.Empty<byte>()
             };
             memberList.Add(member);
 
@@ -207,7 +207,7 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
                 IsActive = true,
                 IsEligibleToClaim = false,
                 MembershipDate = DateTime.Today,
-                PhotoUrl = Array.Empty<byte>()
+                //PhotoUrl = Array.Empty<byte>()
             };
             memberList.Add(member);
 
