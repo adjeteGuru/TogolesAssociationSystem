@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TogoleseAssociationSystem.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,15 +27,41 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    IsChair = table.Column<bool>(type: "bit", nullable: false),
-                    PhotoUrl = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    IsEligibleToClaim = table.Column<bool>(type: "bit", nullable: false),
                     NextOfKin = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NextOfKinContact = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Relationship = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MembershipDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Members", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Claims",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClaimType = table.Column<int>(type: "int", nullable: false),
+                    NextOfKinName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NextOfKinContact = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ClaimRemain = table.Column<int>(type: "int", nullable: false),
+                    TotalClaimPerMember = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Claims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Claims_Members_MemberId",
+                        column: x => x.MemberId,
+                        principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,7 +72,6 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     ContributionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DateOfContribution = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsAnnualContribution = table.Column<bool>(type: "bit", nullable: true),
                     MemberId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -62,13 +87,18 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Members",
-                columns: new[] { "Id", "Address", "City", "DateOfBirth", "FirstName", "IsActive", "IsChair", "LastName", "MembershipDate", "NextOfKin", "PhotoUrl", "Postcode", "Relationship", "Telephone", "Title" },
+                columns: new[] { "Id", "Address", "City", "DateOfBirth", "FirstName", "IsActive", "IsEligibleToClaim", "LastName", "MembershipDate", "NextOfKin", "NextOfKinContact", "Postcode", "Relationship", "Telephone", "Title" },
                 values: new object[,]
                 {
-                    { new Guid("15a5c552-a7a5-4b57-b925-76eae61574c2"), "34 Bentley road", "Birmingham", new DateTime(1980, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Brenda", true, true, "Love", new DateTime(2024, 9, 26, 0, 0, 0, 0, DateTimeKind.Local), "John", new byte[0], "BR3 1AS", "brother", "07126678342", "Miss" },
-                    { new Guid("44ac05a7-b794-4495-9eac-f28a2a4d94a4"), "5 Batman garden", "Nottingham", new DateTime(1970, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Smith", true, false, "Joe", new DateTime(2024, 9, 26, 0, 0, 0, 0, DateTimeKind.Local), "Jenny", new byte[0], "NG5 9AQ", "wife", "07894432123", "Mr" },
-                    { new Guid("c5a05e8c-e870-4b6d-a7c8-a1a29d94fee6"), "34 Bentley road", "Birmingham", new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "John", true, false, "Doe", new DateTime(2024, 9, 26, 0, 0, 0, 0, DateTimeKind.Local), "Brenda", new byte[0], "BR3 1AS", "sister", "07458893212", "Mr" }
+                    { new Guid("42f3241a-0d07-4ca6-86ed-605446caac6c"), "5 Batman garden", "Nottingham", new DateTime(1970, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "Smith", true, true, "Joe", new DateTime(2025, 2, 9, 0, 0, 0, 0, DateTimeKind.Local), "Jenny", "07459999999", "NG5 9AQ", "wife", "07894432123", "Mr" },
+                    { new Guid("55563f0d-12d3-40fa-8931-af70f83e74db"), "34 Bentley road", "Birmingham", new DateTime(1980, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Brenda", true, true, "Love", new DateTime(2025, 2, 9, 0, 0, 0, 0, DateTimeKind.Local), "John", "07459999999", "BR3 1AS", "brother", "07126678342", "Miss" },
+                    { new Guid("cfac1d51-f2de-4747-a191-441b71233d3a"), "34 Bentley road", "Birmingham", new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "John", true, true, "Doe", new DateTime(2025, 2, 9, 0, 0, 0, 0, DateTimeKind.Local), "Brenda", "07459999999", "BR3 1AS", "sister", "07458893212", "Mr" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Claims_MemberId",
+                table: "Claims",
+                column: "MemberId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MembershipContributions_MemberId",
@@ -79,6 +109,9 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Claims");
+
             migrationBuilder.DropTable(
                 name: "MembershipContributions");
 

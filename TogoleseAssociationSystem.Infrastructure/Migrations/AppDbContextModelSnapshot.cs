@@ -117,7 +117,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("42139830-195f-45ce-9d58-9a7b34df14a0"),
+                            Id = new Guid("cfac1d51-f2de-4747-a191-441b71233d3a"),
                             Address = "34 Bentley road",
                             City = "Birmingham",
                             DateOfBirth = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -135,7 +135,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("386c66fa-67ce-4fc7-a445-361f6c4b93bd"),
+                            Id = new Guid("55563f0d-12d3-40fa-8931-af70f83e74db"),
                             Address = "34 Bentley road",
                             City = "Birmingham",
                             DateOfBirth = new DateTime(1980, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -153,7 +153,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("2e1524b4-0ace-4423-9e59-ffdcd993341e"),
+                            Id = new Guid("42f3241a-0d07-4ca6-86ed-605446caac6c"),
                             Address = "5 Batman garden",
                             City = "Nottingham",
                             DateOfBirth = new DateTime(1970, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
