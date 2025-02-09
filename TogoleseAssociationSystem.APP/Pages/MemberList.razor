@@ -46,7 +46,7 @@ else
                </tr>
            </thead>
            <tbody>
-               @foreach (var member in Members)
+               @foreach (var member in GetPagedMembers())
                {
                    <tr>
                         <td>@member.Title</td>
@@ -75,6 +75,7 @@ else
                }
            </tbody>
        </table>
+       <Pagination TotalItems="Members.Count" ItemsPerPage="ItemsPerPage" CurrentPage="CurrentPage" OnPageChanged="HandlePageChanged" />
        </div>
    }
    else

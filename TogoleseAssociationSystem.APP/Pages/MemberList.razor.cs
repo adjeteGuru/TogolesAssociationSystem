@@ -32,13 +32,23 @@ namespace TogoleseAssociationSystem.APP.Pages
         [Parameter]
         public bool IsVisible { get; set; }
 
+        protected int CurrentPage { get; set; } = 1;
+
+        protected int ItemsPerPage { get; set; } = 10;
+
+        private int TotalCount { get; set; } = 100;
+    
+        protected List<MemberRead> GetPagedMembers()
+        {
+            return Members.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
+        }
 
         protected override async Task OnInitializedAsync()
         {
             try
             {
                 Members = new List<MemberRead>();
-                var members = await MemberService.GetMembersAsync(null);
+                var members = await MemberService.GetMembersAsync(CurrentPage, ItemsPerPage, null);
                 Members.AddRange(members);
                 AlertService.OnAlert += HandleAlert;
             }
@@ -59,7 +69,7 @@ namespace TogoleseAssociationSystem.APP.Pages
         {
             try
             {
-                var searchedMembers = await MemberService.GetMembersAsync(filter);
+                var searchedMembers = await MemberService.GetMembersAsync(CurrentPage, ItemsPerPage, filter);
                 Members = searchedMembers.ToList();
 
                 StateHasChanged();

@@ -47,21 +47,22 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
 
             return null;
         }
-       
-        public async Task<IEnumerable<MemberRead>> GetMembersAsync(string? filter = null)
+
+       public async Task<IEnumerable<MemberRead>> GetMembersAsync(int currentPage, int ItemsPerPage, string? filter = null)
         {
-            var httpResponse = await httpClient.GetAsync($"{RequestUri}?filter={filter}");
+            var httpResponse = await httpClient.GetAsync($"{RequestUri}?filter={filter}&currentPage={currentPage}&itemsPerPage={ItemsPerPage}");
             try
             {
                 if (httpResponse.IsSuccessStatusCode)
                 {
                     var stringContent = await httpResponse.Content.ReadAsStringAsync();
-                    var membersRead = JsonConvert.DeserializeObject<IEnumerable<MemberRead>>(stringContent);
-                    if (membersRead == null || !membersRead.Any())
-                    {                        
+                    var paginatedMembers = JsonConvert.DeserializeObject<IEnumerable<MemberRead>>(stringContent);
+                    
+                    if (paginatedMembers == null || !paginatedMembers.Any())
+                    {
                         return [];
                     }
-                    return membersRead;
+                    return paginatedMembers;
                 }
                 if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
                 {

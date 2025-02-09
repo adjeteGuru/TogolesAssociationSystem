@@ -4,7 +4,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider.Interfaces
 {
     public interface IMemberService
     {
-        Task<IEnumerable<MemberRead>> GetMembersAsync(string? filter);
+        Task<IEnumerable<MemberRead>> GetMembersAsync(int currentPage, int itemsPerPage, string? filter);
         Task<IEnumerable<MemberRead>> GetAllExistingMembersAsync();
         Task<IEnumerable<MembershipContributionReadDto>> GetAllMembershipsAsync();
         Task<MemberRead> GetMemberByIdAsync(Guid id);       

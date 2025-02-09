@@ -1,29 +1,23 @@
-﻿<style>
-    .nav-link {
-        color: #ff5733; /* Change this to your desired color */
-    }
-</style>
-
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Togo Solidarite</a>
+    <nav class="navbar navbar-expand-lg bg-primary bg-light" data-bs-theme="dark">
+        <a class="navbar-brand" href="/">Togo Solidarite</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <ul class="navbar-nav ml-auto">
+        <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item">
-                <a class="nav-link" href="/">Member List</a>
+                <a class="nav-link" href="/"><b>Member List</b></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/membercreate">Add new Member</a>
+                <a class="nav-link" href="/membercreate"><b>Add new Member</b></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/membershipcreate">Add new Contribution</a>
+                <a class="nav-link" href="/membershipcreate"><b>Add new Contribution</b></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/claimcreate">Add new Claim</a>
+                <a class="nav-link" href="/claimcreate"><b>Add new Claim</b></a>
             </li>
         </ul>
     </nav>
