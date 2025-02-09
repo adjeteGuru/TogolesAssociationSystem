@@ -1,0 +1,15 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Triggered Workflow
+on:
+  repository_dispatch:
+    types: [trigger-event]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Event Received
+        run: echo "Event received"
+          ```[_{{{CITATION{{{_1{How to trigger a GitHub action workflow in another repository](https://dev.to/ngnijland/how-to-trigger-a-github-action-workflow-in-another-repository-k3k)
+
