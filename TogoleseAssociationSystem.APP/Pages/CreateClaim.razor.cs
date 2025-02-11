@@ -66,4 +66,22 @@ public class CreateClaimComponent : ComponentBase
         Edit = Id != Guid.Empty;
         return Edit;
     }
+
+    protected void Submit()
+    {
+        if (Edit)
+        {
+            //await MemberService.UpdateClaimAsync(Claim);
+        }
+        else
+        {
+           // await MemberService.CreateClaimAsync(Claim);
+        }
+        NavigationManager.NavigateTo("/claims");
+    }
+
+    protected void NavigateToHome()
+    {
+        NavigationManager.NavigateTo("/claims");
+    }
 }

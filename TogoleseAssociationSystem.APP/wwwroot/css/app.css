@@ -29,10 +29,10 @@ a, .btn-link {
 .invalid {
     outline: 1px solid red;
 }
-/*
+
 .nav-link {
-    color: red;
-}*/
+    color: #0071c1;
+}
 .navbar {
     margin-bottom: 20px;
 }

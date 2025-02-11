@@ -3,7 +3,10 @@
 @using TogoleseAssociationSystem.Core.Models
 @inherits CreateClaimComponent
 
-<h3>Start a claim</h3>
+<div class="my-3 d-flex flex-wrap justify-content-between">
+    <h3>Start a claim</h3>
+</div>
+
 <EditForm Model="Claim">
 
     <div class="mb-3 row">
@@ -65,5 +68,22 @@
                        @bind-Value="Claim.NextOfKinContact"
                        disabled="@Edit" />
         </div>
+    </div>
+
+    <br />
+    <div class="btn-group" role="group">
+        <button id="member-update"
+                class="btn btn-primary"
+                @onclick="Submit"
+                title="Save member">
+            Save
+        </button>
+        &nbsp;
+        <button id="member-delete"
+                class="btn btn-danger"
+                @onclick="@NavigateToHome"
+                title="Cancel member">
+            Cancel
+        </button>
     </div>
 </EditForm>
