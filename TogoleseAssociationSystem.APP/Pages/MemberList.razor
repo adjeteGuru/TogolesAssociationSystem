@@ -75,7 +75,21 @@ else
                }
            </tbody>
        </table>
-       <Pagination TotalItems="Members.Count" ItemsPerPage="ItemsPerPage" CurrentPage="CurrentPage" OnPageChanged="HandlePageChanged" />
+           
+            <div class="pagination-controls d-flex justify-content-end">
+                <div class="pagination-item">
+                    <button @onclick="GoToPreviousPage" class="btn btn-primary" disabled="@(!CanGoToPreviousPage())">Previous</button>
+                </div>
+
+                <div class="pagination-item mx-4">
+                    <span>Page @CurrentPage of @TotalCount</span>
+                </div>
+
+                <div class="pagination-item">
+                    <button @onclick="GoToNextPage" class="btn btn-primary" disabled="@(!CanGoToNextPage())">Next</button>
+                </div>
+            </div>
+
        </div>
    }
    else
