@@ -1,20 +1,18 @@
-﻿using TogoleseAssociationSystem.Core.Models;
+﻿using TogoleseAssociationSystem.Domain.Models;
 
-namespace TogoleseAssociationSystem.Core.DTOs
+namespace TogoleseAssociationSystem.Application.DTOs
 {
-    public class ClaimToAdd
+    public class ClaimToUpdate
     {
+        public Guid Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public Guid MemberId { get; set; }
         public ClaimType ClaimType { get; set; }
         public string? NextOfKinName { get; set; }
         public string? NextOfKinContact { get; set; }
-        public DateTime? ClaimDate { get; set; } = DateTime.Today;
-        //public int ClaimRemain { get; set; }
-        //public int TotalClaimPerMember { get; set; }
+        public DateTime? ClaimDate { get; set; }
         public string? MemberFirstName { get; set; }
         public string? MemberLastName { get; set; }
-
     }
 }

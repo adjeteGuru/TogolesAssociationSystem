@@ -45,12 +45,15 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         private void CheckClaimEligibility()
         {
-            var claims = Member.Claims.FirstOrDefault();
-            if (claims != null && claims.ClaimRemain > 0 && claims.ClaimType != ClaimType.Death)
+            var claims = Member.Claims?.FirstOrDefault();
+            if (Member.TotalClaimRemain > 0 && claims != null && claims.ClaimType != ClaimType.Death)
             {
                 IsEligibleForClaim = true;
             }
-
+            else
+            {
+                IsEligibleForClaim = false;
+            }
         }
 
         //protected decimal TotalNumberOfClaimRemain = 0;

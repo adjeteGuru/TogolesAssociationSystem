@@ -19,7 +19,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
         {
             var member = await GetMemberByIdAsync(claim.MemberId);
 
-            if (member == null || !member.IsActive || claim.ClaimRemain <= 0)
+            if (member == null || !member.IsActive || member.TotalClaimRemain <= 0)
             {
                 return;
             }
@@ -28,9 +28,15 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
             {
                 member.IsActive = false;
             }
+            else
+            {
+                member.TotalClaimRemain -= 1;
+            }
 
             dbContext.Claims.Add(claim);
             SaveChanges();
+
+            UpdateMember(member);
         }
 
         public void CreateMember(Member member)

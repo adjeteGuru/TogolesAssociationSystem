@@ -19,6 +19,8 @@ public class CreateClaimComponent : ComponentBase
     [Parameter]
     public ClaimToAdd Claim { get; set; }
 
+    public ClaimToUpdate ClaimToUpdate { get; set; }
+
     public ClaimReadDto ClaimReadDto { get; set; }
 
     [Parameter]
@@ -67,16 +69,17 @@ public class CreateClaimComponent : ComponentBase
         return Edit;
     }
 
-    protected void Submit()
+    protected async Task Submit()
     {
-        if (Edit)
-        {
-            //await MemberService.UpdateClaimAsync(Claim);
-        }
-        else
-        {
-           // await MemberService.CreateClaimAsync(Claim);
-        }
+        await MemberService.CreateClaimAsync(Claim);
+        //if (Edit)
+        //{
+        //    await MemberService.UpdateClaimAsync(ClaimToUpdate);
+        //}
+        //else
+        //{
+        //    await MemberService.CreateClaimAsync(Claim);
+        //}
         NavigationManager.NavigateTo("/claims");
     }
 

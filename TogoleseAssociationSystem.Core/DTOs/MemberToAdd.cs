@@ -15,6 +15,8 @@
         public DateTime? MembershipDate { get; set; }
         public string? NextOfKin { get; set; }
         public string? Relationship { get; set; }
+        public string? NextOfKinContact { get; set; }
+        public int TotalClaimRemain { get; set; } = 2;
         public List<MembershipContributionToAdd>? Memberships { get; set; }      
         public MemberToAdd()
         {

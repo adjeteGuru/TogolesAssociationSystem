@@ -17,6 +17,7 @@
         public string? NextOfKin { get; set; }
         public string? NextOfKinContact { get; set; }
         public string? Relationship { get; set; }
+        public int? TotalClaimRemain { get; set; }
         public List<MembershipContributionReadDto>? Memberships { get; set; }   
         public List<ClaimReadDto>? Claims { get; set; }
         public MemberRead()

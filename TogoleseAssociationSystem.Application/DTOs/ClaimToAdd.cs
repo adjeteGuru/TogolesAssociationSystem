@@ -10,9 +10,9 @@ namespace TogoleseAssociationSystem.Application.DTOs
         public ClaimType ClaimType { get; set; }
         public string? NextOfKinName { get; set; }
         public string? NextOfKinContact { get; set; }
-        public DateTime? ClaimDate { get; set; } = DateTime.Today;
-        public int ClaimRemain { get; set; }
-        public int TotalClaimPerMember { get; set; }
+        public DateTime? ClaimDate { get; set; }
+        //public int ClaimRemain { get; set; }
+        //public int TotalClaimPerMember { get; set; }
         public string? MemberFirstName { get; set; }
         public string? MemberLastName { get; set; }
     }

@@ -25,7 +25,7 @@ namespace TogoleseAssociationSystem.API.Extensions
                     DateOfBirth = member.DateOfBirth,
                     IsEligibleToClaim = member.IsEligibleToClaim,
                     MembershipDate = member.MembershipDate,
-                    //PhotoUrl = member.PhotoUrl,
+                    TotalClaimRemain = member.TotalClaimRemain,
                     Title = member.Title,
                     Memberships = null,
                     Claims = null
@@ -52,7 +52,7 @@ namespace TogoleseAssociationSystem.API.Extensions
                     DateOfBirth = member.DateOfBirth,
                     IsEligibleToClaim = member.IsEligibleToClaim,
                     MembershipDate = member.MembershipDate,
-                    //PhotoUrl = member.PhotoUrl,
+                    TotalClaimRemain = member.TotalClaimRemain,
                     Title = member.Title,
                     Memberships = membershipsDto.ToList(),
                     Claims = claimReadDtos.ToList()
@@ -79,7 +79,7 @@ namespace TogoleseAssociationSystem.API.Extensions
                     DateOfBirth = member.DateOfBirth,
                     IsEligibleToClaim = member.IsEligibleToClaim,
                     MembershipDate = member.MembershipDate,
-                    //PhotoUrl = member.PhotoUrl,
+                    TotalClaimRemain = member.TotalClaimRemain,                    
                     Title = member.Title,
                     Memberships = null,
                     Claims = claimReadDtos.ToList()
@@ -110,8 +110,7 @@ namespace TogoleseAssociationSystem.API.Extensions
                     Id = claims[0].Id,
                     Name = claims[0].Name,
                     Description = claims[0].Description,
-                    ClaimType = claims[0].ClaimType,
-                    ClaimRemain = claims[0].ClaimRemain,
+                    ClaimType = claims[0].ClaimType,                   
                     MemberId = claims[0].MemberId,
                    NextOfKinName = claims[0].NextOfKinName,
                    NextOfKinContact = claims[0].NextOfKinContact
@@ -154,8 +153,6 @@ namespace TogoleseAssociationSystem.API.Extensions
             {
                 Name = claim.Name,
                 Description = claim.Description,
-                TotalClaimPerMember = claim.TotalClaimPerMember,
-                ClaimRemain = claim.ClaimRemain,
                 MemberId = member.Id,
                 ClaimType = claim.ClaimType
             };

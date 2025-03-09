@@ -308,5 +308,46 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
 
             return null;
         }
+
+        public async Task UpdateClaimAsync(ClaimToUpdate claimToAdd)
+        {
+            var json = JsonConvert.SerializeObject(claimToAdd);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var newRequestUri = $"{ClaimUri}/{claimToAdd.Id}";
+
+            var httpResponse = await httpClient.PutAsync(newRequestUri, content);
+
+            try
+            {
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                    var updatedClaim = JsonConvert.DeserializeObject<ClaimReadDto>(responseContent);
+
+                    if (updatedClaim == null)
+                    {
+                        alertService.ShowAlert("No claim found");
+                    }
+                }
+                else if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
+                }
+                else
+                {
+                    var errorContent = await httpResponse.Content.ReadAsStringAsync();
+                    var failureResponse = JsonConvert.DeserializeObject<FailureResponseModel>(errorContent)?.Detail;
+
+                    if (failureResponse != null)
+                    {
+                        alertService.ShowAlert(failureResponse);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                alertService.ShowAlert(ex.Message);
+            }
+        }
     }
 }

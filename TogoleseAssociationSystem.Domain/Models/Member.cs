@@ -12,10 +12,10 @@
         public DateTime? DateOfBirth { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsEligibleToClaim { get; set; }
-        //public byte[]? PhotoUrl { get; set; }
         public string? NextOfKin { get; set; }
         public string? NextOfKinContact { get; set; }
         public string? Relationship { get; set; }
+        public int TotalClaimRemain { get; set; } = 2;
         public DateTime? MembershipDate { get; set; }
         public List<Claim>? Claims { get; set; }
         public List<MembershipContribution>? Memberships { get; set; }      

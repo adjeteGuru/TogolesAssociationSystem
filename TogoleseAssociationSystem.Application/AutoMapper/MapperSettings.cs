@@ -21,7 +21,8 @@ namespace TogoleseAssociationSystem.Application.AutoMapper
 
 
                 x.CreateMap<MemberToAdd, Member>()
-                .ForMember(des => des.Memberships, act => act.MapFrom(src => src.Memberships));
+                .ForMember(des => des.Memberships, act => act.MapFrom(src => src.Memberships))
+                .ForMember(des => des.Claims, act => act.MapFrom(src => src.Claims));
 
                 x.CreateMap<Member, MemberToAdd>()
                .ForMember(des => des.Memberships, act => act.MapFrom(src => src.Memberships))

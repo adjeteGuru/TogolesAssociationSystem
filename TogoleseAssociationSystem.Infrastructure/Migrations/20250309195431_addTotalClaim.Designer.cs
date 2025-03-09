@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TogoleseAssociationSystem.Infrastructure.Database;
 
@@ -11,9 +12,11 @@ using TogoleseAssociationSystem.Infrastructure.Database;
 namespace TogoleseAssociationSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250309195431_addTotalClaim")]
+    partial class addTotalClaim
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,6 +33,9 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
 
                     b.Property<DateTime?>("ClaimDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("ClaimRemain")
+                        .HasColumnType("int");
 
                     b.Property<int>("ClaimType")
                         .HasColumnType("int");
@@ -48,6 +54,9 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
 
                     b.Property<string>("NextOfKinName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalClaimPerMember")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -114,7 +123,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("cdedad9a-30b1-461a-87b2-8dbb30db6175"),
+                            Id = new Guid("f5147e46-9581-4b2c-a63e-9801e8e42c4f"),
                             Address = "34 Bentley road",
                             City = "Birmingham",
                             DateOfBirth = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -133,7 +142,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fe7e9f0b-bfc9-4891-b123-65adde34880f"),
+                            Id = new Guid("61a9e4b0-55e2-4b51-90b4-df25c7199f00"),
                             Address = "34 Bentley road",
                             City = "Birmingham",
                             DateOfBirth = new DateTime(1980, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -152,7 +161,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6e4ba595-10df-4bf7-9b01-6a2c3412c960"),
+                            Id = new Guid("1613a729-bd6b-467c-8d37-71403cf5d1fc"),
                             Address = "5 Batman garden",
                             City = "Nottingham",
                             DateOfBirth = new DateTime(1970, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),

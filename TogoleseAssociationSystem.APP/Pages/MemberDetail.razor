@@ -9,11 +9,11 @@
 }
 
 <div class="my-3 d-flex flex-wrap justify-content-between">
-    <h3 class="blueTextOverride"> @Member.FirstName @Member.LastName's remaining claims:<span class="redTextOverride"><b>2</b></span></h3>
+    <h3 class="blueTextOverride"> @Member.FirstName @Member.LastName's remaining claims:<span class="redTextOverride"><b>@Member.TotalClaimRemain</b></span></h3>
     <div class="btn-group" role="group">
         <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
         <button id="Claim-create" class="btn btn-warning" @onclick="@(()=>NavigateToAddClaim(Member.Id))">Add Member Claim</button>
-    </div>    
+    </div>
 </div>
 <hr />
 <form>
@@ -83,14 +83,7 @@
             </div>
         </div>
         <div class="form-group">
-           @*  <div class="form-check">
-                <InputCheckbox id="IsChair"
-                               class="form-check-input"
-                               @bind-Value="Member" />
-                <label class="form-check-label" for="gridCheck">
-                    <b>Is President?</b>
-                </label>
-            </div> *@
+
             <div class="form-check">
                 <InputCheckbox id="IsChair"
                                class="form-check-input"
@@ -114,18 +107,7 @@
                            class="form-control-lg"
                            @bind-Value="Member.MembershipDate" disabled="true" />
             </div>
-       @*      <div class="form-group col mb-4">
-                <label for="PhotoUrl"><b>Photo ID</b></label>
-                <div class="card">
-                    <img alt="There is no image to display"
-                         class="card-img-top img-fluid"
-                         src="@Member.PhotoUrl" />
-                </div>
-                <br />
-                <InputFile type="file"
-                           class="form-control-file"
-                           OnChange="OnInputFileChanged" />
-            </div> *@
+
         </div>
         <div class="btn-group" role="group">
             <button id="member-update"
@@ -149,7 +131,7 @@
     <hr />
     <div class="my-3 d-flex flex-wrap justify-content-between">
         <h3 class="blueTextOverride">@Member.FirstName's total contribution since becoming member is: <span class="redTextOverride"><b>£@TotalCount</b></span></h3>
-        <button id="Membership-create" class="btn btn-primary" @onclick="@(()=>NavigateToAddContribution(Member.Id))">Add Member's Contribution</button>       
+        <button id="Membership-create" class="btn btn-primary" @onclick="@(()=>NavigateToAddContribution(Member.Id))">Add Member's Contribution</button>
     </div>
 
     <table class="table table-bordered table-hover">
@@ -166,7 +148,7 @@
                 <tr>
                     <td>@contribution.ContributionName</td>
                     <td>@contribution.Amount</td>
-                    <td>@contribution.DateOfContribution.Value.ToString("dd-MMM-yyyy")</td>                    
+                    <td>@contribution.DateOfContribution.Value.ToString("dd-MMM-yyyy")</td>
                 </tr>
             }
         </tbody>
@@ -175,12 +157,13 @@
     <h3>Claim history</h3>
     <table class="table table-bordered table-hover">
         <thead class="thead-light">
-            <tr class="table-info">
+            <tr class="table-warning">
                 <th>Claim name</th>
                 <th>Claim description</th>
                 <th>Claim type</th>
-                <th>Total left</th>
                 <th>Date claimed</th>
+                <th>Next of kin</th>
+                <th>Next of kin contact</th>
             </tr>
         </thead>
         <tbody>
@@ -190,10 +173,13 @@
                     <td>@claim.Name</td>
                     <td>@claim.Description</td>
                     <td>@claim.ClaimType</td>
-                    <td>@claim.ClaimRemain</td>
                     <td>@claim.ClaimDate.Value.ToString("dd-MMM-yyyy")</td>
+                    <td>@claim.NextOfKinName</td>
+                    <td>@claim.NextOfKinContact</td>
                 </tr>
             }
         </tbody>
     </table>
+    <hr />
+
 </div>
