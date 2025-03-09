@@ -55,14 +55,23 @@ namespace TogoleseAssociationSystem.Application.Services
        
         public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
         {
-            var members = await memberRepository.GetMembersAsync(filter);
+            var searchMembers = new List<Member>();
 
+            var members = await memberRepository.GetMembersAsync(filter);
+          
             if (members.Any())
             {
-                return members.ToList();
+                if (!string.IsNullOrEmpty(filter))
+                {
+                    searchMembers = members
+                   .Where(x => x.LastName.ToLower() == filter.ToLower())
+                   .ToList();
+                    return searchMembers;
+                }
+                searchMembers = members.ToList();
             }
 
-            throw new Exception("There is no match members found in the db!");
+          return searchMembers;
         }
 
         public async Task<MembershipContribution> GetMembershipByIdAsync(Guid id)
@@ -83,6 +92,21 @@ namespace TogoleseAssociationSystem.Application.Services
         public async Task<IEnumerable<Member>> GetAllExisitingMembersAsync()
         {
             return await memberRepository.GetAllExisitingMembersAsync();
+        }
+
+        public async Task<Claim> GetClaimByIdAsync(Guid id)
+        {
+            return await memberRepository.GetClaimByIdAsync(id);
+        }
+
+        public async Task<IEnumerable<Claim>> GetClaimsAsync()
+        {
+            return await memberRepository.GetClaimsAsync();
+        }
+
+        public Task CreateClaimAsync(Claim claim)
+        {
+            return memberRepository.CreateClaimAsync(claim);
         }
     }
 }

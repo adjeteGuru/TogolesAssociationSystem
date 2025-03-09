@@ -11,15 +11,18 @@
         public string? City { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public bool IsActive { get; set; } = true;
-        public bool IsChair { get; set; } = false;
-        public byte[] PhotoUrl { get; set; }
+        public bool IsEligibleToClaim { get; set; }
         public DateTime? MembershipDate { get; set; }
         public string? NextOfKin { get; set; }
         public string? Relationship { get; set; }
-        public List<MembershipContributionToAdd>? Memberships { get; set; }       
+        public string? NextOfKinContact { get; set; }
+        public int TotalClaimRemain { get; set; } = 2;
+        public List<MembershipContributionToAdd>? Memberships { get; set; }
+        public List<ClaimToAdd>? Claims { get; set; }
         public MemberToAdd()
         {
-            Memberships = new List<MembershipContributionToAdd>();            
+            Memberships = new List<MembershipContributionToAdd>();
+            Claims = new List<ClaimToAdd>();
         }
     }
 }

@@ -59,6 +59,9 @@ namespace TogoleseAssociationSystem.APP.Pages
             Reset();
         }
 
+
+
+
         private void Reset()
         {
             Member = new MemberToAdd();
@@ -69,17 +72,6 @@ namespace TogoleseAssociationSystem.APP.Pages
         {
             DisplayAlert = true;
             AlertMessage = message;
-        }
-
-        protected async Task OnInputFileChanged(InputFileChangeEventArgs args)
-        {
-            var file = args.File;
-            if (file != null)
-            {
-                using var memoryStream = new MemoryStream();
-                await file.OpenReadStream().CopyToAsync(memoryStream);
-                Member.PhotoUrl = memoryStream.ToArray();
-            }
         }
 
         private void UnsubscribeAlert()

@@ -84,13 +84,13 @@ namespace TogoleseAssociationSystem.IntegrationTests.Helpers
                 City = member.City,
                 Telephone = member.Telephone,
                 IsActive = member.IsActive,
-                IsChair = member.IsChair,
+                IsChair = member.IsEligibleToClaim,
                 DateOfBirth = member.DateOfBirth,
                 NextOfKin = member.NextOfKin,
                 Title = member.Title,
                 Relationship = member.Relationship,
                 MembershipDate = member.DateOfBirth,
-                PhotoUrl = member.PhotoUrl
+                //PhotoUrl = member.PhotoUrl
             });
 
             scenarioContext.Get<List<string>>("allCreatedMembers").Add(member.LastName);
@@ -104,14 +104,13 @@ namespace TogoleseAssociationSystem.IntegrationTests.Helpers
                     .Query<int>("SELECT Id FROM MembershipContributions WHERE [ContributionName] = @membershipName", new { membership })
                     .Single();
 
-                dbConnection.Query("INSERT INTO MembershipContributions (Id, ContributionName, Amount, DateOfContribution, IsAnnualContribution, MemberId)" +
-                    "VALUES (@Id, @ContributionName, @Amount, @DateOfContribution, @IsAnnualContribution, @MemberId)", new
+                dbConnection.Query("INSERT INTO MembershipContributions (Id, ContributionName, Amount, DateOfContribution, MemberId)" +
+                    "VALUES (@Id, @ContributionName, @Amount, @DateOfContribution, @MemberId)", new
                     {
                         Id = membershipId, 
                         MembershipName = membership.ContributionName,
                         Amount = membership.Amount,
                         DateOfContribution = membership.DateOfContribution,
-                        IsAnnualContribution = membership.IsAnnualContribution,
                         MemberId = memberId
                     });
             }

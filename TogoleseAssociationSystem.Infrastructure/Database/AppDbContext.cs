@@ -12,6 +12,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Database
 
         public DbSet<Member> Members { get; set; }
         public DbSet<MembershipContribution> MembershipContributions { get; set; }
+        public DbSet<Claim> Claims { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -23,11 +24,12 @@ namespace TogoleseAssociationSystem.Infrastructure.Database
                 LastName = "Doe",
                 DateOfBirth = new DateTime(2000, 01, 31),
                 IsActive = true,
-                IsChair = false,
+                IsEligibleToClaim = true,
                 MembershipDate = DateTime.Today,
-                PhotoUrl = Array.Empty<byte>(),
                 NextOfKin = "Brenda",
+                NextOfKinContact = "07459999999",
                 Relationship = "sister",
+                TotalClaimRemain = 2,
                 Address = "34 Bentley road",
                 Postcode = "BR3 1AS",
                 City = "Birmingham",
@@ -42,10 +44,11 @@ namespace TogoleseAssociationSystem.Infrastructure.Database
                 LastName = "Love",
                 DateOfBirth = new DateTime(1980, 11, 20),
                 IsActive = true,
-                IsChair = true,
+                IsEligibleToClaim = true,
                 MembershipDate = DateTime.Today,
-                PhotoUrl = Array.Empty<byte>(),
                 NextOfKin = "John",
+                NextOfKinContact = "07459999999",
+                TotalClaimRemain = 2,
                 Relationship = "brother",
                 Address = "34 Bentley road",
                 Postcode = "BR3 1AS",
@@ -61,11 +64,12 @@ namespace TogoleseAssociationSystem.Infrastructure.Database
                 LastName = "Joe",
                 DateOfBirth = new DateTime(1970, 07, 30),
                 IsActive = true,
-                IsChair = false,
+                IsEligibleToClaim = true,
                 MembershipDate = DateTime.Today,
-                PhotoUrl = Array.Empty<byte>(),
                 NextOfKin = "Jenny",
+                NextOfKinContact = "07459999999",
                 Relationship = "wife",
+                TotalClaimRemain = 2,
                 Address = "5 Batman garden",
                 Postcode = "NG5 9AQ",
                 City = "Nottingham",

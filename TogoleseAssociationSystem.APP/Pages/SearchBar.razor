@@ -1,7 +1,6 @@
 ﻿@inherits SearchBarComponent
 
-<div>
-    <b>Search:</b>
-    <input type="search" @bind-value="Filter" placeholder="please enter surname" />&nbsp;
-    <button class="btn btn-primary" @onclick="HandleSearch">Search</button>
+<div class="d-flex">
+    <input class="col-md-3 me-2" type="search" @bind-value="Filter" placeholder="please enter Surname" aria-label="Search" />
+    <button class="btn btn-outline-primary" @onclick="HandleSearch" type="submit">Search</button>
 </div>

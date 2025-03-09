@@ -12,6 +12,8 @@ namespace TogoleseAssociationSystem.Application.AutoMapper
             CreateMap<MemberRead, Member>();           
             CreateMap<MembershipContribution, MembershipContributionReadDto>();           
             CreateMap<MembershipContributionReadDto, MembershipContribution>();
+            CreateMap<Claim, ClaimReadDto>();
+            CreateMap<ClaimReadDto, Claim>();
             CreateMap<MemberUpdateDto, Member>();
         }
     }

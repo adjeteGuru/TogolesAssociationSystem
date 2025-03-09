@@ -27,9 +27,9 @@ namespace TogoleseAssociationSystem.Application.Test.ServicesTests
                 LastName = "Doe",
                 DateOfBirth = new DateTime(2000, 01, 31),
                 IsActive = true,
-                IsChair = false,
+                IsEligibleToClaim = false,
                 MembershipDate = DateTime.Today,
-                PhotoUrl = Array.Empty<byte>()
+                //PhotoUrl = Array.Empty<byte>()
             };
 
             members = new List<Member>
@@ -41,9 +41,9 @@ namespace TogoleseAssociationSystem.Application.Test.ServicesTests
                     LastName ="Doe",
                     DateOfBirth = new DateTime(2000,01,31),
                     IsActive=true,
-                    IsChair = false,
+                    IsEligibleToClaim = false,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = Array.Empty<byte>()
+                    //PhotoUrl = Array.Empty<byte>()
                 },
                 new Member
                 {
@@ -52,9 +52,9 @@ namespace TogoleseAssociationSystem.Application.Test.ServicesTests
                     LastName ="Love",
                     DateOfBirth = new DateTime(1980,11,20),
                     IsActive=true,
-                    IsChair = true,
+                    IsEligibleToClaim = true,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = Array.Empty<byte>()
+                    //PhotoUrl = Array.Empty<byte>()
                 },
                 new Member
                 {
@@ -63,9 +63,9 @@ namespace TogoleseAssociationSystem.Application.Test.ServicesTests
                     LastName ="Joe",
                     DateOfBirth = new DateTime(1970,07,30),
                     IsActive=true,
-                    IsChair = false,
+                    IsEligibleToClaim = false,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = Array.Empty<byte>()
+                    //PhotoUrl = Array.Empty<byte>()
                 },
             };
 
@@ -109,18 +109,35 @@ namespace TogoleseAssociationSystem.Application.Test.ServicesTests
             mockMemberRepository.Setup(m => m.GetMembersAsync(It.IsAny<string>())).ReturnsAsync(searchMembers);
 
             var result = await systemUnderTest.GetMembersAsync("Doe");
-            result.Should().BeEquivalentTo(searchMembers);
+            result.Should().BeEquivalentTo(
+                new List<Member> 
+                {
+                    new Member
+                    {
+                        Id = searchMembers[0].Id,
+                        FirstName = searchMembers[0].FirstName,
+                        LastName = searchMembers[0].LastName,
+                        DateOfBirth = searchMembers[0].DateOfBirth,
+                        IsActive = searchMembers[0].IsActive,
+                        IsEligibleToClaim = searchMembers[0].IsEligibleToClaim,
+                        MembershipDate = searchMembers[0].MembershipDate,
+                        //PhotoUrl = searchMembers[0].PhotoUrl,
+                        NextOfKin = searchMembers[0].NextOfKin,
+                        Claims = searchMembers[0].Claims,
+                        Memberships = searchMembers[0].Memberships
+                    }
+                });
         }
 
         [Test]
-        public async Task GetMembersAsync_WhenIsInvokedWithFilterSuppliedAndTheListIsEmpty_ThenTheExpectedErrorIsReturned()
+        public async Task GetMembersAsync_WhenIsInvokedWithFilterSuppliedAndTheListIsEmpty_ThenTheExpectedResultIsReturned()
         {
             var emptyMembers = new List<Member>();
             var exception = new Exception("There is no match members found in the db!");
             mockMemberRepository.Setup(m => m.GetMembersAsync(It.IsAny<string>())).ReturnsAsync(emptyMembers);
-
-            Func<Task> func = async () => await systemUnderTest.GetMembersAsync("wrongName");
-            await func.Should().ThrowAsync<Exception>(exception.Message);
+            var result = await systemUnderTest.GetMembersAsync("wrongName");
+ 
+            result.Should().BeEquivalentTo(new List<Member>());
         }
 
         [Test]

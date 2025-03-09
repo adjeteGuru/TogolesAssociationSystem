@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using TogoleseAssociationSystem.Core.DTOs;
+using TogoleseAssociationSystem.Core.Models;
 using TogoleseAssociationSystem.Core.ServiceProvider.Interfaces;
 
 namespace TogoleseAssociationSystem.APP.Pages
@@ -36,7 +37,26 @@ namespace TogoleseAssociationSystem.APP.Pages
         public EditContext EditContext { get; set; }
 
         protected decimal TotalCount = 0;
+
         protected decimal TotalCurrentYearAmount = 0;
+
+
+        public bool IsEligibleForClaim { get; set; } = false;
+
+        private void CheckClaimEligibility()
+        {
+            var claims = Member.Claims?.FirstOrDefault();
+            if (Member.TotalClaimRemain > 0 && claims != null && claims.ClaimType != ClaimType.Death)
+            {
+                IsEligibleForClaim = true;
+            }
+            else
+            {
+                IsEligibleForClaim = false;
+            }
+        }
+
+        //protected decimal TotalNumberOfClaimRemain = 0;
 
         protected override async Task OnInitializedAsync()
         {
@@ -46,7 +66,8 @@ namespace TogoleseAssociationSystem.APP.Pages
             {
                 Member = await MemberService.GetMemberByIdAsync(Id);
                 CalculateTotalContributionByMember();
-                TotalAnnualContribution();
+                //TotalAnnualContribution();
+                //TotalClaimRemain();
                 AlertService.OnAlert += HandleAlert;
             }
             catch (Exception ex)
@@ -70,6 +91,11 @@ namespace TogoleseAssociationSystem.APP.Pages
             Navigation.NavigateTo($"/membershipcreate/{selectedMemberId}/edit");
         }
 
+        protected void NavigateToAddClaim(Guid selectedMemberId)
+        {
+            Navigation.NavigateTo($"/claimcreate/{selectedMemberId}/edit");
+        }
+
         protected async Task UpdateMemberDetails(MemberRead member)
         {
             var memberUpdateDto = new MemberUpdateDto
@@ -83,11 +109,11 @@ namespace TogoleseAssociationSystem.APP.Pages
                 Postcode = member.Postcode,
                 City = member.City,
                 DateOfBirth = member.DateOfBirth,
-                PhotoUrl = member.PhotoUrl,
                 IsActive = member.IsActive,
-                IsChair = member.IsChair,
+                IsEligibleToClaim = member.IsEligibleToClaim,
                 MembershipDate = member.MembershipDate,
                 NextOfKin = member.NextOfKin,
+                NextOfKinContact = member.NextOfKinContact,
                 Relationship = member.Relationship,
                 Memberships = null
             };
@@ -114,13 +140,13 @@ namespace TogoleseAssociationSystem.APP.Pages
             AlertMessage = message;
         }
 
-        protected async Task OnInputFileChanged(InputFileChangeEventArgs args)
-        {
-            var memoryStream = new MemoryStream();
-            await args.File.OpenReadStream().CopyToAsync(memoryStream);
-            var bytes = memoryStream.ToArray();
-            Member.PhotoUrl = bytes;
-        }
+        //protected async Task OnInputFileChanged(InputFileChangeEventArgs args)
+        //{
+        //    var memoryStream = new MemoryStream();
+        //    await args.File.OpenReadStream().CopyToAsync(memoryStream);
+        //    var bytes = memoryStream.ToArray();
+        //    Member.PhotoUrl = bytes;
+        //}
 
         private void CalculateTotalContributionByMember()
         {
@@ -130,9 +156,16 @@ namespace TogoleseAssociationSystem.APP.Pages
         private void TotalAnnualContribution()
         {
             TotalCurrentYearAmount = Member.Memberships
-                .Where(m => m.IsAnnualContribution == true && m.DateOfContribution?.Year == DateTime.Today.Year)
+                .Where(x => x.DateOfContribution?.Year == DateTime.Today.Year)
                 .Sum(m => m.Amount);
         }
+
+        //private void TotalClaimRemain()
+        //{
+        //    TotalNumberOfClaimRemain = Member.Claims
+        //        .Where(c => c.TotalClaimPerMember > 0)
+        //        .Sum(c => c.ClaimRemain);
+        //}
 
         private void UnsubscribeAlert()
         {

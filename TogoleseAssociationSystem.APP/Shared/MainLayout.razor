@@ -1,17 +1,93 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+<header>
+    <nav class="navbar navbar-expand-lg bg-primary bg-light" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Togo Solidarite</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><b>Member List</b></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/aboutus"><b>About Us</b></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/membercreate"><b>Add new Member</b></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/membershipcreate"><b>Add new Contribution</b></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/claimcreate"><b>Add new Claim</b></a>
+                    </li>
+                </ul>
         </div>
+    </nav>
+</header>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+<div class="container">
+    @Body
 </div>
+
+<br />
+<footer class="footer mt-auto py-3 bg-light fixed-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h5>Togo Solidarite</h5>
+            </div>
+           
+            <div class="col-md-2">
+                <h5>Contact Us</h5>
+                <ul class="list-unstyled">
+                    <li>Email: info@example.com</li>
+                    <li>Phone: +44233567890</li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <h5>Follow Us</h5>
+                <ul class="list-inline footer-links">
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <p>&copy; 2025 Togo Solidarite. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-end">
+                <ul class="list-inline footer-links">
+                    <li class="list-inline-item">
+                        <a href="#">Privacy Policy</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">Terms of Service</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>

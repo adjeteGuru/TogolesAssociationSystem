@@ -8,8 +8,10 @@
         @AlertMessage
     </div>
 }
+<div class="my-3 d-flex flex-wrap justify-content-between">
 
-<h3 class="priceTextOverride">Add Member's contribution</h3>
+    <h3 class="priceTextOverride">Add Member's contribution</h3>
+</div>
 <hr />
 <form>
     <EditForm EditContext="EditContext">
@@ -42,14 +44,6 @@
             </div>
         </div>
         <div class="mb-3 row">
-            <div class="form-check col-md-4">
-                <InputCheckbox id="IsAnnualContribution"
-                               class="form-check-input"
-                               @bind-Value="Contribution.IsAnnualContribution" />
-                <label class="form-check-label" for="IsAnnualContribution">
-                    <b>Is this annual contribution?</b>
-                </label>
-            </div>
             <div class="form-group col-md-4">
                 <label for="inputCity"><b>Date of Contribution</b></label>
                 <InputDate id="DateOfBirth"

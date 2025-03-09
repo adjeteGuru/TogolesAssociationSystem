@@ -2,6 +2,7 @@
 using TogoleseAssociationSystem.Domain.Interfaces;
 using TogoleseAssociationSystem.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace TogoleseAssociationSystem.Infrastructure.Repositories
 {
@@ -12,6 +13,30 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
         public MemberRepository(AppDbContext dbContext)
         {
             this.dbContext = dbContext;
+        }
+
+        public async Task CreateClaimAsync(Claim claim)
+        {
+            var member = await GetMemberByIdAsync(claim.MemberId);
+
+            if (member == null || !member.IsActive || member.TotalClaimRemain <= 0)
+            {
+                return;
+            }
+
+            if (claim.ClaimType == ClaimType.Death)
+            {
+                member.IsActive = false;
+            }
+            else
+            {
+                member.TotalClaimRemain -= 1;
+            }
+
+            dbContext.Claims.Add(claim);
+            SaveChanges();
+
+            UpdateMember(member);
         }
 
         public void CreateMember(Member member)
@@ -31,6 +56,18 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
             return await dbContext.Members.ToListAsync();
         }
 
+        public async Task<Claim> GetClaimByIdAsync(Guid id)
+        {
+            var claim = await dbContext.Claims.FindAsync(id);
+            return claim;
+        }
+
+        public async Task<IEnumerable<Claim>> GetClaimsAsync()
+        {
+            var claims = await dbContext.Claims.ToListAsync();
+            return claims;
+        }
+
         public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()
         {
             return await dbContext.MembershipContributions.ToListAsync();
@@ -38,7 +75,10 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
 
         public async Task<Member> GetMemberByIdAsync(Guid id)
         {
-            var member = await dbContext.Members.Include(x => x.Memberships).FirstOrDefaultAsync(x => x.Id.Equals(id));
+            var member = await dbContext.Members
+                .Include(x => x.Memberships)
+                .Include(x => x.Claims)
+                .FirstOrDefaultAsync(x => x.Id.Equals(id));
             return member;
         }
 
@@ -54,11 +94,12 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
        
         public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
         {
-            if (filter != null)
+            if (!string.IsNullOrEmpty(filter))
             {
                 var filteredMembers = await dbContext.Members
                 .Where(member => member.IsActive == true && member.LastName.ToLower()
-                .Contains(filter.ToLower().Trim())).ToListAsync();
+                .Contains(filter.ToLower()
+                .Trim())).ToListAsync();
 
                 return filteredMembers;
             }
@@ -73,8 +114,8 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
         public async Task<Member> RetrieveMember(string firsname, string lastname)
         {
             var member = await dbContext.Members
-                .Where(x => x.FirstName.ToLower() == firsname.ToLower().Trim()
-                && x.LastName.ToLower() == lastname.ToLower().Trim())
+                .Where(x => x.FirstName.Equals(firsname.ToLower())
+                && x.LastName.Equals(lastname.ToLower()))
                 .FirstOrDefaultAsync();
             return member;
         }

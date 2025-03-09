@@ -32,13 +32,23 @@ namespace TogoleseAssociationSystem.APP.Pages
         [Parameter]
         public bool IsVisible { get; set; }
 
+        protected int CurrentPage { get; set; } = 1;
+
+        protected int ItemsPerPage { get; set; } = 10;
+
+        protected int TotalCount { get; set; } = 100;
+
+        protected List<MemberRead> GetPagedMembers()
+        {
+            return Members.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage).ToList();
+        }
 
         protected override async Task OnInitializedAsync()
         {
             try
             {
                 Members = new List<MemberRead>();
-                var members = await MemberService.GetMembersAsync(null);
+                var members = await MemberService.GetMembersAsync(CurrentPage, ItemsPerPage, null);
                 Members.AddRange(members);
                 AlertService.OnAlert += HandleAlert;
             }
@@ -47,6 +57,44 @@ namespace TogoleseAssociationSystem.APP.Pages
                 AlertService.ShowAlert(ex.Message);
             }
         }
+
+        protected bool CanGoToPreviousPage() => CurrentPage > 1;
+
+        protected bool CanGoToNextPage() => CurrentPage < TotalCount;
+
+        protected async void GoToPreviousPage()
+        {
+            if (CanGoToPreviousPage())
+            {
+                CurrentPage--;
+                await LoadMembers();
+            }
+        }
+        protected async void GoToNextPage()
+        {
+            if (CanGoToNextPage())
+            {
+                CurrentPage++;
+                await LoadMembers();
+            }
+        }
+
+        private async Task LoadMembers()
+        {
+            try
+            {
+                Members = new List<MemberRead>();
+                var members = await MemberService.GetMembersAsync(CurrentPage, ItemsPerPage, null);
+                Members.AddRange(members);
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                StateHasChanged();
+            }
+        }
+
 
         private void HandleAlert(string message)
         {
@@ -59,7 +107,7 @@ namespace TogoleseAssociationSystem.APP.Pages
         {
             try
             {
-                var searchedMembers = await MemberService.GetMembersAsync(filter);
+                var searchedMembers = await MemberService.GetMembersAsync(CurrentPage, ItemsPerPage, filter);
                 Members = searchedMembers.ToList();
 
                 StateHasChanged();

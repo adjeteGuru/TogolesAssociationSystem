@@ -22,6 +22,40 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("TogoleseAssociationSystem.Domain.Models.Claim", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ClaimDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ClaimType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("MemberId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NextOfKinContact")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NextOfKinName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("Claims");
+                });
+
             modelBuilder.Entity("TogoleseAssociationSystem.Domain.Models.Member", b =>
                 {
                     b.Property<Guid>("Id")
@@ -43,7 +77,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsChair")
+                    b.Property<bool>("IsEligibleToClaim")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -55,9 +89,8 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     b.Property<string>("NextOfKin")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("PhotoUrl")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("NextOfKinContact")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Postcode")
                         .HasColumnType("nvarchar(max)");
@@ -71,6 +104,9 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TotalClaimRemain")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Members");
@@ -78,57 +114,60 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c5a05e8c-e870-4b6d-a7c8-a1a29d94fee6"),
+                            Id = new Guid("cdedad9a-30b1-461a-87b2-8dbb30db6175"),
                             Address = "34 Bentley road",
                             City = "Birmingham",
                             DateOfBirth = new DateTime(2000, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "John",
                             IsActive = true,
-                            IsChair = false,
+                            IsEligibleToClaim = true,
                             LastName = "Doe",
-                            MembershipDate = new DateTime(2024, 9, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            MembershipDate = new DateTime(2025, 3, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             NextOfKin = "Brenda",
-                            PhotoUrl = new byte[0],
+                            NextOfKinContact = "07459999999",
                             Postcode = "BR3 1AS",
                             Relationship = "sister",
                             Telephone = "07458893212",
-                            Title = "Mr"
+                            Title = "Mr",
+                            TotalClaimRemain = 2
                         },
                         new
                         {
-                            Id = new Guid("15a5c552-a7a5-4b57-b925-76eae61574c2"),
+                            Id = new Guid("fe7e9f0b-bfc9-4891-b123-65adde34880f"),
                             Address = "34 Bentley road",
                             City = "Birmingham",
                             DateOfBirth = new DateTime(1980, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Brenda",
                             IsActive = true,
-                            IsChair = true,
+                            IsEligibleToClaim = true,
                             LastName = "Love",
-                            MembershipDate = new DateTime(2024, 9, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            MembershipDate = new DateTime(2025, 3, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             NextOfKin = "John",
-                            PhotoUrl = new byte[0],
+                            NextOfKinContact = "07459999999",
                             Postcode = "BR3 1AS",
                             Relationship = "brother",
                             Telephone = "07126678342",
-                            Title = "Miss"
+                            Title = "Miss",
+                            TotalClaimRemain = 2
                         },
                         new
                         {
-                            Id = new Guid("44ac05a7-b794-4495-9eac-f28a2a4d94a4"),
+                            Id = new Guid("6e4ba595-10df-4bf7-9b01-6a2c3412c960"),
                             Address = "5 Batman garden",
                             City = "Nottingham",
                             DateOfBirth = new DateTime(1970, 7, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Smith",
                             IsActive = true,
-                            IsChair = false,
+                            IsEligibleToClaim = true,
                             LastName = "Joe",
-                            MembershipDate = new DateTime(2024, 9, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            MembershipDate = new DateTime(2025, 3, 9, 0, 0, 0, 0, DateTimeKind.Local),
                             NextOfKin = "Jenny",
-                            PhotoUrl = new byte[0],
+                            NextOfKinContact = "07459999999",
                             Postcode = "NG5 9AQ",
                             Relationship = "wife",
                             Telephone = "07894432123",
-                            Title = "Mr"
+                            Title = "Mr",
+                            TotalClaimRemain = 2
                         });
                 });
 
@@ -147,9 +186,6 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     b.Property<DateTime?>("DateOfContribution")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsAnnualContribution")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("MemberId")
                         .HasColumnType("uniqueidentifier");
 
@@ -158,6 +194,15 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
                     b.HasIndex("MemberId");
 
                     b.ToTable("MembershipContributions");
+                });
+
+            modelBuilder.Entity("TogoleseAssociationSystem.Domain.Models.Claim", b =>
+                {
+                    b.HasOne("TogoleseAssociationSystem.Domain.Models.Member", null)
+                        .WithMany("Claims")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TogoleseAssociationSystem.Domain.Models.MembershipContribution", b =>
@@ -171,6 +216,8 @@ namespace TogoleseAssociationSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("TogoleseAssociationSystem.Domain.Models.Member", b =>
                 {
+                    b.Navigation("Claims");
+
                     b.Navigation("Memberships");
                 });
 #pragma warning restore 612, 618

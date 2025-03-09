@@ -2,7 +2,6 @@
 @page "/memberlist"
 @inherits MemberListComponent
 
-<span>Test Banner</span>
 @if (DisplayAlert)
 {
     <div class="alert alert-success fade-in" role="alert" visibility="@IsVisible">
@@ -47,7 +46,7 @@ else
                </tr>
            </thead>
            <tbody>
-               @foreach (var member in Members)
+               @foreach (var member in GetPagedMembers())
                {
                    <tr>
                         <td>@member.Title</td>
@@ -76,6 +75,21 @@ else
                }
            </tbody>
        </table>
+           
+            <div class="pagination-controls d-flex justify-content-end">
+                <div class="pagination-item">
+                    <button @onclick="GoToPreviousPage" class="btn btn-primary" disabled="@(!CanGoToPreviousPage())">Previous</button>
+                </div>
+
+                <div class="pagination-item mx-4">
+                    <span>Page @CurrentPage of @TotalCount</span>
+                </div>
+
+                <div class="pagination-item">
+                    <button @onclick="GoToNextPage" class="btn btn-primary" disabled="@(!CanGoToNextPage())">Next</button>
+                </div>
+            </div>
+
        </div>
    }
    else

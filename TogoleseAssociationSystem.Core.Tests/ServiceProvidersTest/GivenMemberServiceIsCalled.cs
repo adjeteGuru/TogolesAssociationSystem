@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using TogoleseAssociationSystem.Core.DTOs;
 using TogoleseAssociationSystem.Core.Models;
 using TogoleseAssociationSystem.Core.ServiceProvider;
 using TogoleseAssociationSystem.Core.ServiceProvider.Interfaces;
@@ -37,9 +36,9 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
                     LastName ="Doe",
                     DateOfBirth = new DateTime(2000,01,31),
                     IsActive=true,
-                    IsChair = false,
+                    //IsChair = false,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = Array.Empty<byte>()
+                    //PhotoUrl = Array.Empty<byte>()
                 },
                 new Member
                 {
@@ -48,9 +47,9 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
                     LastName ="Love",
                     DateOfBirth = new DateTime(1980,11,20),
                     IsActive=true,
-                    IsChair = true,
+                    //IsChair = true,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = Array.Empty<byte>()
+                    //PhotoUrl = Array.Empty<byte>()
                 },
                 new Member
                 {
@@ -59,9 +58,9 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
                     LastName ="Joe",
                     DateOfBirth = new DateTime(1970,07,30),
                     IsActive=true,
-                    IsChair = false,
+                    //IsChair = false,
                     MembershipDate = DateTime.Today,
-                    PhotoUrl = Array.Empty<byte>()
+                    //PhotoUrl = Array.Empty<byte>()
                 },
             };
             httpMessageHandler = new Mock<HttpMessageHandler>();
@@ -80,7 +79,7 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
         [Fact]
         public void GetAllAsync_ThenNoExceptionIsReturned()
         {
-            Func<Task> func = async () => await systemUnderTest.GetMembersAsync("test");
+            Func<Task> func = async () => await systemUnderTest.GetMembersAsync(1,5,"test");
             func.Should().NotThrowAsync();
         }
 
@@ -90,7 +89,7 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
             var response = new HttpResponseMessage(HttpStatusCode.InternalServerError);
 
             SetMessageHandler(response);
-            await systemUnderTest.GetMembersAsync("filter");
+            await systemUnderTest.GetMembersAsync(1, 5, "filter");
 
             httpMessageHandler.Protected().Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
                 ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
@@ -106,7 +105,7 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
               ItExpr.Is<HttpRequestMessage>(x => x.RequestUri.Equals($"http://dummy.com/{memberUrl}/filter")),
               ItExpr.IsAny<CancellationToken>()).ReturnsAsync(response);
 
-            await systemUnderTest.GetMembersAsync("filter");
+            await systemUnderTest.GetMembersAsync(1, 5, "filter");
 
             httpMessageHandler.Protected().Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
                ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
@@ -119,7 +118,7 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
 
             SetMessageHandler(response);
 
-            var result = await systemUnderTest.GetMembersAsync(null);
+            var result = await systemUnderTest.GetMembersAsync(1,5,null);
             mockAlertService.Verify(x => x.ShowAlert("Bad request."), Times.Once);
         }
 
@@ -133,12 +132,12 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
             };
             SetMessageHandler(response);
 
-            Func<Task> func = async () => await systemUnderTest.GetMembersAsync("test");
+            Func<Task> func = async () => await systemUnderTest.GetMembersAsync(1, 5, "test");
             await func.Should().ThrowAsync<Exception>();
         }
 
         [Fact]
-        public async Task GetMembersAsync_AndTheModelReturnedIsEmpty_ThenEmptyListIsInitialised()
+        public async Task GetMembersAsync_AndTheModelReturnedIsEmpty_ThenResultShouldBeEmpty()
         {
             var response = new HttpResponseMessage()
             {
@@ -147,8 +146,9 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
 
             SetMessageHandler(response);
 
-            var result = await systemUnderTest.GetMembersAsync("test");
-            result.Should().BeEquivalentTo(new List<MemberRead>());           
+            var result = await systemUnderTest.GetMembersAsync(1, 5, "test");
+           
+            result.Should().BeEmpty();
         }
 
         [Fact]
@@ -162,7 +162,7 @@ namespace TogoleseAssociationSystem.Core.Tests.ServiceProvidersTest
 
             SetMessageHandler(response);
 
-            var result = await systemUnderTest.GetMembersAsync("test");
+            var result = await systemUnderTest.GetMembersAsync(1, 5,"test");
             result.Should().BeEquivalentTo(members);
         }
 

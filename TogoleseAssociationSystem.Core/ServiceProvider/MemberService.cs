@@ -14,6 +14,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
         private IAlertService alertService;
         private static string RequestUri = "api/member";
         private static string MembershipUri = "api/membership";
+        private static string ClaimUri = "api/claim";
         public MemberService(HttpClient httpClient, IAlertService alertService)
         {
             this.httpClient = httpClient;
@@ -30,7 +31,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                     var memberRead = JsonConvert.DeserializeObject<MemberRead>(stringContent);
                     if (memberRead == null)
                     {
-                        alertService.ShowAlert("No member found");
+                       alertService.ShowAlert("No member found");
                     }
                     return memberRead;
                 }
@@ -47,20 +48,21 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             return null;
         }
 
-        public async Task<IEnumerable<MemberRead>> GetMembersAsync(string? filter = null)
+       public async Task<IEnumerable<MemberRead>> GetMembersAsync(int currentPage, int ItemsPerPage, string? filter = null)
         {
-            var httpResponse = await httpClient.GetAsync($"{RequestUri}?filter={filter}");
+            var httpResponse = await httpClient.GetAsync($"{RequestUri}?filter={filter}&currentPage={currentPage}&itemsPerPage={ItemsPerPage}");
             try
             {
                 if (httpResponse.IsSuccessStatusCode)
                 {
                     var stringContent = await httpResponse.Content.ReadAsStringAsync();
-                    var membersRead = JsonConvert.DeserializeObject<IEnumerable<MemberRead>>(stringContent);
-                    if (membersRead == null || !membersRead.Any())
+                    var paginatedMembers = JsonConvert.DeserializeObject<IEnumerable<MemberRead>>(stringContent);
+                    
+                    if (paginatedMembers == null || !paginatedMembers.Any())
                     {
                         return [];
                     }
-                    return membersRead;
+                    return paginatedMembers;
                 }
                 if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
                 {
@@ -70,6 +72,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+                //alertService.ShowAlert(ex.Message);
             }
 
             return null;
@@ -100,7 +103,8 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                //throw new Exception(e.Message);
+                alertService.ShowAlert(e.Message);
             }
 
             return null;
@@ -131,7 +135,8 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                //throw new Exception(e.Message);
+                alertService.ShowAlert(e.Message);
             }
 
             return null;
@@ -171,12 +176,14 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
 
                 if (failureResponse != null)
                 {
+                    //throw new Exception(failureResponse);
                     alertService.ShowAlert(failureResponse);
                 }
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                //throw new Exception(e.Message);
+                alertService.ShowAlert(e.Message);
             }
 
             return null;
@@ -204,7 +211,8 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                //throw new Exception(ex.Message);
+                alertService.ShowAlert(ex.Message);
             }
 
             return null;
@@ -232,10 +240,114 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
             }
             catch (Exception ex)
             {
+                //throw new Exception(ex.Message);
+                alertService.ShowAlert(ex.Message);
+            }
+
+            return null;
+        }
+
+        public async Task<ClaimReadDto> CreateClaimAsync(ClaimToAdd claimToAdd)
+        {
+          var response = await httpClient.SendAsync(new HttpRequestMessage
+          {
+              Method = HttpMethod.Post,
+              RequestUri = new Uri(httpClient.BaseAddress + ClaimUri),
+              Content = JsonContent.Create(claimToAdd)
+          });
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var stringContent = await response.Content.ReadAsStringAsync();
+                    var claim = JsonConvert.DeserializeObject<ClaimReadDto>(stringContent);
+                    if (claim == null)
+                    {
+                        alertService.ShowAlert("No claim found");
+                    }
+                    return claim;
+                }
+                if (response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
+                }
+            }
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
             }
 
             return null;
+        }
+
+        public async Task<ClaimReadDto> GetClaimByIdAsync(Guid id)
+        {
+            var httpResponse = await httpClient.GetAsync($"{ClaimUri}/{id}");
+            try
+            {
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var stringContent = await httpResponse.Content.ReadAsStringAsync();
+                    var claimRead = JsonConvert.DeserializeObject<ClaimReadDto>(stringContent);
+                    if (claimRead == null)
+                    {
+                        alertService.ShowAlert("No claim found");
+                    }
+                    return claimRead;
+                }
+                if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return null;
+        }
+
+        public async Task UpdateClaimAsync(ClaimToUpdate claimToAdd)
+        {
+            var json = JsonConvert.SerializeObject(claimToAdd);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var newRequestUri = $"{ClaimUri}/{claimToAdd.Id}";
+
+            var httpResponse = await httpClient.PutAsync(newRequestUri, content);
+
+            try
+            {
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                    var updatedClaim = JsonConvert.DeserializeObject<ClaimReadDto>(responseContent);
+
+                    if (updatedClaim == null)
+                    {
+                        alertService.ShowAlert("No claim found");
+                    }
+                }
+                else if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
+                }
+                else
+                {
+                    var errorContent = await httpResponse.Content.ReadAsStringAsync();
+                    var failureResponse = JsonConvert.DeserializeObject<FailureResponseModel>(errorContent)?.Detail;
+
+                    if (failureResponse != null)
+                    {
+                        alertService.ShowAlert(failureResponse);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                alertService.ShowAlert(ex.Message);
+            }
         }
     }
 }
