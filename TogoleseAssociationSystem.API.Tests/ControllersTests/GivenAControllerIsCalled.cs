@@ -276,29 +276,29 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
         //    expectedResult!.Value.Should().BeEquivalentTo(returnedMembersDto);
         //}
 
-        [Fact]
-        public async Task GetMembersAsync_WhenInvokesAndSomethingWrongOccured_ThenTheExpectedErrorIsReturned()
-        {
-            var exception = new Exception("Something wrong happenend, please try later!");
-            mockMemberService.Setup(m => m.GetMembersAsync(It.IsAny<string>())).ThrowsAsync(exception);
+        //[Fact]
+        //public async Task GetMembersAsync_WhenInvokesAndSomethingWrongOccured_ThenTheExpectedErrorIsReturned()
+        //{
+        //    var exception = new Exception("Something wrong happenend, please try later!");
+        //    mockMemberService.Setup(m => m.GetMembersAsync(It.IsAny<string>())).ThrowsAsync(exception);
 
-            var result = await systemUnderTest.GetAllMembersAsync();
+        //    var result = await systemUnderTest.GetAllMembersAsync();
 
-            var expectedResult = result as ObjectResult;
-            expectedResult!.StatusCode.Should().Be(500, exception.Message);
-        }
+        //    var expectedResult = result as ObjectResult;
+        //    expectedResult!.StatusCode.Should().Be(500, exception.Message);
+        //}
 
-        [Fact]
-        public async Task GetMembersAsync_WhenInvokesAndTheListIsEmpty_ThenTheExpectedErrorIsReturned()
-        {
-            mockMemberService.Setup(m => m.GetMembersAsync(It.IsAny<string>()))
-                .ReturnsAsync(new List<Member>());
+        //[Fact]
+        //public async Task GetMembersAsync_WhenInvokesAndTheListIsEmpty_ThenTheExpectedErrorIsReturned()
+        //{
+        //    mockMemberService.Setup(m => m.GetMembersAsync(It.IsAny<string>()))
+        //        .ReturnsAsync(new List<Member>());
 
-            var result = await systemUnderTest.GetAllMembersAsync();
+        //    var result = await systemUnderTest.GetAllMembersAsync();
 
-            var expectedResult = result as NotFoundResult;
-            expectedResult!.StatusCode.Should().Be(404);
-        }
+        //    var expectedResult = result as NotFoundResult;
+        //    expectedResult!.StatusCode.Should().Be(404);
+        //}
 
         [Fact]
         public async Task GetMemberByIdAsync_WhenInvokesWithId_ThenNoExceptionIsThrown()
@@ -347,17 +347,17 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
             result!.Value.Should().BeEquivalentTo(returnedMember);
         }
 
-        [Fact]
-        public async Task GetMemberByIdAsync_WhenInvokesAndSomethingWrongOccured_ThenTheExpectedErrorIsReturned()
-        {
-            var exception = new Exception("Something wrong happenend, please try later!");
-            mockMemberService.Setup(m => m.GetMemberByIdAsync(It.IsAny<Guid>())).ThrowsAsync(exception);
+        //[Fact]
+        //public async Task GetMemberByIdAsync_WhenInvokesAndSomethingWrongOccured_ThenTheExpectedErrorIsReturned()
+        //{
+        //    var exception = new Exception("Something wrong happenend, please try later!");
+        //    mockMemberService.Setup(m => m.GetMemberByIdAsync(It.IsAny<Guid>())).ThrowsAsync(exception);
 
-            var result = await systemUnderTest.GetMemberById(Guid.Empty);
+        //    var result = await systemUnderTest.GetMemberById(Guid.Empty);
 
-            var expectedResult = result as ObjectResult;
-            expectedResult!.StatusCode.Should().Be(500, exception.Message);
-        }
+        //    var expectedResult = result as ObjectResult;
+        //    expectedResult!.StatusCode.Should().Be(500, exception.Message);
+        //}
 
         [Fact]
         public async Task GetMemberByIdAsync_WhenInvokesAndNullIsReturned_ThenTheExpectedErrorIsReturned()

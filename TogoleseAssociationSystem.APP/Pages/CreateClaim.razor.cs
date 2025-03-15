@@ -111,8 +111,8 @@ public class CreateClaimComponent : ComponentBase
         AlertMessage = message;
     }
 
-    protected void NavigateToHome()
+    protected async Task NavigateToHome()
     {
-        NavigationManager.NavigateTo("/claims");
+        await JSRuntime.InvokeVoidAsync("history.back");
     }
 }
