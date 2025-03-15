@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using TogoleseAssociationSystem.Core.DTOs;
 using TogoleseAssociationSystem.Core.ServiceProvider.Interfaces;
 
@@ -12,6 +13,9 @@ public class CreateClaimComponent : ComponentBase
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; }
 
     [Parameter]
     public Guid Id { get; set; }
@@ -80,7 +84,8 @@ public class CreateClaimComponent : ComponentBase
         //{
         //    await MemberService.CreateClaimAsync(Claim);
         //}
-        NavigationManager.NavigateTo("/claims");
+        NavigationManager.NavigateTo($"/memberdetail/{Member.Id}/edit");
+        //await JSRuntime.InvokeVoidAsync("history.back");
     }
 
     protected void NavigateToHome()

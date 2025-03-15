@@ -1,6 +1,7 @@
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
     {
         private readonly Mock<IMemberService> mockMemberService;
         private readonly Mock<IMapper> mockMapper;
+        private readonly Mock<ILogger<MemberController>> logger;
         private readonly MemberController systemUnderTest;
         private readonly Member expectedResult;
         private readonly List<Member> members;
@@ -75,20 +77,21 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
             mockMemberService = new Mock<IMemberService>();
             mockMemberService.Setup(m => m.GetMembersAsync(It.IsAny<string>())).ReturnsAsync(members);
             mockMapper = new Mock<IMapper>();
-            systemUnderTest = new MemberController(mockMemberService.Object, mockMapper.Object);
+            logger = new Mock<ILogger<MemberController>>();
+            systemUnderTest = new MemberController(mockMemberService.Object, mockMapper.Object, logger.Object);
         }
 
         [Fact]
         public void Construnctor_WhenInvokesWithNullMemberService_ThenTheExpectedExceptionIsThrown()
         {
-            var act = () => new MemberController(null, mockMapper.Object);
+            var act = () => new MemberController(null, mockMapper.Object, logger.Object);
             act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("memberService");
         }
 
         [Fact]
         public void Construnctor_WhenInvokesWithMemberService_ThenInitialize()
         {
-            var act = () => new MemberController(mockMemberService.Object, mockMapper.Object);
+            var act = () => new MemberController(mockMemberService.Object, mockMapper.Object, logger.Object);
             act.Should().NotThrow();
         }
 
@@ -324,7 +327,7 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
                 IsActive = true,
                 IsEligibleToClaim = false,
                 MembershipDate = DateTime.Today,
-                //PhotoUrl = Array.Empty<byte>(),
+                TotalClaimRemain = 2,
                 Claims = [],
             };
             mockMemberService.Setup(m => m.GetMemberByIdAsync(It.IsAny<Guid>())).ReturnsAsync(expectedResult);
@@ -337,7 +340,7 @@ namespace TogoleseAssociationSystem.API.Tests.ControllersTests
                 IsActive = true,
                 IsEligibleToClaim = false,
                 MembershipDate = DateTime.Today,
-                //PhotoUrl = Array.Empty<byte>()
+                TotalClaimRemain = 2,
             });
             var result = (await systemUnderTest.GetMemberById(Guid.Empty)) as ObjectResult;
 

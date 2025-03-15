@@ -76,6 +76,11 @@ namespace TogoleseAssociationSystem.APP.Pages
             }
         }
 
+        protected override async Task OnParametersSetAsync()
+        {
+            await base.OnParametersSetAsync();
+        }
+
         protected async Task GoBack()
         {
             await JSRuntime.InvokeVoidAsync("history.back");

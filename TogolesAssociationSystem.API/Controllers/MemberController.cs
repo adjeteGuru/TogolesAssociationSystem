@@ -14,30 +14,27 @@ namespace TogolesAssociationSystem.API.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public class MemberController : ControllerBase
+    public class MemberController(IMemberService memberService, IMapper mapper, ILogger<MemberController> logger) : ControllerBase
     {
-        private readonly IMemberService memberService;
-        private readonly IMapper mapper;
-
-        public MemberController(IMemberService memberService, IMapper mapper)
-        {
-            this.memberService = memberService ?? throw new ArgumentNullException(nameof(memberService));
-            this.mapper = mapper;
-        }
+        private readonly IMemberService memberService = memberService ?? throw new ArgumentNullException(nameof(memberService));
+        private readonly IMapper mapper = mapper;
 
         [HttpGet]
         public async Task<IActionResult> GetAllMembersAsync(string? filter = null)
         {
+            List<MemberRead> membersDto;
             try
             {
                 IEnumerable<MembershipContributionReadDto> contributionsDto;
                 IEnumerable<ClaimReadDto> claimsReadDto;
-                List<MemberRead> membersDto;
+               
                 var members = await memberService.GetMembersAsync(filter);
 
                 if (!members.Any())
                 {
-                    return NotFound();
+                    membersDto = new List<MemberRead>();
+                    logger.LogInformation("No members found");
+                    return Ok(membersDto);
                 }
 
                 var contributions = await memberService.GetContributionsAsync();
@@ -58,7 +55,9 @@ namespace TogolesAssociationSystem.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                //return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
+                return Ok(new List<MemberRead>());
             }
         }
 
@@ -71,6 +70,7 @@ namespace TogolesAssociationSystem.API.Controllers
 
                 if (member == null)
                 {
+                    logger.LogInformation("No member found");
                     return NotFound();
                 }
                 var memberDto = mapper.Map<MemberRead>(member);
@@ -79,7 +79,9 @@ namespace TogolesAssociationSystem.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                //return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
+                return Ok();
             }
         }
 
@@ -98,7 +100,9 @@ namespace TogolesAssociationSystem.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                //return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
+                return Ok();
             }
         }
 
@@ -120,7 +124,9 @@ namespace TogolesAssociationSystem.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                //return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
+                return Ok();
             }
         }
     }

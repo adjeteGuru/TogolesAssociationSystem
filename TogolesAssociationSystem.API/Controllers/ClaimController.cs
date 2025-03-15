@@ -11,16 +11,10 @@ namespace TogoleseAssociationSystem.API.Controllers
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public class ClaimController : ControllerBase
+    public class ClaimController(IMemberService memberService, IMapper mapper, ILogger<ClaimController> logger) : ControllerBase
     {
-        private readonly IMemberService memberService;
-        private readonly IMapper mapper;
-
-        public ClaimController(IMemberService memberService, IMapper mapper)
-        {
-            this.memberService = memberService;
-            this.mapper = mapper;
-        }
+        private readonly IMemberService memberService = memberService;
+        private readonly IMapper mapper = mapper;
 
         [HttpPost]
         public async Task<IActionResult> MakeAClaimAsync(ClaimToAdd claimToAdd)
@@ -32,6 +26,7 @@ namespace TogoleseAssociationSystem.API.Controllers
                 var member = await memberService.RetrieveMember(membertoFetch.FirstName, membertoFetch.LastName);
                 if (member == null)
                 {
+                    logger.LogInformation("No claim found");
                     return NotFound();
                 }
 
@@ -43,7 +38,9 @@ namespace TogoleseAssociationSystem.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                //return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
+                return Ok();
             }
         }
 
@@ -55,6 +52,7 @@ namespace TogoleseAssociationSystem.API.Controllers
                 var claim = await memberService.GetClaimByIdAsync(id);
                 if (claim == null)
                 {
+                    logger.LogInformation("No claim found");
                     return NotFound();
                 }
 
@@ -62,33 +60,10 @@ namespace TogoleseAssociationSystem.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                //return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
+                return Ok();
             }
         }
-
-        // POST api/claim
-        //[HttpPost]
-        //public async Task<IActionResult> CreateClaimAsync([FromBody] ClaimToAdd claimToAdd)
-        //{
-        //    try
-        //    {
-        //        var membertoFetch = claimToAdd.ConvertToDto();
-
-        //        var member = await memberService.RetrieveMember(membertoFetch.FirstName, membertoFetch.LastName);
-        //        if (member == null)
-        //        {
-        //            return NotFound();
-        //        }
-        //        var claim = claimToAdd.ConvertToDto(member);
-
-        //        await memberService.CreateClaimAsync(claim);
-
-        //        return CreatedAtAction(nameof(GetClaimByIdAsync), new { id = claim.Id }, claim);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-        //    }
-        //}
     }
 }
