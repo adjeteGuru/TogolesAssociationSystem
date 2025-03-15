@@ -77,11 +77,18 @@ namespace TogoleseAssociationSystem.APP.Pages
         protected async Task Submit()
         {
             var contribution = await MemberService.CreateMembershipAsync(Contribution);
-            
+
             if (contribution == null)
             {
                 return;
             }
+
+            if (Member.Memberships == null)
+            {
+                Member.Memberships = [];
+            }
+
+            Member.Memberships.Add(contribution);
 
             AlertMessage = $"{contribution.ContributionName} is added successfully.";
 
@@ -113,7 +120,7 @@ namespace TogoleseAssociationSystem.APP.Pages
             Contribution.MemberLastName = Member.LastName;
         }
 
-        private void UnsubscribeAlert()
+        public void UnsubscribeAlert()
         {
             AlertService.OnAlert -= HandleAlert;
         }

@@ -68,6 +68,17 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
             return claims;
         }
 
+        public async Task<IEnumerable<Claim>?> GetClaimsByMemberIdAsync(Guid id)
+        {
+             var memeber = await GetMemberByIdAsync(id);
+            if (memeber == null)
+            {
+                return null;
+            }
+            var claims = await dbContext.Claims.Where(x => x.MemberId.Equals(memeber.Id)).ToListAsync();
+            return claims;
+        }
+
         public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()
         {
             return await dbContext.MembershipContributions.ToListAsync();

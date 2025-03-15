@@ -349,5 +349,35 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider
                 alertService.ShowAlert(ex.Message);
             }
         }
+
+        public async Task<IEnumerable<ClaimReadDto>> GetClaimsByMemberIdAsync(Guid id)
+        {
+            var httpResponse = await httpClient.GetAsync($"{ClaimUri}/member/{id}");
+            try
+            {
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var stringContent = await httpResponse.Content.ReadAsStringAsync();
+                    var claimsRead = JsonConvert.DeserializeObject<IEnumerable<ClaimReadDto>>(stringContent);
+                    if (claimsRead == null || !claimsRead.Any())
+                    {
+                        alertService.ShowAlert("No claim found");
+                        return [];
+                    }
+                    return claimsRead;
+                }
+                if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    alertService.ShowAlert("Bad request.");
+                    return [];
+                }
+            }
+            catch (Exception ex)
+            {
+                alertService.ShowAlert(ex.Message);
+            }
+
+            return [];
+        }
     }
 }

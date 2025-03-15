@@ -15,11 +15,12 @@
     </div>
 }
 
-<div class="scrollable-content">
+@* <div class="scrollable-content"> *@
     <div class="my-3 d-flex flex-wrap justify-content-between">
-        <h3 class="blueTextOverride"> @Member.FirstName @Member.LastName's remaining claims:<span class="redTextOverride"><b>@Member.TotalClaimRemain</b></span></h3>
+        @* <h3 class="blueTextOverride"> @Member.FirstName @Member.LastName's remaining claims:<span class="redTextOverride"><b>@Member.TotalClaimRemain</b></span></h3> *@
         <div class="btn-group" role="group">
-            <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
+            @* <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button> *@
+            <button id="Membership-create" class="btn btn-primary" @onclick="@(()=>NavigateToAddContribution(Member.Id))">Add Member's Contribution</button>
             &nbsp;
             <button id="Claim-create" class="btn btn-warning" @onclick="@(()=>NavigateToAddClaim(Member.Id))">Add Member Claim</button>
         </div>
@@ -138,57 +139,60 @@
 
     <div>
         <hr />
-        <div class="my-3 d-flex flex-wrap justify-content-between">
+       @*  <div class="my-3 d-flex flex-wrap justify-content-between">
             <h3 class="blueTextOverride">@Member.FirstName's total contribution since becoming member is: <span class="redTextOverride"><b>£@TotalCount</b></span></h3>
             <button id="Membership-create" class="btn btn-primary" @onclick="@(()=>NavigateToAddContribution(Member.Id))">Add Member's Contribution</button>
-        </div>
+        </div> *@
 
-        <table class="table table-bordered table-hover">
-            <thead class="thead-light">
-                <tr class="table-info">
-                    <th>Contribution purpose</th>
-                    <th>Amount</th>
-                    <th>Date of contribution</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var contribution in Member.Memberships)
-                {
-                    <tr>
-                        <td>@contribution.ContributionName</td>
-                        <td>@contribution.Amount</td>
-                        <td>@contribution.DateOfContribution.Value.ToString("dd-MMM-yyyy")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <hr />
-        <h3>Claim history</h3>
-        <table class="table table-bordered table-hover">
-            <thead class="thead-light">
-                <tr class="table-warning">
-                    <th>Claim name</th>
-                    <th>Claim description</th>
-                    <th>Claim type</th>
-                    <th>Date claimed</th>
-                    <th>Next of kin</th>
-                    <th>Next of kin contact</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var claim in Member.Claims)
-                {
-                    <tr>
-                        <td>@claim.Name</td>
-                        <td>@claim.Description</td>
-                        <td>@claim.ClaimType</td>
-                        <td>@claim.ClaimDate.Value.ToString("dd-MMM-yyyy")</td>
-                        <td>@claim.NextOfKinName</td>
-                        <td>@claim.NextOfKinContact</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="scrollable-content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Contribution history report: <span class="redTextOverride"><b>£@TotalCount</b></span></h4>
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
+                                <tr class="table-info">
+                                    <th>Contribution purpose</th>
+                                    <th>Amount</th>
+                                    <th>Date of contribution</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var contribution in Member.Memberships)
+                                {
+                                    <tr>
+                                        <td>@contribution.ContributionName</td>
+                                        <td>@contribution.Amount</td>
+                                        <td>@contribution.DateOfContribution.Value.ToString("dd-MMM-yyyy")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Claim history report: <span class="redTextOverride"><b>@Member.TotalClaimRemain claim remains</b></span></h4>
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-light">
+                                <tr class="table-warning">
+                                    <th>Claim name</th>                                   
+                                    <th>Claim type</th>
+                                    <th>Date claimed</th>                                 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var claim in Member.Claims)
+                                {
+                                    <tr>
+                                        <td>@claim.Name</td>                                       
+                                        <td>@claim.ClaimType</td>
+                                        <td>@claim.ClaimDate.Value.ToString("dd-MMM-yyyy")</td>                                       
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <hr />
     </div>
-</div>
+@* </div> *@

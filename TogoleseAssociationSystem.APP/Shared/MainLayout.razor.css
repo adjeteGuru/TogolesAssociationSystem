@@ -13,9 +13,6 @@ main {
     /*background: radial-gradient(circle, white, red, green, yellow, green, yellow, green, yellow);*/
     background-image: linear-gradient(white, red 10%, green, yellow, green, yellow, green);
 }
-/*.sidebar {
-    background-image: url('/wwwroot/image/togoFlag.jfif');
-}*/
 
 .top-row {
     background-color: #f7f7f7;

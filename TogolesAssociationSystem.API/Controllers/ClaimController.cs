@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TogoleseAssociationSystem.API.Extensions;
 using TogoleseAssociationSystem.Application.DTOs;
 using TogoleseAssociationSystem.Domain.Interfaces;
+using TogoleseAssociationSystem.Domain.Models;
 
 namespace TogoleseAssociationSystem.API.Controllers
 {
@@ -44,7 +45,7 @@ namespace TogoleseAssociationSystem.API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("claim/{id}")]
         public async Task<IActionResult> GetClaimByIdAsync(Guid id)
         {
             try
@@ -63,6 +64,28 @@ namespace TogoleseAssociationSystem.API.Controllers
                 //return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
                 logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
                 return Ok();
+            }
+        }
+
+        [HttpGet("member/{id}")]
+        public async Task<IActionResult> GetClaimsByMemberIdAsync(Guid id)
+        {
+            try
+            {
+                var claims = await memberService.GetClaimsByMemberIdAsync(id);
+                if (claims == null)
+                {
+                    logger.LogInformation("No claim found");
+                    return Ok(new List<Claim>());
+                }
+                return Ok(claims);
+            }
+            catch (Exception ex)
+            {
+                //return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
+                return Ok();
+
             }
         }
     }
