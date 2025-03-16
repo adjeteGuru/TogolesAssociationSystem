@@ -133,54 +133,61 @@
         </div>
     </EditForm>
 </form>
+<hr />
 
-<div>
-    <div class="scrollable-content">
-        <div class="row">
-            <div class="col-md-6">
-                <h4 class="nav-link">Contribution history report: <span class="redTextOverride"><b>£@TotalCount</b></span></h4>
-                <table class="table table-bordered table-hover">
-                    <thead class="thead-light">
-                        <tr class="table-info">
-                            <th>Contribution purpose</th>
-                            <th>Amount</th>
-                            <th>Date of contribution</th>
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+</style>
+
+<div class="scrollable-content">
+    <div class="grid-container">
+        <div>
+            <h4 class="nav-link">Contribution history report: <span class="redTextOverride"><b>£@TotalCount</b></span></h4>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr class="table-info">
+                        <th>Contribution purpose</th>
+                        <th>Amount</th>
+                        <th>Date of contribution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var contribution in Member.Memberships)
+                    {
+                        <tr>
+                            <td>@contribution.ContributionName</td>
+                            <td>@contribution.Amount</td>
+                            <td>@contribution.DateOfContribution.Value.ToString("dd-MMM-yyyy")</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var contribution in Member.Memberships)
-                        {
-                            <tr>
-                                <td>@contribution.ContributionName</td>
-                                <td>@contribution.Amount</td>
-                                <td>@contribution.DateOfContribution.Value.ToString("dd-MMM-yyyy")</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-6">
-                <h4 class="nav-link">Claim history report: <span class="redTextOverride"><b>@Member.TotalClaimRemain claim remains</b></span></h4>
-                <table class="table table-bordered table-hover">
-                    <thead class="thead-light">
-                        <tr class="table-warning">
-                            <th>Claim name</th>
-                            <th>Claim type</th>
-                            <th>Date claimed</th>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h4 class="nav-link">Claim history report: <span class="redTextOverride"><b>@Member.TotalClaimRemain claim remains</b></span></h4>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr class="table-warning">
+                        <th>Claim name</th>
+                        <th>Claim type</th>
+                        <th>Date claimed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var claim in Member.Claims)
+                    {
+                        <tr>
+                            <td>@claim.Name</td>
+                            <td>@claim.ClaimType</td>
+                            <td>@claim.ClaimDate.Value.ToString("dd-MMM-yyyy")</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var claim in Member.Claims)
-                        {
-                            <tr>
-                                <td>@claim.Name</td>
-                                <td>@claim.ClaimType</td>
-                                <td>@claim.ClaimDate.Value.ToString("dd-MMM-yyyy")</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
