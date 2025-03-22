@@ -22,7 +22,7 @@ namespace TogolesAssociationSystem.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllMembersAsync(string? filter = null)
         {
-            List<MemberRead> membersDto;
+            List<MemberRead> membersDto = [];
             try
             {
                 IEnumerable<MembershipContributionReadDto> contributionsDto;
@@ -32,7 +32,6 @@ namespace TogolesAssociationSystem.API.Controllers
 
                 if (!members.Any())
                 {
-                    membersDto = new List<MemberRead>();
                     logger.LogInformation("No members found");
                     return Ok(membersDto);
                 }
@@ -55,9 +54,8 @@ namespace TogolesAssociationSystem.API.Controllers
             }
             catch (Exception ex)
             {
-                //return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
                 logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
-                return Ok(new List<MemberRead>());
+                return Ok(membersDto);
             }
         }
 
@@ -79,7 +77,6 @@ namespace TogolesAssociationSystem.API.Controllers
             }
             catch (Exception ex)
             {
-                //return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
                 logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
                 return Ok();
             }
@@ -94,7 +91,7 @@ namespace TogolesAssociationSystem.API.Controllers
                 var maper = MapperSettings.GetMapperConfiguration().CreateMapper();
                 var member = maper.Map<Member>(memberToAdd);
 
-                memberService.CreateMember(member);
+                await memberService.CreateMember(member);
 
                 return CreatedAtAction(nameof(GetMemberById), new { id = member.Id }, member);
             }

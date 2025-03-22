@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using TogoleseAssociationSystem.API.Extensions;
 using TogoleseAssociationSystem.Application.DTOs;
 using TogoleseAssociationSystem.Domain.Interfaces;
@@ -36,7 +35,6 @@ namespace TogoleseAssociationSystem.API.Controllers
             }
             catch (Exception ex)
             {
-                //return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
                 logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
                 return Ok();
             }
@@ -58,13 +56,12 @@ namespace TogoleseAssociationSystem.API.Controllers
                 }
                 var membership = membershipToAdd.ConvertToDto(member);
 
-                memberService.CreateMembership(membership);
+                await memberService.CreateMembership(membership);
 
                 return CreatedAtAction(nameof(GetMembershipById), new { id = membership.Id }, membership);
             }
             catch (Exception ex)
             {
-                // return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
                 logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
                 return Ok();
             }
@@ -72,7 +69,8 @@ namespace TogoleseAssociationSystem.API.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetAllMembershipsAsync()
-        {            
+        {
+            List<MembershipContributionReadDto> membershipsRead = [];
             try
             {
                 var memberships = await memberService.GetContributionsAsync();
@@ -82,15 +80,14 @@ namespace TogoleseAssociationSystem.API.Controllers
                     logger.LogInformation("No memberships found");
                     return NotFound();
                 }
-
-                var membershipsDto = mapper.Map<IEnumerable<MembershipContributionReadDto>>(memberships);
-                return Ok(membershipsDto);
+                var membershipsDtos = mapper.Map<IEnumerable<MembershipContributionReadDto>>(memberships);
+                membershipsRead = [.. membershipsDtos];
+                return Ok(membershipsRead);
             }
             catch (Exception ex)
             {
-                //return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
                 logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
-                return Ok(new List<MembershipContributionReadDto>());
+                return Ok(membershipsRead);
             }
         }
     }

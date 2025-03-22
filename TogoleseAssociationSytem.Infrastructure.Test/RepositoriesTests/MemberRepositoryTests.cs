@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using TogoleseAssociationSystem.Domain.Models;
 using TogoleseAssociationSystem.Infrastructure.Database;
 using TogoleseAssociationSystem.Infrastructure.Repositories;
@@ -11,10 +10,8 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
     public class MemberRepositoryTests
     {
         private AppDbContext dbContext;
-        //private MemberRepository systemUnderTest;
         private Member expectedResult;
         private List<Member> members;
-        private int expectedCount;
 
         [SetUp]
         public void Setup()
@@ -428,11 +425,6 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
             memberList.Add(member);
 
             return memberList;
-        }
-
-        private void Count()
-        {
-            expectedCount++;
         }
     }
 }

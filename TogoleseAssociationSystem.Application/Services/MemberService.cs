@@ -12,22 +12,22 @@ namespace TogoleseAssociationSystem.Application.Services
             this.memberRepository = memberRepository;
         }
 
-        public void CreateMember(Member member)
+        public async Task CreateMember(Member member)
         {
-            memberRepository.CreateMember(member);
+            await memberRepository.CreateMember(member);
         }
 
-        public void CreateMembership(MembershipContribution membership)
+        public async Task CreateMembership(MembershipContribution membership)
         {
-            memberRepository.CreateMembership(membership);           
+            await memberRepository.CreateMembership(membership);           
         }
 
-        public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()
+        public async Task<IEnumerable<MembershipContribution?>> GetContributionsAsync()
         {
             return await memberRepository.GetContributionsAsync();
         }
 
-        public async Task<Member> GetMemberByIdAsync(Guid id)
+        public async Task<Member?> GetMemberByIdAsync(Guid id)
         {
             var member = await memberRepository.GetMemberByIdAsync(id);
 
@@ -38,7 +38,7 @@ namespace TogoleseAssociationSystem.Application.Services
             return member;
         }
 
-        public async Task<Member> RetrieveMember(string firsname, string lastname)
+        public async Task<Member?> RetrieveMember(string firsname, string lastname)
         {
             var member = await memberRepository.RetrieveMember(firsname, lastname);
             if (member == null)
@@ -48,12 +48,12 @@ namespace TogoleseAssociationSystem.Application.Services
             return member;
         }
 
-        public Task<IEnumerable<MembershipContribution>> GetMemberContributionsByIdAsync(Guid memberId)
+        public Task<IEnumerable<MembershipContribution?>> GetMemberContributionsByIdAsync(Guid memberId)
         {
             throw new NotImplementedException();
         }
        
-        public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
+        public async Task<IEnumerable<Member?>> GetMembersAsync(string? filter = null)
         {
             var searchMembers = new List<Member>();
 
@@ -74,14 +74,9 @@ namespace TogoleseAssociationSystem.Application.Services
           return searchMembers;
         }
 
-        public async Task<MembershipContribution> GetMembershipByIdAsync(Guid id)
+        public async Task<MembershipContribution?> GetMembershipByIdAsync(Guid id)
         {
            return await memberRepository.GetMembershipByIdAsync(id);
-        }
-
-        public bool SaveChanges()
-        {
-            throw new NotImplementedException();
         }
 
         public void UpdateMember(Member member)
@@ -89,17 +84,17 @@ namespace TogoleseAssociationSystem.Application.Services
             memberRepository.UpdateMember(member);
         }
 
-        public async Task<IEnumerable<Member>> GetAllExisitingMembersAsync()
+        public async Task<IEnumerable<Member?>> GetAllExisitingMembersAsync()
         {
             return await memberRepository.GetAllExisitingMembersAsync();
         }
 
-        public async Task<Claim> GetClaimByIdAsync(Guid id)
+        public async Task<Claim?> GetClaimByIdAsync(Guid id)
         {
             return await memberRepository.GetClaimByIdAsync(id);
         }
 
-        public async Task<IEnumerable<Claim>> GetClaimsAsync()
+        public async Task<IEnumerable<Claim?>> GetClaimsAsync()
         {
             return await memberRepository.GetClaimsAsync();
         }
@@ -109,7 +104,7 @@ namespace TogoleseAssociationSystem.Application.Services
             return memberRepository.CreateClaimAsync(claim);
         }
 
-        public async Task<IEnumerable<Claim>> GetClaimsByMemberIdAsync(Guid id)
+        public async Task<IEnumerable<Claim?>> GetClaimsByMemberIdAsync(Guid id)
         {
             return await memberRepository.GetClaimsByMemberIdAsync(id);
         }
