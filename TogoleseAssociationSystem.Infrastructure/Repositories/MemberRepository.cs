@@ -30,6 +30,12 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
             }
             else
             {
+               var claimExists = ClaimExists(member, ClaimType.Disability);
+
+                if (claimExists)
+                {
+                    return;
+                }
                 member.TotalClaimRemain -= 1;
             }
 
@@ -158,6 +164,11 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
         private bool IsValid(Member member)
         {
             return dbContext.Members.Any(x => x.Id == member.Id && x.IsEligibleToClaim);
+        }
+
+        private bool ClaimExists(Member member, ClaimType claimType)
+        {
+            return dbContext.Claims.Any(x => x.MemberId == member.Id && x.ClaimType == claimType);
         }
     }
 }

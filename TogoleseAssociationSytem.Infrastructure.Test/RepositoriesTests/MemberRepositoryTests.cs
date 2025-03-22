@@ -198,6 +198,54 @@ namespace TogoleseAssociationSytem.Infrastructure.Test.RepositoriesTests
         }
 
         [Test]
+        public async Task CreateClaimAsync_WhenClaimTypeIsDisabilityAgain_ShouldNotAddClaim()
+        {
+            var memberId = Guid.NewGuid();
+            var member = new Member { Id = memberId, IsActive = true, TotalClaimRemain = 1, Claims = [ new Claim { ClaimType = ClaimType.Disability}] };
+            var anotherSameClaimType = new Claim { MemberId = memberId, ClaimType = ClaimType.Disability };
+            await using var context = GetContext();
+            context.Members.AddRange(member);
+            await context.SaveChangesAsync();
+            var systemUnderTest = new MemberRepository(context);
+
+            await systemUnderTest.CreateClaimAsync(anotherSameClaimType);
+            member.Claims.Should().HaveCount(1);
+        }
+
+
+        [Test]
+        public async Task CreateClaimAsync_WhenClaimTypeIsDisabilityAgain_ThenMemberTotalClaimRemainIsNotDecreased()
+        {
+            var memberId = Guid.NewGuid();
+            var member = new Member { Id = memberId, IsActive = true, TotalClaimRemain = 1, Claims = [new Claim { ClaimType = ClaimType.Disability }] };
+            var anotherSameClaimType = new Claim { MemberId = memberId, ClaimType = ClaimType.Disability };
+            await using var context = GetContext();
+            context.Members.AddRange(member);
+            await context.SaveChangesAsync();
+            var systemUnderTest = new MemberRepository(context);
+
+            await systemUnderTest.CreateClaimAsync(anotherSameClaimType);
+            member.TotalClaimRemain.Should().Be(1);
+        }
+
+
+        [Test]
+        public async Task CreateClaimAsync_WhenClaimTypeIsDisabilityFirstTime_ThenMemberTotalClaimRemainIsDecreasedByOne()
+        {
+            var memberId = Guid.NewGuid();
+            var member = new Member { Id = memberId, IsActive = true, TotalClaimRemain = 2, Claims = [] };
+            var claim = new Claim { MemberId = memberId, ClaimType = ClaimType.Disability };
+            await using var context = GetContext();
+            context.Members.AddRange(member);
+            await context.SaveChangesAsync();
+            var systemUnderTest = new MemberRepository(context);
+
+            await systemUnderTest.CreateClaimAsync(claim);
+            member.TotalClaimRemain.Should().Be(1);
+        }
+
+
+        [Test]
         public async Task CreateClaimAsync_WhenClaimTypeIsDeath_ThenMemberIsActiveIsFalse()
         {
             var memberId = Guid.NewGuid();
