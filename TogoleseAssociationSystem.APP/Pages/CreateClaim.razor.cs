@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using TogoleseAssociationSystem.Core.DTOs;
 using TogoleseAssociationSystem.Core.ServiceProvider.Interfaces;
 
@@ -12,6 +13,12 @@ public class CreateClaimComponent : ComponentBase
 
     [Inject]
     public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; }
+
+    [Inject]
+    public IAlertService AlertService { get; set; }
 
     [Parameter]
     public Guid Id { get; set; }
@@ -31,6 +38,13 @@ public class CreateClaimComponent : ComponentBase
 
     [Parameter]
     public bool Edit { get; set; }
+
+    [Parameter]
+    public string AlertMessage { get; set; } = string.Empty;
+
+    [Parameter]
+    public bool IsAlertVisible { get; set; }
+
     protected override void OnInitialized()
     {
         Claim = new ClaimToAdd();
@@ -46,12 +60,14 @@ public class CreateClaimComponent : ComponentBase
             ClaimReadDto = await MemberService.GetClaimByIdAsync(Id);
             Member = await MemberService.GetMemberByIdAsync(Id);
             SetCurrentMemberToClaimDetails();
+            AlertService.OnAlert += HandleAlert;
         }
         else
         {
-            Claim = new ClaimToAdd();               
+            Claim = new ClaimToAdd();
+            Member = new MemberRead(); // Ensure Member is not null
         }
-      
+
         await base.OnParametersSetAsync();
     }
 
@@ -71,20 +87,32 @@ public class CreateClaimComponent : ComponentBase
 
     protected async Task Submit()
     {
-        await MemberService.CreateClaimAsync(Claim);
-        //if (Edit)
-        //{
-        //    await MemberService.UpdateClaimAsync(ClaimToUpdate);
-        //}
-        //else
-        //{
-        //    await MemberService.CreateClaimAsync(Claim);
-        //}
-        NavigationManager.NavigateTo("/claims");
+        var claimReadDto = await MemberService.CreateClaimAsync(Claim);
+        if (Member.Claims == null)
+        {
+            Member.Claims = [];
+        }
+        Member.Claims.Add(claimReadDto);
+        AlertMessage = $"{claimReadDto.Name} is added successfully.";
+        AlertService.ShowAlert(AlertMessage);
+
+        Reset();
     }
 
-    protected void NavigateToHome()
+    private void Reset()
     {
-        NavigationManager.NavigateTo("/claims");
+        Claim = new ClaimToAdd();
+        StateHasChanged();
+    }
+
+    private void HandleAlert(string message)
+    {
+        IsAlertVisible = true;
+        AlertMessage = message;
+    }
+
+    protected async Task NavigateToHome()
+    {
+        await JSRuntime.InvokeVoidAsync("history.back");
     }
 }

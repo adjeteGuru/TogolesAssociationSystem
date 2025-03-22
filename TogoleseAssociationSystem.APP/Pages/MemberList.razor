@@ -10,7 +10,7 @@
 }
 
 <div class="my-3 d-flex flex-wrap justify-content-between">
-    <h3 class="priceTextOverride">List of active members</h3>
+    <h3 class="nav-link">List of active members</h3>
     <button id="member-create" class="btn btn-primary" @onclick="NavigateToCreate">Add new Member</button>
 </div>
 
@@ -42,7 +42,7 @@ else
                    <th>1st Line of address</th>                   
                    <th>Location</th>
                    <th>Telephone</th>
-                   <th>Photo</th>
+                   <th>Sex</th>
                </tr>
            </thead>
            <tbody>
@@ -82,13 +82,20 @@ else
                 </div>
 
                 <div class="pagination-item mx-4">
-                    <span>Page @CurrentPage of @TotalCount</span>
+                    <span>Page <span class="current-page">@CurrentPage</span> of @TotalCount</span>
                 </div>
 
                 <div class="pagination-item">
                     <button @onclick="GoToNextPage" class="btn btn-primary" disabled="@(!CanGoToNextPage())">Next</button>
                 </div>
             </div>
+
+            <style>
+                .current-page {
+                    font-weight: bold;
+                    color:dodgerblue;
+                }
+            </style>
 
        </div>
    }

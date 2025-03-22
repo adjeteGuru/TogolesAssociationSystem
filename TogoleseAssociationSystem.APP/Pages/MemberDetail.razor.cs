@@ -43,7 +43,7 @@ namespace TogoleseAssociationSystem.APP.Pages
 
         public bool IsEligibleForClaim { get; set; } = false;
 
-        private void CheckClaimEligibility()
+        public void CheckClaimEligibility()
         {
             var claims = Member.Claims?.FirstOrDefault();
             if (Member.TotalClaimRemain > 0 && claims != null && claims.ClaimType != ClaimType.Death)
@@ -56,8 +56,6 @@ namespace TogoleseAssociationSystem.APP.Pages
             }
         }
 
-        //protected decimal TotalNumberOfClaimRemain = 0;
-
         protected override async Task OnInitializedAsync()
         {
             EditContext = new EditContext(Member);
@@ -65,6 +63,7 @@ namespace TogoleseAssociationSystem.APP.Pages
             try
             {
                 Member = await MemberService.GetMemberByIdAsync(Id);
+
                 CalculateTotalContributionByMember();
                 //TotalAnnualContribution();
                 //TotalClaimRemain();
@@ -74,6 +73,11 @@ namespace TogoleseAssociationSystem.APP.Pages
             {
                 AlertService.ShowAlert(ex.Message);
             }
+        }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            await base.OnParametersSetAsync();
         }
 
         protected async Task GoBack()
@@ -140,14 +144,6 @@ namespace TogoleseAssociationSystem.APP.Pages
             AlertMessage = message;
         }
 
-        //protected async Task OnInputFileChanged(InputFileChangeEventArgs args)
-        //{
-        //    var memoryStream = new MemoryStream();
-        //    await args.File.OpenReadStream().CopyToAsync(memoryStream);
-        //    var bytes = memoryStream.ToArray();
-        //    Member.PhotoUrl = bytes;
-        //}
-
         private void CalculateTotalContributionByMember()
         {
             TotalCount = Member.Memberships.Sum(m => m.Amount);
@@ -160,14 +156,7 @@ namespace TogoleseAssociationSystem.APP.Pages
                 .Sum(m => m.Amount);
         }
 
-        //private void TotalClaimRemain()
-        //{
-        //    TotalNumberOfClaimRemain = Member.Claims
-        //        .Where(c => c.TotalClaimPerMember > 0)
-        //        .Sum(c => c.ClaimRemain);
-        //}
-
-        private void UnsubscribeAlert()
+        public void UnsubscribeAlert()
         {
             AlertService.OnAlert -= HandleAlert;
         }

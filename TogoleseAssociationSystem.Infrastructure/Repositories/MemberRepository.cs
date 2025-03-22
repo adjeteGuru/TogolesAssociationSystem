@@ -1,8 +1,7 @@
-﻿using TogoleseAssociationSystem.Infrastructure.Database;
+﻿using Microsoft.EntityFrameworkCore;
 using TogoleseAssociationSystem.Domain.Interfaces;
 using TogoleseAssociationSystem.Domain.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Globalization;
+using TogoleseAssociationSystem.Infrastructure.Database;
 
 namespace TogoleseAssociationSystem.Infrastructure.Repositories
 {
@@ -27,28 +26,41 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
             if (claim.ClaimType == ClaimType.Death)
             {
                 member.IsActive = false;
+                member.TotalClaimRemain = 0;
             }
             else
             {
+               var claimExists = ClaimExists(member, ClaimType.Disability);
+
+                if (claimExists)
+                {
+                    return;
+                }
                 member.TotalClaimRemain -= 1;
             }
 
             dbContext.Claims.Add(claim);
             SaveChanges();
 
+           UpdateMember(member);
+        }
+
+        public async Task CreateMember(Member member)
+        {
+            await dbContext.Members.AddAsync(member);
+            SaveChanges();
+        }
+
+        public async Task CreateMembership(MembershipContribution membership)
+        {
+            var member = await GetMemberByIdAsync(membership.MemberId);
+            if (member == null)
+            {
+                return;
+            }
+            await dbContext.MembershipContributions.AddAsync(membership);
+            SaveChanges();
             UpdateMember(member);
-        }
-
-        public void CreateMember(Member member)
-        {
-            dbContext.Members.Add(member);
-            SaveChanges();
-        }
-
-        public void CreateMembership(MembershipContribution membership)
-        {
-            dbContext.MembershipContributions.Add(membership);
-            SaveChanges();
         }
 
         public async Task<IEnumerable<Member>> GetAllExisitingMembersAsync()
@@ -56,7 +68,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
             return await dbContext.Members.ToListAsync();
         }
 
-        public async Task<Claim> GetClaimByIdAsync(Guid id)
+        public async Task<Claim?> GetClaimByIdAsync(Guid id)
         {
             var claim = await dbContext.Claims.FindAsync(id);
             return claim;
@@ -68,12 +80,23 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
             return claims;
         }
 
+        public async Task<IEnumerable<Claim>> GetClaimsByMemberIdAsync(Guid id)
+        {
+            var member = await GetMemberByIdAsync(id);
+            if (member == null)
+            {
+                return [];
+            }
+            var claims = await dbContext.Claims.Where(x => x.MemberId.Equals(member.Id)).ToListAsync();
+            return claims;
+        }
+
         public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()
         {
             return await dbContext.MembershipContributions.ToListAsync();
         }
 
-        public async Task<Member> GetMemberByIdAsync(Guid id)
+        public async Task<Member?> GetMemberByIdAsync(Guid id)
         {
             var member = await dbContext.Members
                 .Include(x => x.Memberships)
@@ -91,7 +114,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
-       
+
         public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
         {
             if (!string.IsNullOrEmpty(filter))
@@ -106,7 +129,7 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
             return await dbContext.Members.Where(member => member.IsActive.Equals(true)).ToListAsync();
         }
 
-        public async Task<MembershipContribution> GetMembershipByIdAsync(Guid id)
+        public async Task<MembershipContribution?> GetMembershipByIdAsync(Guid id)
         {
             return await dbContext.MembershipContributions.FindAsync(id);
         }
@@ -140,7 +163,12 @@ namespace TogoleseAssociationSystem.Infrastructure.Repositories
 
         private bool IsValid(Member member)
         {
-            return dbContext.Members.Any(x => x.Id == member.Id);
+            return dbContext.Members.Any(x => x.Id == member.Id && x.IsEligibleToClaim);
+        }
+
+        private bool ClaimExists(Member member, ClaimType claimType)
+        {
+            return dbContext.Claims.Any(x => x.MemberId == member.Id && x.ClaimType == claimType);
         }
     }
 }

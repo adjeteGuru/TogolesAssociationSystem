@@ -14,6 +14,7 @@ namespace TogoleseAssociationSystem.Core.ServiceProvider.Interfaces
         Task<ClaimReadDto> CreateClaimAsync(ClaimToAdd claimToAdd);
 
         Task<ClaimReadDto> GetClaimByIdAsync(Guid id);
+        Task<IEnumerable<ClaimReadDto>> GetClaimsByMemberIdAsync(Guid id);
         Task UpdateClaimAsync(ClaimToUpdate claim);
     }
 }

@@ -11,7 +11,7 @@
         public string? Postcode { get; set; }
         public string? City { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; }
         public bool IsEligibleToClaim { get; set; }       
         public DateTime? MembershipDate { get; set; }
         public string? NextOfKin { get; set; }
