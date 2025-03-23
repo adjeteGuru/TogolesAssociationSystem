@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TogoleseAssociationSystem.IntegrationTests.Constants;
-using TogoleseAssociationSystem.IntegrationTests.Helpers;
+using TogoleseSolidarity.IntegrationTests.Constants;
+using TogoleseSolidarity.IntegrationTests.Helpers;
 
-namespace TogoleseAssociationSystem.IntegrationTests.Pages
+namespace TogoleseSolidarity.IntegrationTests.Pages
 {
     public class BaseMemberCreationSidebar
     {

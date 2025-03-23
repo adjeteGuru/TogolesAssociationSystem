@@ -1,10 +1,10 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using TogoleseAssociationSystem.Domain.Models;
-using TogoleseAssociationSystem.Infrastructure.Database;
+using TogoleseSolidarity.Domain.Models;
+using TogoleseSolidarity.Infrastructure.Database;
 
-namespace TogoleseAssociationSystem.IntegrationTests.Helpers
+namespace TogoleseSolidarity.IntegrationTests.Helpers
 {
     public class DatabaseHelper
     {

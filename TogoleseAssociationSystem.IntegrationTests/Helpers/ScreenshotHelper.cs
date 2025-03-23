@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 using System.Text;
 using TechTalk.SpecFlow.Tracing;
 
-namespace TogoleseAssociationSystem.IntegrationTests.Helpers
+namespace TogoleseSolidarity.IntegrationTests.Helpers
 {
     public static class ScreenshotHelper
     {

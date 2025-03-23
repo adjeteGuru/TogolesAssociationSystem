@@ -1,4 +1,4 @@
-﻿namespace TogoleseAssociationSystem.AcceptanceTests.SelfHost
+﻿namespace TogoleseSolidarity.AcceptanceTests.SelfHost
 {
     public interface IPortHelper
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace TogoleseAssociationSystem.AcceptanceTests.SelfHost
+namespace TogoleseSolidarity.AcceptanceTests.SelfHost
 {
     public interface IWebHostManager
     {

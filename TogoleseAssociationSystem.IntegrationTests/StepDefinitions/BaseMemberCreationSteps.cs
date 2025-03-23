@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TogoleseAssociationSystem.Domain.Models;
-using TogoleseAssociationSystem.IntegrationTests.Constants;
-using TogoleseAssociationSystem.IntegrationTests.Pages;
+using TogoleseSolidarity.Domain.Models;
+using TogoleseSolidarity.IntegrationTests.Constants;
+using TogoleseSolidarity.IntegrationTests.Pages;
 
-namespace TogoleseAssociationSystem.IntegrationTests.StepDefinitions
+namespace TogoleseSolidarity.IntegrationTests.StepDefinitions
 {
     public class BaseMemberCreationSteps :BaseSteps
     {

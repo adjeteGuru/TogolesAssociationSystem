@@ -1,12 +1,11 @@
-﻿namespace TogoleseAssociationSystem.Core.DTOs
+﻿namespace TogoleseSolidarity.Core.DTOs;
+
+public class MembershipContributionReadDto
 {
-    public class MembershipContributionReadDto
-    {
-        public Guid Id { get; set; }
-        public string? ContributionName { get; set; }
-        public decimal Amount { get; set; }
-        public DateTime? DateOfContribution { get; set; }
-        public Guid MemberId { get; set; }
-        public string? MemberName { get; set; }       
-    }
+    public Guid Id { get; set; }
+    public string? ContributionName { get; set; }
+    public decimal Amount { get; set; }
+    public DateTime? DateOfContribution { get; set; }
+    public Guid MemberId { get; set; }
+    public string? MemberName { get; set; }       
 }

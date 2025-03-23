@@ -1,9 +1,9 @@
 using BoDi;
 using System.Text;
-using TogoleseAssociationSystem.IntegrationTests.Constants;
-using TogoleseAssociationSystem.IntegrationTests.Helpers;
+using TogoleseSolidarity.IntegrationTests.Constants;
+using TogoleseSolidarity.IntegrationTests.Helpers;
 
-namespace TogoleseAssociationSystem.IntegrationTests.StepDefinitions
+namespace TogoleseSolidarity.IntegrationTests.StepDefinitions
 {
     [Binding]
     public class ActionStepDefinitions

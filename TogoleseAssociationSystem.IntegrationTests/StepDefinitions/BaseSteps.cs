@@ -1,6 +1,6 @@
-﻿using TogoleseAssociationSystem.IntegrationTests.Helpers;
+﻿using TogoleseSolidarity.IntegrationTests.Helpers;
 
-namespace TogoleseAssociationSystem.IntegrationTests.StepDefinitions
+namespace TogoleseSolidarity.IntegrationTests.StepDefinitions
 {
     public class BaseSteps
     {

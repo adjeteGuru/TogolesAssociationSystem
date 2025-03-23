@@ -1,6 +1,6 @@
 ﻿using System.Net.NetworkInformation;
 
-namespace TogoleseAssociationSystem.AcceptanceTests.SelfHost
+namespace TogoleseSolidarity.AcceptanceTests.SelfHost
 {
     public class PortHelper : IPortHelper
     {

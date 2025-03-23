@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using System.Reflection;
 
-namespace TogoleseAssociationSystem.AcceptanceTests.SelfHost
+namespace TogoleseSolidarity.AcceptanceTests.SelfHost
 {
     public class WebHostManager : IWebHostManager
     {

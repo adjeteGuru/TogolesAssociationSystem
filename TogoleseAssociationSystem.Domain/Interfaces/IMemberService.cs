@@ -1,6 +1,6 @@
-﻿using TogoleseAssociationSystem.Domain.Models;
+﻿using TogoleseSolidarity.Domain.Models;
 
-namespace TogoleseAssociationSystem.Domain.Interfaces
+namespace TogoleseSolidarity.Domain.Interfaces
 {
     public interface IMemberService
     {

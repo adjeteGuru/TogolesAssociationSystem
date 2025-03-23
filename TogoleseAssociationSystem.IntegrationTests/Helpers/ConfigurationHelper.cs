@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace TogoleseAssociationSystem.IntegrationTests.Helpers
+namespace TogoleseSolidarity.IntegrationTests.Helpers
 {
     public static class ConfigurationHelper
     {

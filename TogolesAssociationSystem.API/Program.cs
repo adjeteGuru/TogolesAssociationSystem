@@ -6,12 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.Net.Http.Headers;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using TogoleseAssociationSystem.Application.AutoMapper;
-using TogoleseAssociationSystem.Application.Configurations;
-using TogoleseAssociationSystem.Application.Services;
-using TogoleseAssociationSystem.Domain.Interfaces;
-using TogoleseAssociationSystem.Infrastructure.Database;
-using TogoleseAssociationSystem.Infrastructure.Repositories;
+using TogoleseSolidarity.Application.AutoMapper;
+using TogoleseSolidarity.Application.Services;
+using TogoleseSolidarity.Domain.Interfaces;
+using TogoleseSolidarity.Infrastructure.Database;
+using TogoleseSolidarity.Application.Configurations;
+using TogoleseSolidarity.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

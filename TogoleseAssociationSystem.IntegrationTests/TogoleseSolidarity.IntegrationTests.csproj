@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TogolesAssociationSystem.API\TogoleseAssociationSystem.API.csproj" />
+    <ProjectReference Include="..\TogolesAssociationSystem.API\TogoleseSolidarity.API.csproj" />
   </ItemGroup>
 
 </Project>

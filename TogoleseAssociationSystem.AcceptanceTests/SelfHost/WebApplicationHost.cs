@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TogoleseAssociationSystem.AcceptanceTests.SelfHost
+namespace TogoleseSolidarity.AcceptanceTests.SelfHost
 {
     public class WebApplicationHost
     {

@@ -3,7 +3,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.ObjectModel;
 
-namespace TogoleseAssociationSystem.IntegrationTests.Helpers
+namespace TogoleseSolidarity.IntegrationTests.Helpers
 {
     public static class BrowserHelper
     {

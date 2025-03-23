@@ -1,4 +1,4 @@
-﻿namespace TogoleseAssociationSystem.IntegrationTests.Constants
+﻿namespace TogoleseSolidarity.IntegrationTests.Constants
 {
     public static class TestConstants
     {

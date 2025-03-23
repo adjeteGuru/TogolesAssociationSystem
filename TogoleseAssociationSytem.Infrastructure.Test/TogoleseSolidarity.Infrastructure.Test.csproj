@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TogoleseAssociationSystem.Infrastructure\TogoleseAssociationSystem.Infrastructure.csproj" />
+    <ProjectReference Include="..\TogoleseAssociationSystem.Infrastructure\TogoleseSolidarity.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

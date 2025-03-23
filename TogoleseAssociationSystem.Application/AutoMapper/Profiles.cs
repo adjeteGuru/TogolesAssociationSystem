@@ -1,20 +1,19 @@
 ﻿using AutoMapper;
-using TogoleseAssociationSystem.Application.DTOs;
-using TogoleseAssociationSystem.Domain.Models;
+using TogoleseSolidarity.Application.DTOs;
+using TogoleseSolidarity.Domain.Models;
 
-namespace TogoleseAssociationSystem.Application.AutoMapper
+namespace TogoleseSolidarity.Application.AutoMapper;
+
+public class Profiles : Profile
 {
-    public class Profiles : Profile
+    public Profiles()
     {
-        public Profiles()
-        {
-            CreateMap<Member, MemberRead>();
-            CreateMap<MemberRead, Member>();           
-            CreateMap<MembershipContribution, MembershipContributionReadDto>();           
-            CreateMap<MembershipContributionReadDto, MembershipContribution>();
-            CreateMap<Claim, ClaimReadDto>();
-            CreateMap<ClaimReadDto, Claim>();
-            CreateMap<MemberUpdateDto, Member>();
-        }
+        CreateMap<Member, MemberRead>();
+        CreateMap<MemberRead, Member>();
+        CreateMap<MembershipContribution, MembershipContributionReadDto>();
+        CreateMap<MembershipContributionReadDto, MembershipContribution>();
+        CreateMap<Claim, ClaimReadDto>();
+        CreateMap<ClaimReadDto, Claim>();
+        CreateMap<MemberUpdateDto, Member>();
     }
 }

@@ -1,4 +1,4 @@
-namespace TogoleseAssociationSystem.IntegrationTests.StepDefinitions
+namespace TogoleseSolidarity.IntegrationTests.StepDefinitions
 {
     [Binding]
     public sealed class CalculatorStepDefinitions
