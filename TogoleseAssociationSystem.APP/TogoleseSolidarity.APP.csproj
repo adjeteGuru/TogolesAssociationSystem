@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TogoleseAssociationSystem.Core\TogoleseAssociationSystem.Core.csproj" />
+    <ProjectReference Include="..\TogoleseAssociationSystem.Core\TogoleseSolidarity.Core.csproj" />
   </ItemGroup>
 
 </Project>

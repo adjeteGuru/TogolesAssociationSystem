@@ -1,9 +1,9 @@
 using AutoMapper.Execution;
 using Newtonsoft.Json;
 using System.Net;
-using TogoleseAssociationSystem.IntegrationTests.Constants;
+using TogoleseSolidarity.IntegrationTests.Constants;
 
-namespace TogoleseAssociationSystem.IntegrationTests.StepDefinitions
+namespace TogoleseSolidarity.IntegrationTests.StepDefinitions
 {
     [Binding]
     public class CheckStepDefinitions

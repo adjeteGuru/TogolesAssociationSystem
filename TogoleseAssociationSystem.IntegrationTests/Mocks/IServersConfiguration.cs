@@ -1,4 +1,4 @@
-﻿namespace TogoleseAssociationSystem.IntegrationTests.Mocks
+﻿namespace TogoleseSolidarity.IntegrationTests.Mocks
 {
     public interface IServersConfiguration
     {

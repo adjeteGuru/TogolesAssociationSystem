@@ -1,94 +1,91 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using TogoleseAssociationSystem.API.Extensions;
-using TogoleseAssociationSystem.Application.DTOs;
-using TogoleseAssociationSystem.Domain.Interfaces;
+using TogoleseSolidarity.API.Extensions;
+using TogoleseSolidarity.Application.DTOs;
+using TogoleseSolidarity.Domain.Interfaces;
 
-namespace TogoleseAssociationSystem.API.Controllers
+namespace TogoleseSolidarity.API.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+[ProducesResponseType(StatusCodes.Status200OK)]
+[ProducesResponseType(StatusCodes.Status404NotFound)]
+[ProducesResponseType(StatusCodes.Status400BadRequest)]
+public class MembershipController(IMemberService memberService, IMapper mapper, ILogger<MembershipController> logger) : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public class MembershipController(IMemberService memberService, IMapper mapper, ILogger<MembershipController> logger) : ControllerBase
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetMembershipById(Guid id)
     {
-        private readonly IMemberService memberService = memberService;
-        private readonly IMapper mapper = mapper;
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetMembershipById(Guid id)
+        try
         {
-            try
+            var membership = await memberService.GetMembershipByIdAsync(id);
+
+            if (membership == null)
             {
-                var membership = await memberService.GetMembershipByIdAsync(id);
-
-                if (membership == null)
-                {
-                    logger.LogInformation("No membership found");
-                    return NotFound();
-                }
-
-                var membershipDto = mapper.Map<MembershipContributionReadDto>(membership);
-
-                return Ok(membershipDto);
+                logger.LogInformation("No membership found");
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
-                return Ok();
-            }
+
+            var membershipDto = mapper.Map<MembershipContributionReadDto>(membership);
+
+            return Ok(membershipDto);
         }
-
-        // POST api/Membership
-        [HttpPost]
-        public async Task<IActionResult> CreateMembershipAsync([FromBody] MembershipContributionToAdd membershipToAdd)
+        catch (Exception ex)
         {
-            try
-            {
-                var membertoFetch = membershipToAdd.ConvertToDto();
-
-                var member = await memberService.RetrieveMember(membertoFetch.FirstName, membertoFetch.LastName);
-                if (member == null)
-                {
-                    logger.LogInformation("No member found");
-                    return NotFound();
-                }
-                var membership = membershipToAdd.ConvertToDto(member);
-
-                await memberService.CreateMembership(membership);
-
-                return CreatedAtAction(nameof(GetMembershipById), new { id = membership.Id }, membership);
-            }
-            catch (Exception ex)
-            {
-                logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
-                return Ok();
-            }
+            logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
+            return Ok();
         }
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllMembershipsAsync()
+    // POST api/Membership
+    [HttpPost]
+    public async Task<IActionResult> CreateMembershipAsync([FromBody] MembershipContributionToAdd membershipToAdd)
+    {
+        try
         {
-            List<MembershipContributionReadDto> membershipsRead = [];
-            try
-            {
-                var memberships = await memberService.GetContributionsAsync();
+            var membertoFetch = membershipToAdd.ConvertToDto();
 
-                if (!memberships.Any())
-                {
-                    logger.LogInformation("No memberships found");
-                    return NotFound();
-                }
-                var membershipsDtos = mapper.Map<IEnumerable<MembershipContributionReadDto>>(memberships);
-                membershipsRead = [.. membershipsDtos];
-                return Ok(membershipsRead);
-            }
-            catch (Exception ex)
+            var member = await memberService.RetrieveMember(membertoFetch.FirstName, membertoFetch.LastName);
+            if (member == null)
             {
-                logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
-                return Ok(membershipsRead);
+                logger.LogInformation("No member found");
+                return NotFound();
             }
+            var membership = membershipToAdd.ConvertToDto(member);
+
+            await memberService.CreateMembership(membership);
+
+            return CreatedAtAction(nameof(GetMembershipById), new { id = membership.Id }, membership);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
+            return Ok();
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllMembershipsAsync()
+    {
+        List<MembershipContributionReadDto> membershipsRead = [];
+        try
+        {
+            var memberships = await memberService.GetContributionsAsync();
+
+            if (!memberships.Any())
+            {
+                logger.LogInformation("No memberships found");
+                return NotFound();
+            }
+            var membershipsDtos = mapper.Map<IEnumerable<MembershipContributionReadDto>>(memberships);
+            membershipsRead = [.. membershipsDtos];
+            return Ok(membershipsRead);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning($"Something wrong happened. Error: {ex.Message}");
+            return Ok(membershipsRead);
         }
     }
 }

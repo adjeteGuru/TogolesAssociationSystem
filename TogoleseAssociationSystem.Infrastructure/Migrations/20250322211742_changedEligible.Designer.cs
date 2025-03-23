@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TogoleseAssociationSystem.Infrastructure.Database;
+using TogoleseSolidarity.Infrastructure.Database;
 
 #nullable disable
 
-namespace TogoleseAssociationSystem.Infrastructure.Migrations
+namespace TogoleseSolidarity.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20250322211742_changedEligible")]

@@ -1,8 +1,7 @@
-﻿namespace TogoleseAssociationSystem.Domain.Models
+﻿namespace TogoleseSolidarity.Domain.Models;
+
+public enum ClaimType
 {
-    public enum ClaimType
-    {
-        Disability,
-        Death
-    }
+    Disability,
+    Death
 }

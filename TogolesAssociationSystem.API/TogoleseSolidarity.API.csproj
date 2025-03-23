@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TogoleseAssociationSystem.Application\TogoleseAssociationSystem.Application.csproj" />
-    <ProjectReference Include="..\TogoleseAssociationSystem.Infrastructure\TogoleseAssociationSystem.Infrastructure.csproj" />
+    <ProjectReference Include="..\TogoleseAssociationSystem.Application\TogoleseSolidarity.Application.csproj" />
+    <ProjectReference Include="..\TogoleseAssociationSystem.Infrastructure\TogoleseSolidarity.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

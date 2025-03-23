@@ -1,4 +1,4 @@
-﻿namespace TogoleseAssociationSystem.Core.Models
+﻿namespace TogoleseSolidarity.Core.Models
 {
     public enum ClaimType
     {

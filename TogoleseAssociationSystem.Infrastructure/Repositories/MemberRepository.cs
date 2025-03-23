@@ -1,174 +1,175 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TogoleseAssociationSystem.Domain.Interfaces;
-using TogoleseAssociationSystem.Domain.Models;
-using TogoleseAssociationSystem.Infrastructure.Database;
+using TogoleseSolidarity.Domain.Interfaces;
+using TogoleseSolidarity.Domain.Models;
+using TogoleseSolidarity.Infrastructure.Database;
 
-namespace TogoleseAssociationSystem.Infrastructure.Repositories
+namespace TogoleseSolidarity.Infrastructure.Repositories;
+
+public class MemberRepository(AppDbContext dbContext) : IMemberRepository
 {
-    public class MemberRepository : IMemberRepository
+    public async Task CreateClaimAsync(Claim claim)
     {
-        private readonly AppDbContext dbContext;
+        var member = await GetMemberByIdAsync(claim.MemberId);
 
-        public MemberRepository(AppDbContext dbContext)
+        if (member == null || !member.IsActive || member.TotalClaimRemain <= 0)
         {
-            this.dbContext = dbContext;
+            return;
         }
 
-        public async Task CreateClaimAsync(Claim claim)
+        if (claim.ClaimType == ClaimType.Death)
         {
-            var member = await GetMemberByIdAsync(claim.MemberId);
+            HandleDeathClaim(member);
+        }
+        else
+        {
+            var claimExists = ClaimExists(member, ClaimType.Disability);
 
-            if (member == null || !member.IsActive || member.TotalClaimRemain <= 0)
+            if (claimExists)
             {
                 return;
             }
+            member.TotalClaimRemain -= 1;
+        }
 
-            if (claim.ClaimType == ClaimType.Death)
-            {
-                member.IsActive = false;
-                member.TotalClaimRemain = 0;
-            }
-            else
-            {
-               var claimExists = ClaimExists(member, ClaimType.Disability);
+        dbContext.Claims.Add(claim);
+        SaveChanges();
 
-                if (claimExists)
-                {
-                    return;
-                }
-                member.TotalClaimRemain -= 1;
-            }
+        UpdateMember(member);
+    }
 
-            dbContext.Claims.Add(claim);
+    public async Task CreateMember(Member member)
+    {
+        await dbContext.Members.AddAsync(member);
+        SaveChanges();
+    }
+
+    public async Task CreateMembership(MembershipContribution membership)
+    {
+        var member = await GetMemberByIdAsync(membership.MemberId);
+        if (member == null)
+        {
+            return;
+        }
+        await dbContext.MembershipContributions.AddAsync(membership);
+        SaveChanges();
+        UpdateMember(member);
+    }
+
+    public async Task<IEnumerable<Member>> GetAllExisitingMembersAsync()
+    {
+        return await dbContext.Members.ToListAsync();
+    }
+
+    public async Task<Claim?> GetClaimByIdAsync(Guid id)
+    {
+        var claim = await dbContext.Claims.FindAsync(id);
+        return claim;
+    }
+
+    public async Task<IEnumerable<Claim>> GetClaimsAsync()
+    {
+        var claims = await dbContext.Claims.ToListAsync();
+        return claims;
+    }
+
+    public async Task<IEnumerable<Claim>> GetClaimsByMemberIdAsync(Guid memberId)
+    {
+        var member = await GetMemberByIdAsync(memberId);
+        if (member == null)
+        {
+            return [];
+        }
+        var claims = await dbContext.Claims.Where(x => x.MemberId.Equals(member.Id)).ToListAsync();
+        return claims;
+    }
+
+    public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()
+    {
+        return await dbContext.MembershipContributions.ToListAsync();
+    }
+
+    public async Task<Member?> GetMemberByIdAsync(Guid id)
+    {
+        if (id == Guid.Empty)
+        {
+            return null;
+        }
+        return await dbContext.Members
+            .Include(x => x.Memberships)
+            .Include(x => x.Claims)
+            .FirstOrDefaultAsync(x => x.Id.Equals(id));
+    }
+
+    public async Task<IEnumerable<MembershipContribution>> GetMemberContributionsByIdAsync(Guid memberId)
+    {
+        var member = await GetMemberByIdAsync(memberId);
+        if (member == null)
+        {
+            return [];
+        }
+        var memberships = await dbContext.MembershipContributions.Where(x => x.MemberId.Equals(member.Id)).ToListAsync();
+        return memberships;
+    }
+
+    public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
+    {
+        if (!string.IsNullOrEmpty(filter))
+        {
+            var filteredMembers = await dbContext.Members
+            .Where(member => member.IsActive == true && member.LastName.ToLower()
+            .Contains(filter.ToLower()
+            .Trim())).ToListAsync();
+
+            return filteredMembers;
+        }
+        return await dbContext.Members.Where(member => member.IsActive.Equals(true)).ToListAsync();
+    }
+
+    public async Task<MembershipContribution?> GetMembershipByIdAsync(Guid id)
+    {
+        return await dbContext.MembershipContributions.FindAsync(id);
+    }
+
+    public async Task<Member> RetrieveMember(string firsname, string lastname)
+    {
+        var member = await dbContext.Members
+            .Where(x => x.FirstName.Equals(firsname.ToLower())
+            && x.LastName.Equals(lastname.ToLower()))
+            .FirstOrDefaultAsync();
+        return member;
+    }
+
+    public bool SaveChanges()
+    {
+        return dbContext.SaveChanges() >= 0;
+    }
+
+    public void UpdateMember(Member member)
+    {
+        if (IsValid(member))
+        {
+            dbContext.Members.Update(member);
             SaveChanges();
-
-           UpdateMember(member);
         }
-
-        public async Task CreateMember(Member member)
+        else
         {
-            await dbContext.Members.AddAsync(member);
-            SaveChanges();
+            return;
         }
+    }
 
-        public async Task CreateMembership(MembershipContribution membership)
-        {
-            var member = await GetMemberByIdAsync(membership.MemberId);
-            if (member == null)
-            {
-                return;
-            }
-            await dbContext.MembershipContributions.AddAsync(membership);
-            SaveChanges();
-            UpdateMember(member);
-        }
+    private bool IsValid(Member member)
+    {
+        return dbContext.Members.Any(x => x.Id == member.Id && x.IsEligibleToClaim);
+    }
 
-        public async Task<IEnumerable<Member>> GetAllExisitingMembersAsync()
-        {
-            return await dbContext.Members.ToListAsync();
-        }
+    private static void HandleDeathClaim(Member member)
+    {
+        member.IsActive = false;
+        member.TotalClaimRemain = 0;
+    }
 
-        public async Task<Claim?> GetClaimByIdAsync(Guid id)
-        {
-            var claim = await dbContext.Claims.FindAsync(id);
-            return claim;
-        }
-
-        public async Task<IEnumerable<Claim>> GetClaimsAsync()
-        {
-            var claims = await dbContext.Claims.ToListAsync();
-            return claims;
-        }
-
-        public async Task<IEnumerable<Claim>> GetClaimsByMemberIdAsync(Guid id)
-        {
-            var member = await GetMemberByIdAsync(id);
-            if (member == null)
-            {
-                return [];
-            }
-            var claims = await dbContext.Claims.Where(x => x.MemberId.Equals(member.Id)).ToListAsync();
-            return claims;
-        }
-
-        public async Task<IEnumerable<MembershipContribution>> GetContributionsAsync()
-        {
-            return await dbContext.MembershipContributions.ToListAsync();
-        }
-
-        public async Task<Member?> GetMemberByIdAsync(Guid id)
-        {
-            var member = await dbContext.Members
-                .Include(x => x.Memberships)
-                .Include(x => x.Claims)
-                .FirstOrDefaultAsync(x => x.Id.Equals(id));
-            return member;
-        }
-
-        public Task<Member> GetMemberByNameAsync(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<MembershipContribution>> GetMemberContributionsByIdAsync(Guid memberId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<Member>> GetMembersAsync(string? filter = null)
-        {
-            if (!string.IsNullOrEmpty(filter))
-            {
-                var filteredMembers = await dbContext.Members
-                .Where(member => member.IsActive == true && member.LastName.ToLower()
-                .Contains(filter.ToLower()
-                .Trim())).ToListAsync();
-
-                return filteredMembers;
-            }
-            return await dbContext.Members.Where(member => member.IsActive.Equals(true)).ToListAsync();
-        }
-
-        public async Task<MembershipContribution?> GetMembershipByIdAsync(Guid id)
-        {
-            return await dbContext.MembershipContributions.FindAsync(id);
-        }
-
-        public async Task<Member> RetrieveMember(string firsname, string lastname)
-        {
-            var member = await dbContext.Members
-                .Where(x => x.FirstName.Equals(firsname.ToLower())
-                && x.LastName.Equals(lastname.ToLower()))
-                .FirstOrDefaultAsync();
-            return member;
-        }
-
-        public bool SaveChanges()
-        {
-            return dbContext.SaveChanges() >= 0;
-        }
-
-        public void UpdateMember(Member member)
-        {
-            if (IsValid(member))
-            {
-                dbContext.Members.Update(member);
-                SaveChanges();
-            }
-            else
-            {
-                return;
-            }
-        }
-
-        private bool IsValid(Member member)
-        {
-            return dbContext.Members.Any(x => x.Id == member.Id && x.IsEligibleToClaim);
-        }
-
-        private bool ClaimExists(Member member, ClaimType claimType)
-        {
-            return dbContext.Claims.Any(x => x.MemberId == member.Id && x.ClaimType == claimType);
-        }
+    private bool ClaimExists(Member member, ClaimType claimType)
+    {
+        return dbContext.Claims.Any(x => x.MemberId == member.Id && x.ClaimType == claimType);
     }
 }

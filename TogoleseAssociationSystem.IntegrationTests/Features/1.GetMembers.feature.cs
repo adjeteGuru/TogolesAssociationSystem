@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace TogoleseAssociationSystem.IntegrationTests.Features
+namespace TogoleseSolidarity.IntegrationTests.Features
 {
     using TechTalk.SpecFlow;
     using System;

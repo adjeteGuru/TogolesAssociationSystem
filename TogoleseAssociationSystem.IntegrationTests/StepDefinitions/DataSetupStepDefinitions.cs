@@ -1,9 +1,9 @@
 using System.Globalization;
 using TechTalk.SpecFlow.Assist;
-using TogoleseAssociationSystem.Domain.Models;
-using TogoleseAssociationSystem.IntegrationTests.Helpers;
+using TogoleseSolidarity.Domain.Models;
+using TogoleseSolidarity.IntegrationTests.Helpers;
 
-namespace TogoleseAssociationSystem.IntegrationTests.StepDefinitions
+namespace TogoleseSolidarity.IntegrationTests.StepDefinitions
 {
     [Binding]
     public class DataSetupStepDefinitions : BaseMemberCreationSteps

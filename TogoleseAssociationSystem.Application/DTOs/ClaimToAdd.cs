@@ -1,19 +1,16 @@
-﻿using TogoleseAssociationSystem.Domain.Models;
+﻿using TogoleseSolidarity.Domain.Models;
 
-namespace TogoleseAssociationSystem.Application.DTOs
+namespace TogoleseSolidarity.Application.DTOs;
+
+public class ClaimToAdd
 {
-    public class ClaimToAdd
-    {
-        public string? Name { get; set; }
-        public string? Description { get; set; }
-        public Guid MemberId { get; set; }
-        public ClaimType ClaimType { get; set; }
-        public string? NextOfKinName { get; set; }
-        public string? NextOfKinContact { get; set; }
-        public DateTime? ClaimDate { get; set; }
-        //public int ClaimRemain { get; set; }
-        //public int TotalClaimPerMember { get; set; }
-        public string? MemberFirstName { get; set; }
-        public string? MemberLastName { get; set; }
-    }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    public Guid MemberId { get; set; }
+    public ClaimType ClaimType { get; set; }
+    public string? NextOfKinName { get; set; }
+    public string? NextOfKinContact { get; set; }
+    public DateTime? ClaimDate { get; set; }
+    public string? MemberFirstName { get; set; }
+    public string? MemberLastName { get; set; }
 }

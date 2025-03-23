@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
-using TogoleseAssociationSystem.Core.DTOs;
-using TogoleseAssociationSystem.Core.ServiceProvider.Interfaces;
+using TogoleseSolidarity.Core.DTOs;
+using TogoleseSolidarity.Core.ServiceProvider.Interfaces;
 
-namespace TogoleseAssociationSystem.APP.Pages;
+namespace TogoleseSolidarity.APP.Pages;
 
 public class CreateClaimComponent : ComponentBase
 {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace TogoleseAssociationSystem.Infrastructure.Migrations
+namespace TogoleseSolidarity.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class fewChanges : Migration

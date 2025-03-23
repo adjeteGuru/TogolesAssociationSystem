@@ -1,4 +1,4 @@
-﻿namespace TogoleseAssociationSystem.IntegrationTests.ConfigurationModels
+﻿namespace TogoleseSolidarity.IntegrationTests.ConfigurationModels
 {
     public class TestApplicationConfig
     {

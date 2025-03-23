@@ -1,7 +1,6 @@
-﻿namespace TogoleseAssociationSystem.Domain.Models
+﻿namespace TogoleseSolidarity.Domain.Models;
+
+public class BaseEntity
 {
-    public class BaseEntity
-    {
-        public Guid Id { get; set; }
-    }
+    public Guid Id { get; set; }
 }
