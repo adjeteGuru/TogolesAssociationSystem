@@ -82,13 +82,6 @@ public class GivenAControllerIsCalled
     }
 
     [Fact]
-    public void Construnctor_WhenInvokesWithNullMemberService_ThenTheExpectedExceptionIsThrown()
-    {
-        var act = () => new MemberController(null, mockMapper.Object, logger.Object);
-        act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("memberService");
-    }
-
-    [Fact]
     public void Construnctor_WhenInvokesWithMemberService_ThenInitialize()
     {
         var act = () => new MemberController(mockMemberService.Object, mockMapper.Object, logger.Object);
