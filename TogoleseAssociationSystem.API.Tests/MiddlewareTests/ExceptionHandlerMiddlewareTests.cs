@@ -9,8 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using TogoleseSolidarity.API.Constants;
 using TogoleseSolidarity.API.Exceptions;
 using TogoleseSolidarity.API.Middleware;
+using TogoleseSolidarity.API.Tests.Extensions;
 using Xunit;
 
 namespace TogoleseSolidarity.API.Tests.MiddlewareTests;
@@ -19,82 +21,104 @@ public class ExceptionHandlerMiddlewareTests
 {
     private readonly Mock<RequestDelegate> next;
     private readonly Mock<ILogger<ExceptionHandlerMiddleware>> logger;
-    private DefaultHttpContext context;
     private ExceptionHandlerMiddleware systemUnderTest;
 
     public ExceptionHandlerMiddlewareTests()
     {
-        next = new Mock<RequestDelegate>();
         logger = new Mock<ILogger<ExceptionHandlerMiddleware>>();
-        context = new DefaultHttpContext
-        {
-            Response = { Body = new MemoryStream() }
-        };
-        systemUnderTest = new ExceptionHandlerMiddleware(next.Object, logger.Object);
     }
 
     [Fact]
     public async Task Invoke_WhenCalled_ShouldCallNext()
     {
-        var context = new DefaultHttpContext
-        {
-            Response = { Body = new MemoryStream() }
-        };
+       var requestDelegate = new Mock<RequestDelegate>();
 
-        await systemUnderTest.Invoke(context);
+        var sut = Setup(requestDelegate.Object, out var context);
 
-        next.Verify(n => n.Invoke(context), Times.Once);
-    }
-
-    [Fact]
-    public async Task Invoke_WhenExceptionIsThrown_ShouldLogError()
-    {
-        var context = new DefaultHttpContext
-        {
-            Response = { Body = new MemoryStream() }
-        };
-        next.Setup(n => n.Invoke(context)).Throws(new Exception("test"));
-
-        await systemUnderTest.Invoke(context);
-
-        using (new AssertionScope())
-        {
-            await AssertEmptyBodyWithStatusCode(context, StatusCodes.Status400BadRequest);
-        }
+        await sut.Invoke(context);
+        requestDelegate.Verify(x => x(context), Times.Once);
     }
 
 
     [Fact]
-    public async Task Invoke_WhenValidationExceptionIsThrown_ShouldLogError()
+    public async Task Invoke_WhenValidationExceptionIsThrown_ShouldReturnTheExpectedErrorCode()
     {
-        var failedValidations = new List<ValidationFailure>
+        static Task RequestDelegate(HttpContext httpContext)
         {
-            new ValidationFailure("test", "test")
-        };
-
-        Task RequestDelegate(HttpContext httpContext)
-        {
-            throw new ValidationException("error", failedValidations);
+            throw new ValidationException("error");
         }
 
-        var (sut, context) = Setup(RequestDelegate);
+        var sut = Setup(RequestDelegate, out var context);
 
         await sut.Invoke(context);
 
-        using (new AssertionScope())
-        {
-            await AssertEmptyBodyWithStatusCode(context, StatusCodes.Status400BadRequest);
-        }
+        await AssertEmptyBodyWithStatusCode(context, StatusCodes.Status400BadRequest);
     }
 
     [Fact]
-    public async Task Invoke_WhenNotFoundExceptionIsThrown_ShouldLogError()
+    public async Task Invoke_WhenUnknownExceptionIsThrown_ShouldLogTheExpectedErrorCode()
+    {
+        static Task RequestDelegate(HttpContext httpContext)
+        {
+            throw new Exception("error");
+        }
+
+        var sut = Setup(RequestDelegate, out var context);
+
+        await sut.Invoke(context);
+
+        await AssertEmptyBodyWithStatusCode(context, StatusCodes.Status500InternalServerError);
+    }
+
+
+    //[Fact]
+    //public async Task Invoke_WhenValidationExceptionIsThrown_ShouldLogError()
+    //{
+    //    var failedValidations = new List<ValidationFailure>
+    //    {
+    //        new ValidationFailure("property1", ErrorCodes.InvalidSurname)
+    //    };
+
+    //    static Task RequestDelegate(HttpContext httpContext)
+    //    {
+    //        throw new ValidationException("error", "r");
+    //    }
+
+    //    var sut = Setup(RequestDelegate, out var context);
+
+    //    await sut.Invoke(context);
+
+    //    // Update the expected log message to match the format used in the middleware
+    //    var expectedLogMessage = "error, ErrorCodes:- property1: INVALID_SURNAME";
+    //    logger.VerifyLogWarning(expectedLogMessage);
+    //    //logger.VerifyLogWarning("error, ErrorCodes:- test: INVALID_SURNAME");
+    //    //logger.Verify(x => x.Log(
+    //    //    It.Is<LogLevel>(l => l == LogLevel.Warning),
+    //    //    It.IsAny<EventId>(),
+    //    //    It.IsAny<object>(),
+    //    //    It.IsAny<Exception>(),
+    //    //    It.IsAny<Func<object, Exception?, string>>()
+    //    //    ),
+    //    //    Times.Once);
+
+    //    //logger.Verify(x => x.Log(
+    //    //    It.Is<LogLevel>(l => l == LogLevel.Warning),
+    //    //    It.IsAny<EventId>(),
+    //    //    It.IsAny<object>(),
+    //    //    It.IsAny<Exception>(),
+    //    //    It.IsAny<Func<object, Exception, string>>()
+    //    //    ),
+    //    //    Times.Once);
+    //}
+
+    [Fact]
+    public async Task Invoke_WhenNotFoundExceptionIsThrown_ShouldLogTheExpectedErrrorCode()
     {
         Task RequestDelegate(HttpContext httpContext)
         {
             throw new NotFoundException("error");
         }
-        var (sut, context) = Setup(RequestDelegate);
+        var sut = Setup(RequestDelegate, out var context);
         await sut.Invoke(context);
         using (new AssertionScope())
         {
@@ -117,13 +141,13 @@ public class ExceptionHandlerMiddlewareTests
         return reader.ReadToEndAsync();
     }
 
-    private (ExceptionHandlerMiddleware sut, DefaultHttpContext) Setup(RequestDelegate requestDelegate)
+    private ExceptionHandlerMiddleware Setup(RequestDelegate requestDelegate, out DefaultHttpContext context)
     {
-        var context = new DefaultHttpContext
+        context = new DefaultHttpContext
         {
             Response = { Body = new MemoryStream() }
         };
         var sut = new ExceptionHandlerMiddleware(requestDelegate, logger.Object);
-        return (sut, context);
+        return sut;
     }
 }

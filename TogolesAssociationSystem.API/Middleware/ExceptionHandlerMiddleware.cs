@@ -13,7 +13,7 @@ public class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionH
         catch (ValidationException ex)
         {
             ResetResponse(context.Response, StatusCodes.Status400BadRequest, ex);
-            Log(LogLevel.Warning, ex);
+            LogValidationErroCodes(ex);
         }
         catch (NotFoundException ex)
         {
@@ -41,6 +41,15 @@ public class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionH
     private void Log(LogLevel level, Exception exception)
     {
         logger.Log(level, exception, exception.Message);
+        logger.LogDebug(exception.StackTrace);
+    }
+
+    private void LogValidationErroCodes(ValidationException exception)
+    {
+        var errorCodes = exception.Errors.Select(e => $"{e.PropertyName}: {e.ErrorCode}");
+        var formattedErrorCodes = string.Join(", ", errorCodes);
+        const string logPattern = "{message}, ErrorCodes:- {errorCodes}";
+        logger.Log(LogLevel.Warning, exception, logPattern, exception.Message, formattedErrorCodes);
         logger.LogDebug(exception.StackTrace);
     }
 }
