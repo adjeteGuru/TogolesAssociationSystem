@@ -12,6 +12,7 @@ using TogoleseSolidarity.Domain.Interfaces;
 using TogoleseSolidarity.Infrastructure.Database;
 using TogoleseSolidarity.Application.Configurations;
 using TogoleseSolidarity.Infrastructure.Repositories;
+using TogoleseSolidarity.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -150,5 +151,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.Run();
