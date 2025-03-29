@@ -25,97 +25,7 @@
 <hr />
 <form>
     <EditForm EditContext="EditContext">
-        <div class="mb-5 row">
-            <div class="form-group col-md-1">
-                <label for="inputCity"><b>Title</b></label>
-                <InputText id="Title"
-                           class="form-control form-control-lg"
-                           @bind-Value="Member.Title" />
-            </div>
-            <div class="form-group col-md-2">
-                <label for="inputState"><b>Firstname</b></label>
-                <InputText id="FirstName"
-                           class="form-control form-control-lg"
-                           @bind-Value="Member.FirstName" />
-            </div>
-            <div class="form-group col-md-2">
-                <label for="inputZip"><b>Surname</b></label>
-                <InputText id="LastName"
-                           class="form-control form-control-lg"
-                           @bind-Value="Member.LastName" />
-            </div>
-            <div class="form-group col-md-2">
-                <label for="inputState"><b>Next of kin</b></label>
-                <InputText id="FirstName"
-                           class="form-control form-control-lg"
-                           @bind-Value="Member.NextOfKin" />
-            </div>
-            <div class="form-group col-md-2">
-                <label for="inputState"><b>Next of kin contact</b></label>
-                <InputText id="FirstName"
-                           class="form-control form-control-lg"
-                           @bind-Value="Member.NextOfKinContact" />
-            </div>
-            <div class="form-group col-md-2">
-                <label for="inputState"><b>Relationship to you</b></label>
-                <InputText id="FirstName"
-                           class="form-control form-control-lg"
-                           @bind-Value="Member.Relationship" />
-            </div>
-        </div>
-        <div class="mb-4 row">
-            <div class="form-group col-md-4">
-                <label for="inputCity"><b>1st line of address</b></label>
-                <InputText id="Address"
-                           class="form-control form-control-lg"
-                           @bind-Value="Member.Address" />
-            </div>
-            <div class="form-group col-md-2">
-                <label for="inputState"><b>Postcode</b></label>
-                <InputText id="Postcode"
-                           class="form-control form-control-lg"
-                           @bind-Value="Member.Postcode" />
-            </div>
-            <div class="form-group col-md-3">
-                <label for="inputZip"><b>City</b></label>
-                <InputText id="City"
-                           class="form-control form-control-lg"
-                           @bind-Value="Member.City" />
-            </div>
-            <div class="form-group col-md-2">
-                <label for="inputZip"><b>Telephone</b></label>
-                <InputText id="Telephone"
-                           class="form-control form-control-lg"
-                           @bind-Value="Member.Telephone" />
-            </div>
-        </div>
-        <div class="form-group">
-
-            <div class="form-check">
-                <InputCheckbox id="IsChair"
-                               class="form-check-input"
-                               @bind-Value="Member.IsActive" />
-                <label class="form-check-label" for="gridCheck">
-                    <b>Is active member?</b>
-                </label>
-            </div>
-        </div>
-        <br />
-        <div class="mb-3 row">
-            <div class="form-group col-md-4">
-                <label for="inputCity"><b>Date of birth</b></label>
-                <InputDate id="DateOfBirth"
-                           class="form-control-lg"
-                           @bind-Value="Member.DateOfBirth" disabled="true" />
-            </div>
-            <div class="form-group col-md-4">
-                <label for="inputState"><b>Date joined</b></label>
-                <InputDate id="MembershipDate"
-                           class="form-control-lg"
-                           @bind-Value="Member.MembershipDate" disabled="true" />
-            </div>
-
-        </div>
+        <MemberItem Member=@Member />
         <div class="btn-group" role="group">
             <button id="member-update"
                     class="btn btn-primary"
@@ -158,11 +68,7 @@
                 <tbody>
                     @foreach (var contribution in Member.Memberships)
                     {
-                        <tr>
-                            <td>@contribution.ContributionName</td>
-                            <td>@contribution.Amount</td>
-                            <td>@contribution.DateOfContribution.Value.ToString("dd-MMM-yyyy")</td>
-                        </tr>
+                        <MembershipItem Membership=@contribution/>
                     }
                 </tbody>
             </table>
@@ -180,11 +86,7 @@
                 <tbody>
                     @foreach (var claim in Member.Claims)
                     {
-                        <tr>
-                            <td>@claim.Name</td>
-                            <td>@claim.ClaimType</td>
-                            <td>@claim.ClaimDate.Value.ToString("dd-MMM-yyyy")</td>
-                        </tr>
+                        <ClaimItem Claim=@claim />
                     }
                 </tbody>
             </table>
