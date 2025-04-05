@@ -1,6 +1,8 @@
 ﻿@page "/"
 @page "/memberlist"
+@using Microsoft.AspNetCore.Authorization
 @inherits MemberListComponent
+@attribute [Authorize]
 
 @if (DisplayAlert)
 {

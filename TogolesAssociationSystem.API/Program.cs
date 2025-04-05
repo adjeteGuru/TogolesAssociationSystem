@@ -13,6 +13,8 @@ using TogoleseSolidarity.Infrastructure.Database;
 using TogoleseSolidarity.Application.Configurations;
 using TogoleseSolidarity.Infrastructure.Repositories;
 using TogoleseSolidarity.API.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 var azureAdConfig = builder.Configuration.GetSection("AzureAd").Get<AzureAdSettings>();
+//var azureAdB2CConfig = builder.Configuration.GetSection("AzureAdB2C").Get<AzureAdB2cSettings>();
 var swaggerConfig = builder.Configuration.GetSection("SwaggerConfiguration").Get<SwaggerSettings>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
 
 //builder.Services.AddSwaggerGen(o =>
 //{
@@ -87,26 +93,27 @@ var swaggerConfig = builder.Configuration.GetSection("SwaggerConfiguration").Get
 //});
 
 //Adding OIDC authentication
-builder.Services.AddAuthentication(options => 
-{ 
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme; }
-).AddOpenIdConnect(options =>
-{ 
-    options.ClientId = "your-client-id"; 
-    options.ClientSecret = "your-client-secret";
-    options.Authority = "https://your-identity-provider.com"; 
-    options.ResponseType = OpenIdConnectResponseType.Code; 
-    options.CallbackPath = "/signin-oidc"; 
-    options.Scope.Add("openid"); 
-    options.Scope.Add("profile"); 
-    options.Scope.Add("email"); });
+//builder.Services.AddAuthentication(options => 
+//{ 
+//    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme; }
+//).AddOpenIdConnect(options =>
+//{
+//    options.ClientId = azureAdB2CConfig.ClientId;
+//    options.ClientSecret = "your-client-secret";
+//    options.Authority = "https://your-identity-provider.com";
+//    options.ResponseType = OpenIdConnectResponseType.Code;
+//    options.CallbackPath = "/signin-oidc";
+//    options.Scope.Add("openid");
+//    options.Scope.Add("profile");
+//    options.Scope.Add("email");
+//});
 
 //builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 //    .AddSignIn("AzureAdB2C", builder.Configuration,
 //    options => Configuration.Bind("AzureAdB2C", options));
 
-builder.Services.Configure<OpenIdConnectOptions>(builder.Configuration.GetSection("AzureAdB2C"));
+//builder.Services.Configure<OpenIdConnectOptions>(builder.Configuration.GetSection("AzureAdB2C"));
 
 builder.Services.AddSwaggerGen();
 
