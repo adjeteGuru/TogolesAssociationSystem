@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TogoleseSolidarity.API.Extensions;
 using TogoleseSolidarity.Application.AutoMapper;
@@ -17,6 +18,7 @@ namespace TogoleseSolidarity.API.Controllers;
 public class MemberController(IMemberService memberService, IMapper mapper, ILogger<MemberController> logger) : ControllerBase
 {
 
+    //[Authorize]
     [HttpGet]
     public async Task<IActionResult> GetAllMembersAsync(string? filter = null)
     {

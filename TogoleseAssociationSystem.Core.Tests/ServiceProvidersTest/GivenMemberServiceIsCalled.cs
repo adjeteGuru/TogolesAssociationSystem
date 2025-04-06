@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using Castle.Core.Logging;
+using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
@@ -73,7 +75,7 @@ public class GivenMemberServiceIsCalled
         mockAlertService = new Mock<IAlertService>();
         mockAlertService.Setup(x => x.ShowAlert(It.IsAny<string>()));
 
-        systemUnderTest = new MemberService(httpClient, mockAlertService.Object);
+        systemUnderTest = new MemberService(httpClient, mockAlertService.Object, Mock.Of<ILogger<MemberService>>());
     }
 
     [Fact]

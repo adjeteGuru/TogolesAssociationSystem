@@ -1,0 +1,12 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inherits LoginDisplayComponent
+
+<AuthorizeView>
+    <Authorized>
+        Hello, @context.User.Identity?.Name!
+        <button class="nav-link btn btn-outline-primary" @onclick="BeginLogOut"><b>Log out</b></button>
+    </Authorized>
+    <NotAuthorized>
+        <button class="nav-link btn btn-outline-primary" @onclick="BeginLogIn"><b>Log in</b></button>
+    </NotAuthorized>
+</AuthorizeView>

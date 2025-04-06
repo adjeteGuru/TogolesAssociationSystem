@@ -3,8 +3,12 @@ using TogoleseSolidarity.Domain.Models;
 
 namespace TogoleseSolidarity.Infrastructure.Database;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public class AppDbContext : DbContext
 {
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+    }
+
     public DbSet<Member> Members { get; set; }
     public DbSet<MembershipContribution> MembershipContributions { get; set; }
     public DbSet<Claim> Claims { get; set; }
@@ -70,5 +74,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             City = "Nottingham",
             Telephone = "07894432123"
         });
+
+        builder.Entity<MembershipContribution>()
+            .Property(mc => mc.Amount)
+            .HasColumnType("decimal(5,2)");
     }
 }

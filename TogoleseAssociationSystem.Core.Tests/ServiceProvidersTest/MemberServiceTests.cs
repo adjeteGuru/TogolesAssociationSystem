@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
@@ -33,7 +34,7 @@ public class MemberServiceTests
             BaseAddress = new Uri("http://dummy.com")
         };
         mockAlertService = new Mock<IAlertService>();
-        memberService = new MemberService(mockHttpClient, mockAlertService.Object);
+        memberService = new MemberService(mockHttpClient, mockAlertService.Object, Mock.Of<ILogger<MemberService>>());
     }
 
     [Fact]
