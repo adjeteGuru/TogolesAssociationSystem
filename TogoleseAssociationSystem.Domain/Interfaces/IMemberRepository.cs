@@ -6,7 +6,7 @@ namespace TogoleseSolidarity.Domain.Interfaces
     {
         Task<IEnumerable<Member>> GetMembersAsync(string? filter);
         Task<Member?> GetMemberByIdAsync(Guid id);
-        Task<Member> RetrieveMember(string firsname, string lastname);
+        Task<Member?> RetrieveMember(string firsname, string lastname);
         Task CreateMember(Member member);
         void UpdateMember(Member member);
         Task<IEnumerable<Member>> GetAllExisitingMembersAsync();
